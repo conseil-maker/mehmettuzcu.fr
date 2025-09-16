@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mehmet TUZCU – Consultant en Gestion d'Entreprise</title>
+    <style>
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Palette harmonieuse restreinte */
+        :root {
+            --primary: #2c3e50;      /* Bleu foncé principal */
+            --secondary: #3498db;     /* Bleu accent */
+            --accent: #e74c3c;        /* Rouge accent (minimal) */
+            --success: #27ae60;       /* Vert succès (minimal) */
+            --light: #ecf0f1;         /* Gris très clair */
+            --white: #ffffff;
+            --shadow: rgba(44, 62, 80, 0.1);
+        }
+
+        /* Navigation sticky harmonieuse */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--light);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+        }
+
+        .nav-cta {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Header avec fond dynamique - VERSION ÉPURÉE */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        /* Fond dynamique animé - Plus visible */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.6) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.4) 0%, transparent 70%);
+            animation: dynamicFloat 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 30% 70%, rgba(52, 152, 219, 0.3) 0%, transparent 50%);
+            animation: dynamicFloat 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes dynamicFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translateY(-30px) translateX(20px) rotate(2deg) scale(1.1); 
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-10px) translateX(-15px) rotate(-1deg) scale(0.9); 
+                opacity: 0.9;
+            }
+            75% { 
+                transform: translateY(-40px) translateX(10px) rotate(1deg) scale(1.05); 
+                opacity: 1;
+            }
+        }
+
+        /* HEADER ÉPURÉ - Contenu avec photo de profil */
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-profile {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 2rem auto;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-profession {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        /* Sections harmonieuses */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section:nth-child(even) {
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grille harmonieuse */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+        /* Cartes harmonieuses avec icônes unifiées */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        /* ICÔNES UNIFIÉES EN NOIR ET CENTRÉES */
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: #2c3e50;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 1.5rem;
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .card-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .card-badge {
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Stats harmonieuses */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Bouton flottant harmonieux */
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--secondary);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .floating-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Responsive harmonieux */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations harmonieuses */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Comparaison harmonieuse */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-item {
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .comparison-negative {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .comparison-positive {
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid rgba(39, 174, 96, 0.2);
+        }
+
+        .comparison-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .comparison-negative .comparison-title {
+            color: var(--accent);
+        }
+
+        .comparison-positive .comparison-title {
+            color: var(--success);
+        }
+
+        .comparison-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .comparison-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-negative li::before {
+            content: "✗";
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .comparison-positive li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Contact harmonieux avec icônes unifiées */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .contact-item {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        /* ICÔNES DE CONTACT UNIFIÉES EN NOIR */
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: #2c3e50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .contact-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU">
+                <span>Mehmet TUZCU</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#adaptabilite">Adaptabilité</a></li>
+                <li><a href="#resultats">Résultats</a></li>
+                <li><a href="#methode">Méthode</a></li>
+                <li><a href="#profil">Profil Client</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero avec fond dynamique - VERSION ÉPURÉE -->
+    <section class="hero" id="accueil">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-profile">
+                    <img src="PHOTOPROFILLINKEDIN.png" alt="Mehmet TUZCU - Photo de profil">
+                </div>
+                <div class="hero-profession">Consultant en Gestion d'Entreprise</div>
+                <h1>Mehmet TUZCU</h1>
+                <div class="hero-subtitle">Architecte de Transformation Multi-Sectorielle</div>
+                <p class="hero-description">
+                    <strong>Diagnostic, recherche et proposition de solutions pour améliorer le fonctionnement de l'entreprise</strong>
+                </p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                        </svg>
+                        Diagnostic gratuit 30min
+                    </a>
+                    <a href="tel:0682893482" class="btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                        </svg>
+                        06 82 89 34 82
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adaptabilité -->
+    <section class="section" id="adaptabilite">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Adaptabilité Prouvée Tous Secteurs</h2>
+                <p class="section-subtitle">Chaque secteur maîtrisé avec des résultats concrets et mesurables</p>
+            </div>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">BTP</h3>
+                    <p class="card-description">Direction Générale PME</p>
+                    <span class="card-badge">Origine</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20,18C20.5,18 21,17.5 21,17V7C21,6.5 20.5,6 20,6H4C3.5,6 3,6.5 3,7V17C3,17.5 3.5,18 4,18H20M20,4C21.11,4 22,4.89 22,6V18C22,19.11 21.11,20 20,20H4C2.89,20 2,19.11 2,18V6C2,4.89 2.89,4 4,4H20M5,8H19V16H5V8Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">IT / Digital</h3>
+                    <p class="card-description">Manager de transition</p>
+                    <span class="card-badge">CA x3</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Formation</h3>
+                    <p class="card-description">100% Qualiopi + Qualirépar</p>
+                    <span class="card-badge">Hors spécialité</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Votre Secteur</h3>
+                    <p class="card-description">Adaptation garantie</p>
+                    <span class="card-badge">Votre tour</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Résultats -->
+    <section class="section" id="resultats">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Résultats Concrets Multi-Secteurs</h2>
+                <p class="section-subtitle">Transformations réussies avec preuves chiffrées et certifications officielles</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">CA x3</div>
+                    <div class="stat-label">Croissance IT</div>
+                    <div class="stat-description">En 2 ans</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Qualiopi</div>
+                    <div class="stat-description">Hors spécialité</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Qualirépar</div>
+                    <div class="stat-description">Certification</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">Automatisation</div>
+                    <div class="stat-description">Comptabilité</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Contrôles</div>
+                    <div class="stat-description">URSSAF/Fiscal</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">TVA</div>
+                    <div class="stat-label">Exonération</div>
+                    <div class="stat-description">Formations</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#contact" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                    </svg>
+                    Reproduire ces résultats dans MON secteur
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparaison -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Expert Sectoriel vs Expert Adaptable</h2>
+                <p class="section-subtitle">Pourquoi l'adaptabilité est votre avantage concurrentiel</p>
+            </div>
+            <div class="comparison">
+                <div class="comparison-item comparison-negative">
+                    <h3 class="comparison-title">Expert Sectoriel Classique</h3>
+                    <ul class="comparison-list">
+                        <li>Limité à un seul secteur</li>
+                        <li>Habitudes figées du secteur</li>
+                        <li>Solutions standardisées</li>
+                        <li>Résistance au changement</li>
+                        <li>Vision tunnel sectorielle</li>
+                    </ul>
+                </div>
+                <div class="comparison-item comparison-positive">
+                    <h3 class="comparison-title">Expert Adaptable (Moi)</h3>
+                    <ul class="comparison-list">
+                        <li>Tous secteurs accessibles</li>
+                        <li>Regard neuf et objectif</li>
+                        <li>Solutions sur-mesure</li>
+                        <li>Adaptabilité prouvée</li>
+                        <li>Innovation cross-sectorielle</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#contact" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                    </svg>
+                    Solutions adaptées à MON secteur
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Méthode -->
+    <section class="section" id="methode">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ma Méthode de Travail</h2>
+                <p class="section-subtitle">Processus éprouvé en 4 étapes avec écosystème de partenaires experts</p>
+            </div>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">1</div>
+                    <h3 class="card-title">Diagnostic Complet</h3>
+                    <p class="card-description">Analyse approfondie de votre secteur, processus, équipes et enjeux spécifiques</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">2</div>
+                    <h3 class="card-title">Architecture Stratégique</h3>
+                    <p class="card-description">Conception de la stratégie globale : business, conformité, digital, management</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">3</div>
+                    <h3 class="card-title">Exécution Orchestrée</h3>
+                    <p class="card-description">Je pilote l'ensemble. Netz Informatique exécute la partie technique digitale selon mes spécifications</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">4</div>
+                    <h3 class="card-title">Résultats Mesurés</h3>
+                    <p class="card-description">Suivi des KPIs, optimisation continue et pérennisation des acquis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profil Client -->
+    <section class="section" id="profil">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Mes "Matières Premières" Idéales</h2>
+                <p class="section-subtitle">Le profil de dirigeant qui me donne envie de travailler avec vous</p>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Dirigeant Ambitieux</h3>
+                    <p class="card-description">Vision de croissance claire et volonté de développer son entreprise au-delà du statu quo</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Réaliste et Pragmatique</h3>
+                    <p class="card-description">Comprend les investissements nécessaires et accepte les efforts requis pour la transformation</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,6V9L16,5L12,1V4A8,8 0 0,0 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13 6,12A6,6 0 0,1 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,11 18,12A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12C20,10.43 19.54,8.97 18.76,7.74Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Prêt au Changement</h3>
+                    <p class="card-description">Accepte de remettre en question ses méthodes actuelles pour pérenniser sa société</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Conscient de l'Urgence</h3>
+                    <p class="card-description">Ne veut pas rater le wagon de la technologie qui avance à grand V</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#contact" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                    </svg>
+                    Oui, c'est exactement mon profil !
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Prêt à Transformer Votre Entreprise ?</h2>
+                <p class="section-subtitle">Diagnostic gratuit de 30 minutes pour évaluer votre potentiel d'adaptabilité et de croissance</p>
+            </div>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <a href="#" class="btn btn-primary" onclick="copyToClipboard('conseil@mehmettuzcu.fr', 'Email copié: conseil@mehmettuzcu.fr')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                    </svg>
+                    Diagnostic gratuit 30min
+                </a>
+                <a href="#" class="btn btn-secondary" onclick="copyToClipboard('0682893482', 'Téléphone copié: 06 82 89 34 82')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                    </svg>
+                    Appel direct
+                </a>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item" onclick="copyToClipboard('conseil@mehmettuzcu.fr', 'Email copié: conseil@mehmettuzcu.fr')">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">conseil@mehmettuzcu.fr</div>
+                </div>
+                <div class="contact-item" onclick="copyToClipboard('0682893482', 'Téléphone copié: 06 82 89 34 82')">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-label">Téléphone</div>
+                    <div class="contact-value">06 82 89 34 82</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22S19,14.25 19,9A7,7 0 0,0 12,2Z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-label">Localisation</div>
+                    <div class="contact-value">Schweighouse-sur-Moder, Grand Est</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19S5.19 5.95 5.19 6.88A1.69 1.69 0 0 0 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-label">LinkedIn</div>
+                    <div class="contact-value">Mehmet TUZCU</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bouton flottant -->
+    <a href="#contact" class="floating-btn" id="floatingBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+        </svg>
+        Diagnostic gratuit
+    </a>
+
+    <script>
+        // Navigation smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Bouton flottant intelligent
+        window.addEventListener('scroll', function() {
+            const floatingBtn = document.getElementById('floatingBtn');
+            if (window.scrollY > 300) {
+                floatingBtn.classList.add('visible');
+            } else {
+                floatingBtn.classList.remove('visible');
+            }
+        });
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Fonction de copie dans le presse-papiers
+        function copyToClipboard(text, message) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showNotification(message);
+                });
+            } else {
+                // Fallback pour les navigateurs plus anciens
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification(message);
+                } catch (err) {
+                    console.error('Erreur lors de la copie: ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // Notification temporaire
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 6px;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Animations CSS pour les notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+

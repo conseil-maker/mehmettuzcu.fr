@@ -8,6 +8,8 @@ Chaque fichier présente en détail un domaine de compétence, alimenté par l'e
 
 | Fichier | Domaine de Compétence |
 |---|---|
+| [00 — Executive Summary](./00-Executive-Summary.md) | **Document de synthèse institutionnel** (profil, réalisations clés, proposition de valeur pour l'État). |
+| [09 — Histoire Personnelle et Parcours](./09-Histoire-Personnelle-et-Parcours.md) | Trajectoire professionnelle, de la direction de PME (BTP) à la création d'écosystèmes technologiques (IA). |
 | [01 — Expertise Technologique et IA](./01-Expertise-Technologique-et-IA.md) | Développement full-stack, intégration de l'Intelligence Artificielle (GPT-4, Gemini, Claude), architecture SaaS et multi-tenant. |
 | [02 — Vision Stratégique et Entrepreneuriat](./02-Vision-Strategique-et-Entrepreneuriat.md) | Structuration d'écosystèmes complexes (holding Essence Ecosystem), modélisation financière, leadership transformationnel. |
 | [03 — Expertise Réglementaire et Conformité](./03-Expertise-Reglementaire-et-Conformite.md) | Maîtrise du référentiel Qualiopi, conformité CPF/OPCO, intégration de la réglementation dans les architectures logicielles. |

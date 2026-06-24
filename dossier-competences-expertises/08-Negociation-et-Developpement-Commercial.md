@@ -7,7 +7,7 @@ La capacité à négocier et à développer des affaires est une compétence tra
 La gestion de négociations impliquant de multiples acteurs aux intérêts divergents est une compétence clé.
 
 **Acquisition Immobilière Stratégique à Haguenau**
-Ce projet illustre parfaitement la capacité à orchestrer une négociation complexe. Il a fallu mener simultanément des discussions avec les vendeurs du bien, les institutions bancaires (CIC) pour le financement, et les conseillers juridiques pour sécuriser les conditions contractuelles. Le résultat : une acquisition réussie, avec des conditions financières optimisées et la sécurisation d'un actif stratégique pour l'entreprise.
+Ce projet illustre parfaitement la capacité à orchestrer une négociation complexe et à gérer un projet d'investissement de bout en bout. Il s'agissait de l'acquisition d'un immeuble d'environ 720 m² pour un montant d'environ 360 000 € (frais inclus). Il a fallu mener simultanément des discussions avec les vendeurs, les institutions bancaires (CIC) pour le financement, et chiffrer précisément les travaux par postes (toiture, assainissement, électricité, eau, terrassement, ravalement). Le résultat : une acquisition réussie, avec des conditions financières optimisées et la sécurisation d'un actif stratégique.
 
 **Partenariats Technologiques Internationaux**
 La structuration de propositions de partenariat avec des acteurs internationaux de la robotique (Unitree) démontre une capacité à négocier dans un contexte interculturel et à construire des modèles de collaboration mutuellement bénéfiques.
@@ -17,7 +17,7 @@ Les résultats commerciaux obtenus sont la preuve la plus tangible de l'efficaci
 
 | Contexte | Action Commerciale | Résultat |
 |---|---|---|
-| **Secteur IT (Manager de Transition)** | Restructuration de l'offre, développement de nouveaux marchés. | Multiplication du chiffre d'affaires par **3 en 2 ans**. |
+| **Secteur IT (Netz Informatique)** | Restructuration de l'offre, développement commercial. | Progression du chiffre d'affaires de **225 000 € à 1 450 000 €** en 2 ans. |
 | **Activité Formation (Netz Informatique)** | Optimisation de la présence web, structuration de l'offre. | Impact direct sur le CA majoritaire de la structure. |
 | **Annuaires Locaux (Local Essence)** | Commercialisation d'une plateforme multi-tenant. | 12 domaines géographiques actifs et en cours de commercialisation. |
 

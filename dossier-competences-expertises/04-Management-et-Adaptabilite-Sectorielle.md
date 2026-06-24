@@ -17,7 +17,7 @@ Contrairement à un expert confiné à un seul domaine, Mehmet TUZCU apporte un 
 | Secteur d'Intervention | Rôle et Actions Clés | Résultats Mesurés |
 |---|---|---|
 | **BTP / Construction** | Direction Générale de PME | Structuration de l'entreprise, gestion financière complète. |
-| **IT / Digital** | Manager de Transition | Multiplication du chiffre d'affaires par 3 en 2 ans. |
+| **IT / Digital** | Manager de Transition (Netz Informatique) | Progression du CA de 225 000 € à 1 450 000 € en 2 ans. |
 | **Formation (EdTech)** | Responsable Qualité / Architecte Logiciel | Obtention de 100% des certifications Qualiopi et Qualirépar. |
 | **Immobilier Premium** | Digitalisation Commerciale | Conception de plateformes de vente haut de gamme. |
 | **Robotique** | Développement Stratégique | Négociation de partenariats de distribution internationale. |
@@ -25,8 +25,8 @@ Contrairement à un expert confiné à un seul domaine, Mehmet TUZCU apporte un 
 ## Méthodologie de Transformation
 L'adaptabilité repose sur une méthodologie rigoureuse et reproductible en 4 étapes, applicable à tout type d'organisation :
 
-1. **Diagnostic Complet** : Analyse approfondie et systémique du secteur, des processus existants, des dynamiques d'équipe et des enjeux spécifiques de l'entreprise.
-2. **Architecture Stratégique** : Conception d'une stratégie globale intégrant le modèle d'affaires, la conformité réglementaire, la transformation digitale et le management.
+1. **Diagnostic Complet** : Analyse de la situation réelle, identification des risques (fiscaux, sociaux, techniques) et compréhension des besoins opérationnels.
+2. **Architecture Stratégique** : Comparaison des scénarios, calcul des impacts, choix d'une solution pragmatique et structuration (statuts juridiques, outils).
 3. **Exécution Orchestrée** : Pilotage du déploiement des solutions, avec une capacité à mettre les mains dans le code (développement de plateformes) ou à diriger des équipes techniques.
 4. **Résultats Mesurés** : Suivi rigoureux des KPIs, optimisation continue des processus et pérennisation des acquis organisationnels.
 

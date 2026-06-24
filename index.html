@@ -1,1045 +1,838 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mehmet TUZCU – Consultant en Gestion d'Entreprise</title>
-    <style>
-        /* Reset et base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* Palette harmonieuse restreinte */
-        :root {
-            --primary: #2c3e50;      /* Bleu foncé principal */
-            --secondary: #3498db;     /* Bleu accent */
-            --accent: #e74c3c;        /* Rouge accent (minimal) */
-            --success: #27ae60;       /* Vert succès (minimal) */
-            --light: #ecf0f1;         /* Gris très clair */
-            --white: #ffffff;
-            --shadow: rgba(44, 62, 80, 0.1);
-        }
-
-        /* Navigation sticky harmonieuse */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--light);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 500;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--secondary);
-        }
-
-        .nav-cta {
-            background: var(--secondary);
-            color: var(--white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-cta:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        /* Header avec fond dynamique - VERSION ÉPURÉE */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        }
-
-        /* Fond dynamique animé - Plus visible */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.6) 0%, transparent 60%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.4) 0%, transparent 70%);
-            animation: dynamicFloat 8s ease-in-out infinite;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 30% 70%, rgba(52, 152, 219, 0.3) 0%, transparent 50%);
-            animation: dynamicFloat 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes dynamicFloat {
-            0%, 100% { 
-                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
-                opacity: 0.8;
-            }
-            25% { 
-                transform: translateY(-30px) translateX(20px) rotate(2deg) scale(1.1); 
-                opacity: 1;
-            }
-            50% { 
-                transform: translateY(-10px) translateX(-15px) rotate(-1deg) scale(0.9); 
-                opacity: 0.9;
-            }
-            75% { 
-                transform: translateY(-40px) translateX(10px) rotate(1deg) scale(1.05); 
-                opacity: 1;
-            }
-        }
-
-        /* HEADER ÉPURÉ - Contenu avec photo de profil */
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        .hero-profile {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            margin: 0 auto 2rem auto;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-profile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero-profession {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 3rem;
-            line-height: 1.8;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 1.2rem 2.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .btn-primary {
-            background: var(--white);
-            color: var(--primary);
-        }
-
-        .btn-primary:hover {
-            background: var(--light);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-secondary:hover {
-            background: var(--white);
-            color: var(--primary);
-        }
-
-        /* Sections harmonieuses */
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section:nth-child(even) {
-            background: var(--light);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Grille harmonieuse */
-        .grid {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-
-        /* Cartes harmonieuses avec icônes unifiées */
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s ease;
-            border: 1px solid var(--light);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px var(--shadow);
-        }
-
-        /* ICÔNES UNIFIÉES EN NOIR ET CENTRÉES */
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: #2c3e50;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem auto;
-            font-size: 1.5rem;
-            color: var(--white);
-            font-weight: bold;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .card-description {
-            color: #7f8c8d;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .card-badge {
-            background: var(--light);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        /* Stats harmonieuses */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-description {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-        }
-
-        /* Bouton flottant harmonieux */
-        .floating-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--secondary);
-            color: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
-            transition: all 0.3s ease;
-            z-index: 999;
-            opacity: 0;
-            transform: translateY(100px);
-        }
-
-        .floating-btn.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .floating-btn:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(52, 152, 219, 0.4);
-        }
-
-        /* Responsive harmonieux */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .grid-2,
-            .grid-3,
-            .grid-4 {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Animations harmonieuses */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Comparaison harmonieuse */
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .comparison-item {
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .comparison-negative {
-            background: rgba(231, 76, 60, 0.1);
-            border: 2px solid rgba(231, 76, 60, 0.2);
-        }
-
-        .comparison-positive {
-            background: rgba(39, 174, 96, 0.1);
-            border: 2px solid rgba(39, 174, 96, 0.2);
-        }
-
-        .comparison-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .comparison-negative .comparison-title {
-            color: var(--accent);
-        }
-
-        .comparison-positive .comparison-title {
-            color: var(--success);
-        }
-
-        .comparison-list {
-            list-style: none;
-            text-align: left;
-        }
-
-        .comparison-list li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .comparison-negative li::before {
-            content: "✗";
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .comparison-positive li::before {
-            content: "✓";
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        /* Contact harmonieux avec icônes unifiées */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .contact-item {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px var(--shadow);
-        }
-
-        /* ICÔNES DE CONTACT UNIFIÉES EN NOIR */
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            background: #2c3e50;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-            color: var(--white);
-        }
-
-        .contact-label {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-value {
-            color: #7f8c8d;
-            font-size: 1rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mehmet TUZCU — Architecte Opérationnel & Expert IA</title>
+<meta name="description" content="Mehmet TUZCU, Architecte Opérationnel. Je conçois et déploie des systèmes technologiques, des plateformes IA et des architectures de conformité de bout en bout pour les institutions et les grands comptes.">
+<meta name="author" content="Mehmet TUZCU">
+<meta property="og:title" content="Mehmet TUZCU — Architecte Opérationnel & Expert IA">
+<meta property="og:description" content="De l'audit de conformité à l'architecture logicielle : je transforme la complexité réglementaire et métier en plateformes intelligentes et automatisées.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mehmettuzcu.fr">
+<meta property="og:image" content="https://mehmettuzcu.fr/assets/profil.jpg">
+<meta name="theme-color" content="#0a0c10">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10;
+  --bg-soft:#0f131a;
+  --bg-card:#12171f;
+  --bg-card-2:#161c26;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.14);
+  --txt:#eef1f6;
+  --txt-soft:#aab3c2;
+  --txt-mute:#6b7589;
+  --gold:#c9a45c;
+  --gold-soft:#e3c98c;
+  --blue:#3f7fb3;
+  --blue-soft:#6aa7d6;
+  --grad-gold:linear-gradient(120deg,#e3c98c 0%,#c9a45c 55%,#b08d49 100%);
+  --grad-text:linear-gradient(120deg,#f3e6c4 0%,#c9a45c 60%,#8fb6d6 120%);
+  --maxw:1200px;
+  --radius:18px;
+  --shadow:0 30px 80px -30px rgba(0,0,0,.7);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.no-scroll{overflow:hidden}
+h1,h2,h3,h4{line-height:1.15;font-weight:700;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+section{position:relative}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:600}
+
+/* ===== Background ambiance ===== */
+.bg-fx{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.bg-fx::before{content:"";position:absolute;top:-20%;left:-10%;width:55vw;height:55vw;
+  background:radial-gradient(circle,rgba(201,164,92,.10),transparent 62%);filter:blur(20px)}
+.bg-fx::after{content:"";position:absolute;bottom:-15%;right:-10%;width:50vw;height:50vw;
+  background:radial-gradient(circle,rgba(63,127,179,.10),transparent 62%);filter:blur(20px)}
+.grid-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(circle at 50% 0%,black,transparent 75%)}
+
+/* ===== Helpers ===== */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--gold);opacity:.7}
+.sec-head{max-width:760px;margin-bottom:56px}
+.sec-head h2{font-size:clamp(1.9rem,4vw,3rem);margin-bottom:18px}
+.sec-head p{color:var(--txt-soft);font-size:1.05rem}
+.text-grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:60px;font-weight:600;font-size:.92rem;letter-spacing:.01em;transition:.3s;cursor:pointer;border:1px solid transparent}
+.btn-primary{background:var(--grad-gold);color:#1a140a;box-shadow:0 12px 34px -10px rgba(201,164,92,.55)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 44px -10px rgba(201,164,92,.7)}
+.btn-ghost{border-color:var(--line-strong);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-soft);transform:translateY(-3px)}
+.btn svg{width:17px;height:17px}
+
+/* ===== Reveal animation ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
+
+/* ===== Navbar ===== */
+header.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:.4s}
+header.nav .inner{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between}
+header.nav.scrolled{background:rgba(10,12,16,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.nav.scrolled .inner{padding:13px 28px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}
+.brand img{width:38px;height:38px;border-radius:9px;background:#fff;padding:4px}
+.brand .b-name{font-size:1rem}
+.brand .b-sub{display:block;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-size:.88rem;color:var(--txt-soft);font-weight:500;position:relative;transition:.25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--gold);transition:.3s}
+.nav-links a:hover{color:var(--txt)}.nav-links a:hover::after{width:100%}
+.nav-cta{padding:11px 22px;border:1px solid var(--line-strong);border-radius:50px;color:var(--txt)!important;transition:.3s}
+.nav-cta:hover{background:var(--gold);color:#1a140a!important;border-color:var(--gold)}
+.nav-cta::after{display:none}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.burger span{width:26px;height:2px;background:var(--txt);transition:.3s}
+.mobile-menu{position:fixed;inset:0;z-index:99;background:rgba(8,10,14,.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;pointer-events:none;transition:.4s}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{font-size:1.4rem;font-family:'Cormorant Garamond',serif;color:var(--txt-soft)}
+.mobile-menu a:hover{color:var(--gold)}
+
+/* ===== Hero ===== */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:120px;padding-bottom:80px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid var(--line-strong);border-radius:40px;font-size:.78rem;color:var(--txt-soft);margin-bottom:26px;background:rgba(255,255,255,.02)}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:#52d18f;box-shadow:0 0 0 4px rgba(82,209,143,.18)}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin-bottom:8px;letter-spacing:-.03em}
+.hero .role{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.5rem,3vw,2.2rem);margin-bottom:26px}
+.hero p.lede{font-size:1.12rem;color:var(--txt-soft);max-width:560px;margin-bottom:36px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:42px}
+.hero-stats{display:flex;gap:38px;flex-wrap:wrap}
+.hero-stats .hs{display:flex;flex-direction:column}
+.hero-stats .hs b{font-size:1.7rem;font-weight:800;background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-stats .hs span{font-size:.78rem;color:var(--txt-mute);letter-spacing:.04em}
+.hero-portrait{position:relative;justify-self:center}
+.hero-portrait .ring{position:absolute;inset:-26px;border-radius:50%;background:conic-gradient(from 180deg,rgba(201,164,92,.5),rgba(63,127,179,.4),rgba(201,164,92,.5));filter:blur(2px);opacity:.5;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-portrait .photo{position:relative;width:min(380px,80vw);aspect-ratio:1;border-radius:50%;overflow:hidden;border:1px solid var(--line-strong);box-shadow:var(--shadow)}
+.hero-portrait .photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+.hero-portrait .chip{position:absolute;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:11px}
+.hero-portrait .chip .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:rgba(201,164,92,.12);color:var(--gold)}
+.hero-portrait .chip b{font-size:.85rem;display:block}
+.hero-portrait .chip span{font-size:.7rem;color:var(--txt-mute)}
+.hero-portrait .chip.c1{top:8%;left:-46px}
+.hero-portrait .chip.c2{bottom:10%;right:-50px}
+.scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--txt-mute);display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-cue .line{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ===== Context ===== */
+.context{padding:34px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-soft)}
+.context .wrap{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.context .lbl{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--txt-mute)}
+.context .tags{display:flex;gap:14px;flex-wrap:wrap}
+.context .tags span{font-size:.86rem;color:var(--txt-soft);padding:7px 16px;border:1px solid var(--line);border-radius:40px}
+
+/* ===== Section spacing ===== */
+.section-pad{padding:120px 0}
+
+/* ===== About ===== */
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
+.about-photo{position:relative}
+.about-photo .frame{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#10151d,#0b0e13)}
+.about-photo .frame img{width:100%;border-radius:var(--radius)}
+.about-photo .quote{position:absolute;bottom:-22px;left:-22px;right:44px;background:var(--bg-card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow);font-family:'Cormorant Garamond',serif;font-size:1.18rem;color:var(--txt)}
+.about-body h2{font-size:clamp(1.9rem,4vw,2.9rem);margin-bottom:24px}
+.about-body p{color:var(--txt-soft);margin-bottom:18px}
+.about-body p strong{color:var(--txt)}
+.about-values{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.about-values span{font-size:.82rem;padding:8px 16px;border-radius:40px;border:1px solid var(--line);color:var(--gold-soft);background:rgba(201,164,92,.05)}
+
+/* ===== Expertise ===== */
+.exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.exp-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;transition:.4s;position:relative;overflow:hidden}
+.exp-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad-gold);opacity:0;transition:.4s}
+.exp-card:hover{transform:translateY(-6px);border-color:var(--line-strong);background:var(--bg-card-2)}
+.exp-card:hover::before{opacity:1}
+.exp-card .ic{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;background:rgba(201,164,92,.1);color:var(--gold);margin-bottom:20px;transition:.4s}
+.exp-card:hover .ic{background:var(--grad-gold);color:#1a140a}
+.exp-card .ic svg{width:25px;height:25px}
+.exp-card h3{font-size:1.12rem;margin-bottom:11px}
+.exp-card p{font-size:.9rem;color:var(--txt-soft);line-height:1.6}
+
+/* ===== Projects ===== */
+.proj-feature{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;background:linear-gradient(120deg,var(--bg-card),var(--bg-soft));border:1px solid var(--line);border-radius:24px;overflow:hidden;padding:0;margin-bottom:42px}
+.proj-feature .shot{position:relative;overflow:hidden;height:100%;min-height:340px}
+.proj-feature .shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:.6s}
+.proj-feature:hover .shot img{transform:scale(1.04)}
+.proj-feature .info{padding:46px 46px 46px 8px}
+.proj-feature .tag{display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600}
+.proj-feature h3{font-size:2rem;margin-bottom:14px}
+.proj-feature p{color:var(--txt-soft);margin-bottom:24px}
+.proj-feature .meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.proj-feature .meta span{font-size:.76rem;padding:6px 13px;border:1px solid var(--line);border-radius:40px;color:var(--txt-soft)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.proj-card{background:var(--bg-card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.4s;display:flex;flex-direction:column}
+.proj-card:hover{transform:translateY(-7px);border-color:var(--line-strong);box-shadow:var(--shadow)}
+.proj-card .shot{position:relative;overflow:hidden;aspect-ratio:16/10;background:#0b0e13}
+.proj-card .shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:.6s}
+.proj-card:hover .shot img{transform:scale(1.06)}
+.proj-card .shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,12,16,.6))}
+.proj-card .body{padding:22px 22px 24px;flex:1;display:flex;flex-direction:column}
+.proj-card .tag{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;font-weight:600}
+.proj-card h4{font-size:1.12rem;margin-bottom:9px}
+.proj-card p{font-size:.86rem;color:var(--txt-soft);margin-bottom:18px;flex:1}
+.proj-link{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:600;color:var(--gold-soft);transition:.3s}
+.proj-link:hover{gap:12px;color:var(--gold)}
+.proj-link svg{width:15px;height:15px}
+
+/* ===== Stats ===== */
+.stats{background:linear-gradient(180deg,var(--bg-soft),var(--bg));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat{text-align:center;padding:30px 18px;border-radius:var(--radius);border:1px solid var(--line);background:var(--bg-card);transition:.4s}
+.stat:hover{border-color:var(--line-strong);transform:translateY(-5px)}
+.stat .num{font-size:clamp(2.4rem,5vw,3.4rem);font-weight:800;background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.stat .lbl{font-size:.9rem;color:var(--txt-soft);margin-top:12px}
+
+/* ===== Method ===== */
+.method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.method-step{padding:34px 26px;position:relative;border:1px solid var(--line);background:var(--bg-card);transition:.4s}
+.method-step:not(:last-child){border-right:none}
+.method-step:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.method-step:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.method-step:hover{background:var(--bg-card-2);transform:translateY(-6px);z-index:2;border-color:var(--line-strong)}
+.method-step .n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:700;color:rgba(201,164,92,.35);line-height:1;margin-bottom:14px}
+.method-step h3{font-size:1.16rem;margin-bottom:12px}
+.method-step h3 .arr{color:var(--gold);margin-left:6px}
+.method-step p{font-size:.88rem;color:var(--txt-soft)}
+
+/* ===== Vision ===== */
+.vision{position:relative;overflow:hidden}
+.vision .panel{background:linear-gradient(125deg,#10151d 0%,#0b0e13 100%);border:1px solid var(--line);border-radius:26px;padding:72px;position:relative;overflow:hidden}
+.vision .panel::before{content:"";position:absolute;top:-30%;right:-10%;width:46%;height:160%;background:radial-gradient(circle,rgba(201,164,92,.14),transparent 65%)}
+.vision .panel::after{content:"";position:absolute;bottom:-40%;left:-8%;width:40%;height:160%;background:radial-gradient(circle,rgba(63,127,179,.12),transparent 65%)}
+.vision-inner{position:relative;max-width:760px}
+.vision h2{font-size:clamp(2rem,4.5vw,3.1rem);margin-bottom:24px}
+.vision p{font-size:1.12rem;color:var(--txt-soft);margin-bottom:22px}
+.vision .targets{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.vision .targets span{font-size:.86rem;padding:10px 20px;border:1px solid var(--line-strong);border-radius:40px;color:var(--txt);background:rgba(255,255,255,.02)}
+
+/* ===== Contact ===== */
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:start}
+.contact-info h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:20px}
+.contact-info p{color:var(--txt-soft);margin-bottom:34px}
+.ci-item{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.ci-item .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:rgba(201,164,92,.1);color:var(--gold);flex-shrink:0}
+.ci-item .ic svg{width:21px;height:21px}
+.ci-item .lbl{font-size:.74rem;color:var(--txt-mute);letter-spacing:.05em;text-transform:uppercase}
+.ci-item a,.ci-item .val{font-size:1.02rem;color:var(--txt);font-weight:500}
+.ci-item a:hover{color:var(--gold)}
+.contact-form{background:var(--bg-card);border:1px solid var(--line);border-radius:22px;padding:40px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:.8rem;color:var(--txt-soft);margin-bottom:9px;font-weight:500}
+.field input,.field textarea{width:100%;background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--txt);font-family:inherit;font-size:.94rem;transition:.3s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold);background:#0c1015}
+.field textarea{resize:vertical;min-height:130px}
+.form-note{font-size:.8rem;color:var(--txt-mute);margin-top:14px;text-align:center}
+
+/* ===== Footer ===== */
+footer{border-top:1px solid var(--line);padding:60px 0 34px;background:var(--bg-soft)}
+.foot-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;margin-bottom:40px}
+.foot-brand{max-width:340px}
+.foot-brand .brand{margin-bottom:16px}
+.foot-brand p{font-size:.9rem;color:var(--txt-soft)}
+.foot-nav{display:flex;gap:48px;flex-wrap:wrap}
+.foot-col h5{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--txt-mute);margin-bottom:16px}
+.foot-col a{display:block;font-size:.9rem;color:var(--txt-soft);margin-bottom:11px;transition:.25s}
+.foot-col a:hover{color:var(--gold)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.foot-bottom p{font-size:.82rem;color:var(--txt-mute)}
+.socials{display:flex;gap:12px}
+.socials a{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);display:grid;place-items:center;color:var(--txt-soft);transition:.3s}
+.socials a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+.socials svg{width:18px;height:18px}
+
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(140%);background:var(--bg-card);border:1px solid var(--gold);border-radius:14px;padding:16px 26px;color:var(--txt);box-shadow:var(--shadow);z-index:200;transition:.5s;display:flex;align-items:center;gap:12px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast svg{width:20px;height:20px;color:var(--gold)}
+
+/* ===== Responsive ===== */
+@media(max-width:980px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero-portrait{order:-1}
+  .hero-portrait .photo{width:min(300px,72vw)}
+  .hero-portrait .chip{transform:scale(.92)}
+  .hero-portrait .chip.c1{top:2%;left:-6px}.hero-portrait .chip.c2{bottom:4%;right:-6px}
+  .about-grid{grid-template-columns:1fr;gap:60px}
+  .about-photo{max-width:440px;margin:0 auto}
+  .exp-grid{grid-template-columns:repeat(2,1fr)}
+  .proj-feature{grid-template-columns:1fr}
+  .proj-feature .shot{min-height:240px}
+  .proj-feature .info{padding:34px}
+  .proj-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .method-grid{grid-template-columns:1fr 1fr}
+  .method-step{border-right:1px solid var(--line)!important}
+  .method-step:first-child{border-radius:var(--radius) var(--radius) 0 0}
+  .method-step:last-child{border-radius:0 0 var(--radius) var(--radius)}
+  .vision .panel{padding:48px 32px}
+  .contact-grid{grid-template-columns:1fr;gap:44px}
+}
+@media(max-width:600px){
+  .section-pad{padding:80px 0}
+  .hero{padding-top:100px}
+  .hero-portrait .chip.c1{top:-2%;left:0}
+  .hero-portrait .chip.c2{bottom:0;right:0}
+  .wrap{padding:0 20px}
+  .exp-grid{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr}
+  .method-grid{grid-template-columns:1fr}
+  .method-step{border-radius:14px!important;margin-bottom:14px;border:1px solid var(--line)!important}
+  .form-row{grid-template-columns:1fr}
+  .hero-stats{gap:24px}
+  .about-photo .quote{left:0;right:0;position:relative;bottom:0;margin-top:16px}
+  .foot-grid{flex-direction:column}
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU">
-                <span>Mehmet TUZCU</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#adaptabilite">Adaptabilité</a></li>
-                <li><a href="#resultats">Résultats</a></li>
-                <li><a href="#methode">Méthode</a></li>
-                <li><a href="#profil">Profil Client</a></li>
-            </ul>
-            <a href="#contact" class="nav-cta">Contact</a>
-        </div>
-    </nav>
+<div class="bg-fx"></div>
+<div class="grid-fx"></div>
 
-    <!-- Hero avec fond dynamique - VERSION ÉPURÉE -->
-    <section class="hero" id="accueil">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-profile">
-                    <img src="PHOTOPROFILLINKEDIN.png" alt="Mehmet TUZCU - Photo de profil">
-                </div>
-                <div class="hero-profession">Consultant en Gestion d'Entreprise</div>
-                <h1>Mehmet TUZCU</h1>
-                <div class="hero-subtitle">Architecte de Transformation Multi-Sectorielle</div>
-                <p class="hero-description">
-                    <strong>Diagnostic, recherche et proposition de solutions pour améliorer le fonctionnement de l'entreprise</strong>
-                </p>
-                <div class="hero-cta">
-                    <a href="#contact" class="btn btn-primary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
-                        </svg>
-                        Diagnostic gratuit 30min
-                    </a>
-                    <a href="tel:0682893482" class="btn btn-secondary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                        </svg>
-                        06 82 89 34 82
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Adaptabilité -->
-    <section class="section" id="adaptabilite">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Adaptabilité Prouvée Tous Secteurs</h2>
-                <p class="section-subtitle">Chaque secteur maîtrisé avec des résultats concrets et mesurables</p>
-            </div>
-            <div class="grid grid-4">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">BTP</h3>
-                    <p class="card-description">Direction Générale PME</p>
-                    <span class="card-badge">Origine</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20,18C20.5,18 21,17.5 21,17V7C21,6.5 20.5,6 20,6H4C3.5,6 3,6.5 3,7V17C3,17.5 3.5,18 4,18H20M20,4C21.11,4 22,4.89 22,6V18C22,19.11 21.11,20 20,20H4C2.89,20 2,19.11 2,18V6C2,4.89 2.89,4 4,4H20M5,8H19V16H5V8Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">IT / Digital</h3>
-                    <p class="card-description">Manager de transition</p>
-                    <span class="card-badge">CA x3</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Formation</h3>
-                    <p class="card-description">100% Qualiopi + Qualirépar</p>
-                    <span class="card-badge">Hors spécialité</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Votre Secteur</h3>
-                    <p class="card-description">Adaptation garantie</p>
-                    <span class="card-badge">Votre tour</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Résultats -->
-    <section class="section" id="resultats">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Résultats Concrets Multi-Secteurs</h2>
-                <p class="section-subtitle">Transformations réussies avec preuves chiffrées et certifications officielles</p>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">CA x3</div>
-                    <div class="stat-label">Croissance IT</div>
-                    <div class="stat-description">En 2 ans</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Qualiopi</div>
-                    <div class="stat-description">Hors spécialité</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Qualirépar</div>
-                    <div class="stat-description">Certification</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">80%</div>
-                    <div class="stat-label">Automatisation</div>
-                    <div class="stat-description">Comptabilité</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Contrôles</div>
-                    <div class="stat-description">URSSAF/Fiscal</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">TVA</div>
-                    <div class="stat-label">Exonération</div>
-                    <div class="stat-description">Formations</div>
-                </div>
-            </div>
-            <div style="text-align: center;">
-                <a href="#contact" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
-                    </svg>
-                    Reproduire ces résultats dans MON secteur
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Comparaison -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Expert Sectoriel vs Expert Adaptable</h2>
-                <p class="section-subtitle">Pourquoi l'adaptabilité est votre avantage concurrentiel</p>
-            </div>
-            <div class="comparison">
-                <div class="comparison-item comparison-negative">
-                    <h3 class="comparison-title">Expert Sectoriel Classique</h3>
-                    <ul class="comparison-list">
-                        <li>Limité à un seul secteur</li>
-                        <li>Habitudes figées du secteur</li>
-                        <li>Solutions standardisées</li>
-                        <li>Résistance au changement</li>
-                        <li>Vision tunnel sectorielle</li>
-                    </ul>
-                </div>
-                <div class="comparison-item comparison-positive">
-                    <h3 class="comparison-title">Expert Adaptable (Moi)</h3>
-                    <ul class="comparison-list">
-                        <li>Tous secteurs accessibles</li>
-                        <li>Regard neuf et objectif</li>
-                        <li>Solutions sur-mesure</li>
-                        <li>Adaptabilité prouvée</li>
-                        <li>Innovation cross-sectorielle</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="text-align: center;">
-                <a href="#contact" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
-                    </svg>
-                    Solutions adaptées à MON secteur
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Méthode -->
-    <section class="section" id="methode">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Ma Méthode de Travail</h2>
-                <p class="section-subtitle">Processus éprouvé en 4 étapes avec écosystème de partenaires experts</p>
-            </div>
-            <div class="grid grid-4">
-                <div class="card">
-                    <div class="card-icon">1</div>
-                    <h3 class="card-title">Diagnostic Complet</h3>
-                    <p class="card-description">Analyse approfondie de votre secteur, processus, équipes et enjeux spécifiques</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">2</div>
-                    <h3 class="card-title">Architecture Stratégique</h3>
-                    <p class="card-description">Conception de la stratégie globale : business, conformité, digital, management</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">3</div>
-                    <h3 class="card-title">Exécution Orchestrée</h3>
-                    <p class="card-description">Je pilote l'ensemble. Netz Informatique exécute la partie technique digitale selon mes spécifications</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">4</div>
-                    <h3 class="card-title">Résultats Mesurés</h3>
-                    <p class="card-description">Suivi des KPIs, optimisation continue et pérennisation des acquis</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Profil Client -->
-    <section class="section" id="profil">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Mes "Matières Premières" Idéales</h2>
-                <p class="section-subtitle">Le profil de dirigeant qui me donne envie de travailler avec vous</p>
-            </div>
-            <div class="grid grid-2">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Dirigeant Ambitieux</h3>
-                    <p class="card-description">Vision de croissance claire et volonté de développer son entreprise au-delà du statu quo</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Réaliste et Pragmatique</h3>
-                    <p class="card-description">Comprend les investissements nécessaires et accepte les efforts requis pour la transformation</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,6V9L16,5L12,1V4A8,8 0 0,0 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13 6,12A6,6 0 0,1 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,11 18,12A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12C20,10.43 19.54,8.97 18.76,7.74Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Prêt au Changement</h3>
-                    <p class="card-description">Accepte de remettre en question ses méthodes actuelles pour pérenniser sa société</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3Z"/>
-                        </svg>
-                    </div>
-                    <h3 class="card-title">Conscient de l'Urgence</h3>
-                    <p class="card-description">Ne veut pas rater le wagon de la technologie qui avance à grand V</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="#contact" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
-                    </svg>
-                    Oui, c'est exactement mon profil !
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Prêt à Transformer Votre Entreprise ?</h2>
-                <p class="section-subtitle">Diagnostic gratuit de 30 minutes pour évaluer votre potentiel d'adaptabilité et de croissance</p>
-            </div>
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <a href="#" class="btn btn-primary" onclick="copyToClipboard('conseil@mehmettuzcu.fr', 'Email copié: conseil@mehmettuzcu.fr')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
-                    </svg>
-                    Diagnostic gratuit 30min
-                </a>
-                <a href="#" class="btn btn-secondary" onclick="copyToClipboard('0682893482', 'Téléphone copié: 06 82 89 34 82')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                    </svg>
-                    Appel direct
-                </a>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-item" onclick="copyToClipboard('conseil@mehmettuzcu.fr', 'Email copié: conseil@mehmettuzcu.fr')">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
-                        </svg>
-                    </div>
-                    <div class="contact-label">Email</div>
-                    <div class="contact-value">conseil@mehmettuzcu.fr</div>
-                </div>
-                <div class="contact-item" onclick="copyToClipboard('0682893482', 'Téléphone copié: 06 82 89 34 82')">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                        </svg>
-                    </div>
-                    <div class="contact-label">Téléphone</div>
-                    <div class="contact-value">06 82 89 34 82</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22S19,14.25 19,9A7,7 0 0,0 12,2Z"/>
-                        </svg>
-                    </div>
-                    <div class="contact-label">Localisation</div>
-                    <div class="contact-value">Schweighouse-sur-Moder, Grand Est</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19S5.19 5.95 5.19 6.88A1.69 1.69 0 0 0 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/>
-                        </svg>
-                    </div>
-                    <div class="contact-label">LinkedIn</div>
-                    <div class="contact-value">Mehmet TUZCU</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bouton flottant -->
-    <a href="#contact" class="floating-btn" id="floatingBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
-        </svg>
-        Diagnostic gratuit
+<!-- ============ NAVBAR ============ -->
+<header class="nav" id="nav">
+  <div class="inner">
+    <a href="#hero" class="brand">
+      <img src="LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU">
+      <span>
+        <span class="b-name">Mehmet TUZCU</span>
+        <span class="b-sub">Architecte Opérationnel</span>
+      </span>
     </a>
+    <nav class="nav-links">
+      <a href="#about">À propos</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#projets">Réalisations</a>
+      <a href="#methode">Méthode</a>
+      <a href="#vision">Vision</a>
+      <a href="#contact" class="nav-cta">Me contacter</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-    <script>
-        // Navigation smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">À propos</a>
+  <a href="#expertise">Expertise</a>
+  <a href="#projets">Réalisations</a>
+  <a href="#methode">Méthode</a>
+  <a href="#vision">Vision</a>
+  <a href="#contact">Me contacter</a>
+</div>
 
-        // Bouton flottant intelligent
-        window.addEventListener('scroll', function() {
-            const floatingBtn = document.getElementById('floatingBtn');
-            if (window.scrollY > 300) {
-                floatingBtn.classList.add('visible');
-            } else {
-                floatingBtn.classList.remove('visible');
-            }
-        });
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge reveal in"><span class="dot"></span> Disponible pour projets institutionnels &amp; grands comptes</div>
+        <h1 class="reveal in d1">Mehmet TUZCU</h1>
+        <div class="role text-grad reveal in d2">Architecte Opérationnel &amp; Expert IA</div>
+        <p class="lede reveal in d3">Je conçois et déploie des systèmes technologiques et organisationnels de bout en bout. De l'audit de conformité à l'architecture logicielle, je transforme la complexité réglementaire et métier en plateformes intelligentes et automatisées.</p>
+        <div class="hero-actions reveal in d4">
+          <a href="#projets" class="btn btn-primary">Voir mes réalisations
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-ghost">Discuter d'un projet</a>
+        </div>
+        <div class="hero-stats reveal in d5">
+          <div class="hs"><b>x6</b><span>Croissance de CA pilotée</span></div>
+          <div class="hs"><b>80%</b><span>Processus automatisés</span></div>
+          <div class="hs"><b>1000+</b><span>Utilisateurs EdTech</span></div>
+        </div>
+      </div>
+      <div class="hero-portrait reveal in d2">
+        <div class="ring"></div>
+        <div class="photo"><img src="assets/profil.jpg" alt="Mehmet TUZCU"></div>
+        <div class="chip c1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/></svg></div>
+          <div><b>Qualiopi &amp; RGPD</b><span>Compliance by Design</span></div>
+        </div>
+        <div class="chip c2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6 4 4 6-7"/><path d="M16 8h4v4"/></svg></div>
+          <div><b>De la PME à l'IA</b><span>Bâtisseur de systèmes</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Défiler</span><span class="line"></span></div>
+</section>
 
-        // Animation au scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+<!-- ============ CONTEXT ============ -->
+<section class="context">
+  <div class="wrap">
+    <span class="lbl">Un profil hybride rare</span>
+    <div class="tags">
+      <span>Direction Générale</span>
+      <span>Développement Full-Stack</span>
+      <span>Intelligence Artificielle</span>
+      <span>Conformité Réglementaire</span>
+      <span>Modélisation Financière</span>
+      <span>Stratégie B2G</span>
+    </div>
+  </div>
+</section>
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+<!-- ============ ABOUT ============ -->
+<section class="section-pad" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <div class="frame"><img src="assets/profil-cutout.png" alt="Mehmet TUZCU, portrait"></div>
+        <div class="quote">« Je ne pars pas de la technologie. Je pars du besoin réel, puis je construis l'outil. »</div>
+      </div>
+      <div class="about-body">
+        <div class="eyebrow reveal">Qui suis-je</div>
+        <h2 class="reveal d1">Du terrain à l'architecture de systèmes</h2>
+        <p class="reveal d1">Mon parcours n'est pas linéaire ; il s'est forgé sur le terrain, de la réalité opérationnelle jusqu'à la conception de systèmes technologiques complexes. <strong>Arrivé en France à l'âge de 10 ans</strong> sans parler un mot de français, j'ai transformé cette barrière initiale en une résilience et une capacité d'adaptation qui structurent toute ma vie professionnelle. Bilingue et biculturel, je suis devenu un véritable pont stratégique entre la France et la Turquie.</p>
+        <p class="reveal d2">J'ai d'abord fait mes preuves en gravissant les échelons d'une PME du BTP, d'assistant administratif jusqu'au poste de <strong>Directeur Général</strong>. J'y ai maîtrisé chaque rouage de l'entreprise : finances, conformité, management de 30 collaborateurs. Cette immersion m'a enseigné une méthode implacable et, face aux crises sectorielles, l'art de prendre des décisions difficiles mais justes — quitte à privilégier la survie du collectif au profit immédiat.</p>
+        <p class="reveal d3">Aujourd'hui, je ne suis ni un consultant qui se contente de recommander, ni un développeur qui se limite à coder. Je suis un <strong>architecte opérationnel</strong> : je pars de vos enjeux réglementaires et de votre réalité métier pour bâtir les outils technologiques et les plateformes d'IA qui garantissent votre pérennité.</p>
+        <div class="about-values reveal d4">
+          <span>Justice &amp; Intégrité</span>
+          <span>Pragmatisme analytique</span>
+          <span>Responsabilité</span>
+          <span>Exécution de bout en bout</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+<!-- ============ EXPERTISE ============ -->
+<section class="section-pad" id="expertise" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Domaines d'expertise</div>
+      <h2 class="reveal d1">Huit compétences, une seule cohérence</h2>
+      <p class="reveal d2">La rareté de mon profil tient au croisement : je relie la stratégie, le code, la conformité et la finance au sein d'une même chaîne de valeur, sans rupture entre la décision et l'exécution.</p>
+    </div>
+    <div class="exp-grid">
 
-        // Fonction de copie dans le presse-papiers
-        function copyToClipboard(text, message) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(function() {
-                    showNotification(message);
-                });
-            } else {
-                // Fallback pour les navigateurs plus anciens
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showNotification(message);
-                } catch (err) {
-                    console.error('Erreur lors de la copie: ', err);
-                }
-                document.body.removeChild(textArea);
-            }
-        }
+      <div class="exp-card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M8 9l2 2-2 2M13 13h3"/></svg></div>
+        <h3>Technologie &amp; IA</h3>
+        <p>Développement full-stack (React, Node.js) et intégration de LLM (GPT-4, Gemini) pour automatiser les processus cognitifs complexes.</p>
+      </div>
 
-        // Notification temporaire
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.textContent = message;
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: var(--success);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 6px;
-                font-weight: 600;
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
+      <div class="exp-card reveal d1">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5 7c4 2 10 2 14 0M5 17c4-2 10-2 14 0"/></svg></div>
+        <h3>Vision Stratégique</h3>
+        <p>Structuration d'écosystèmes d'affaires, modélisation financière à horizon 3 ans et leadership transformationnel.</p>
+      </div>
 
-        // Animations CSS pour les notifications
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+      <div class="exp-card reveal d2">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Conformité &amp; Réglementation</h3>
+        <p>Maîtrise des référentiels (Qualiopi, RGPD) et intégration native du droit dans l'architecture logicielle — « Compliance by Design ».</p>
+      </div>
+
+      <div class="exp-card reveal d3">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4a3 3 0 010 6M19 20c0-2.5-1.2-4.6-3-5.6"/></svg></div>
+        <h3>Management &amp; Adaptabilité</h3>
+        <p>Direction générale, gestion de crise et sauvetage économique, avec une rigueur et une exemplarité absolues.</p>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg></div>
+        <h3>Gestion Financière</h3>
+        <p>Pilotage de trésorerie, restructuration des charges et automatisation de 80% des processus comptables.</p>
+      </div>
+
+      <div class="exp-card reveal d1">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></div>
+        <h3>Formation &amp; EdTech</h3>
+        <p>Digitalisation des centres de formation et conception de plateformes pédagogiques augmentées par l'IA.</p>
+      </div>
+
+      <div class="exp-card reveal d2">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M2 9h20M6 14h5"/></svg></div>
+        <h3>Création Digitale</h3>
+        <p>Conception d'interfaces premium (UI/UX), architecture multi-tenant et déploiement cloud sécurisé.</p>
+      </div>
+
+      <div class="exp-card reveal d3">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/><path d="M9.5 12l1.7 1.7L15 9.9"/></svg></div>
+        <h3>Développement Commercial</h3>
+        <p>Ingénierie B2G, négociation complexe multi-parties et structuration d'offres institutionnelles à fort impact.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJETS ============ -->
+<section class="section-pad" id="projets">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Réalisations phares</div>
+      <h2 class="reveal d1">Des preuves, pas des promesses</h2>
+      <p class="reveal d2">Sept plateformes conçues et développées de A à Z. Chacune est une démonstration concrète : je pense le modèle, j'intègre la conformité, je code l'interface et je déploie en production.</p>
+    </div>
+
+    <!-- Featured: Reflektif -->
+    <div class="proj-feature reveal">
+      <div class="shot"><img src="assets/projects/reflektif.jpg" alt="Reflektif — plateforme d'orientation par l'IA"></div>
+      <div class="info">
+        <span class="tag">Projet phare · EdTech &amp; IA</span>
+        <h3>Reflektif</h3>
+        <p>Plateforme SaaS d'orientation professionnelle fondée sur la psychométrie (RIASEC, Big Five) et des moteurs de matching propriétaires. Reflektif démocratise un accompagnement scientifique de haut niveau pour des milliers de bénéficiaires, conçu pour un déploiement institutionnel en marque blanche (B2B/B2G).</p>
+        <div class="meta">
+          <span>React · TypeScript</span>
+          <span>IA générative (RAG)</span>
+          <span>PostgreSQL</span>
+          <span>RGPD natif</span>
+        </div>
+        <a href="https://reflektif-lt5x3sxb.manus.space/" target="_blank" rel="noopener" class="btn btn-primary">Découvrir Reflektif
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Grid of 6 -->
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="shot"><img src="assets/projects/megalifeib.jpg" alt="Megalife"></div>
+        <div class="body">
+          <span class="tag">Immobilier · Bien-être</span>
+          <h4>Megalife</h4>
+          <p>Plateforme premium immobilier et assurance, alliant design institutionnel et parcours utilisateur optimisé.</p>
+          <a href="https://megalifeib-dvrc9ott.manus.space" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal d1">
+        <div class="shot"><img src="assets/projects/ozartart.jpg" alt="Ozart"></div>
+        <div class="body">
+          <span class="tag">E-commerce · Artisanat</span>
+          <h4>Ozart</h4>
+          <p>Vitrine e-commerce d'artisanat de luxe, offrant une expérience d'achat immersive et haut de gamme.</p>
+          <a href="https://ozartart-ngaecdrp.manus.space/" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal d2">
+        <div class="shot"><img src="assets/projects/unitree.jpg" alt="Unitree × Netz Informatique"></div>
+        <div class="body">
+          <span class="tag">Robotique · B2B / B2G</span>
+          <h4>Unitree Robotics</h4>
+          <p>Proposition commerciale digitale pour la distribution de solutions robotiques avancées sur le marché européen.</p>
+          <a href="https://unitree-netzinformatique.manus.space/" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="shot"><img src="assets/projects/vjaelxip.jpg" alt="Dossier bancaire interactif"></div>
+        <div class="body">
+          <span class="tag">FinTech · Financement</span>
+          <h4>Dossier Bancaire Interactif</h4>
+          <p>Application de présentation d'un dossier de financement immobilier complexe, claire et persuasive.</p>
+          <a href="https://vjaelxip.manus.space/" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal d1">
+        <div class="shot"><img src="assets/projects/tjmcrhvj.jpg" alt="Annuaire local SaaS multi-tenant"></div>
+        <div class="body">
+          <span class="tag">SaaS · Multi-tenant</span>
+          <h4>Annuaire Local</h4>
+          <p>Plateforme SaaS multi-domaines structurant la visibilité d'un écosystème d'entreprises locales.</p>
+          <a href="https://tjmcrhvj.manus.space/" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal d2">
+        <div class="shot"><img src="assets/projects/rjdlyuhl.jpg" alt="Immobilier de luxe"></div>
+        <div class="body">
+          <span class="tag">Immobilier de luxe</span>
+          <h4>Plateforme Immobilier Luxe</h4>
+          <p>Interface de présentation et de gestion pour des biens immobiliers d'exception, au design épuré.</p>
+          <a href="https://rjdlyuhl.manus.space/" target="_blank" rel="noopener" class="proj-link">Voir le site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="section-pad stats" id="chiffres">
+  <div class="wrap">
+    <div class="sec-head" style="text-align:center;margin:0 auto 56px">
+      <div class="eyebrow reveal" style="justify-content:center">Chiffres clés</div>
+      <h2 class="reveal d1">Un impact mesurable</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat reveal"><div class="num" data-target="6" data-prefix="×">×6</div><div class="lbl">Chiffre d'affaires multiplié en 2 ans</div></div>
+      <div class="stat reveal d1"><div class="num" data-target="80" data-suffix="%">80%</div><div class="lbl">Processus comptables automatisés</div></div>
+      <div class="stat reveal d2"><div class="num" data-target="100" data-suffix="%">100%</div><div class="lbl">Réussite aux contrôles URSSAF &amp; fiscaux</div></div>
+      <div class="stat reveal d3"><div class="num" data-target="1000" data-suffix="+">1000+</div><div class="lbl">Utilisateurs des plateformes EdTech</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHODE ============ -->
+<section class="section-pad" id="methode">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Ma méthode</div>
+      <h2 class="reveal d1">Une séquence reproductible</h2>
+      <p class="reveal d2">Quatre étapes, applicables à toute organisation. Cette discipline transforme une situation complexe en un système maîtrisé, conforme et durable.</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-step reveal">
+        <div class="n">01</div>
+        <h3>Diagnostic <span class="arr">→</span></h3>
+        <p>Analyse sans complaisance de la situation réelle, identification des risques légaux, financiers et techniques, compréhension du terrain.</p>
+      </div>
+      <div class="method-step reveal d1">
+        <div class="n">02</div>
+        <h3>Architecture <span class="arr">→</span></h3>
+        <p>Modélisation des scénarios, calcul des impacts, structuration juridique et « Compliance by Design » de bout en bout.</p>
+      </div>
+      <div class="method-step reveal d2">
+        <div class="n">03</div>
+        <h3>Exécution <span class="arr">→</span></h3>
+        <p>Développement technique des outils, déploiement des solutions et conduite du changement auprès des équipes.</p>
+      </div>
+      <div class="method-step reveal d3">
+        <div class="n">04</div>
+        <h3>Résultats</h3>
+        <p>Suivi rigoureux des KPIs, optimisation continue des processus et pérennisation des acquis organisationnels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISION ============ -->
+<section class="section-pad vision" id="vision">
+  <div class="wrap">
+    <div class="panel reveal">
+      <div class="vision-inner">
+        <div class="eyebrow">Projets &amp; vision</div>
+        <h2>Bâtir la technologie qui transforme la société</h2>
+        <p>Mon ambition dépasse le conseil traditionnel. Avec le développement de l'écosystème <strong style="color:var(--txt)">Reflektif</strong>, j'assume pleinement mon rôle de fondateur et de bâtisseur de technologies institutionnelles.</p>
+        <p>Je m'adresse aux ministères, aux organismes publics et aux grands comptes pour déployer des infrastructures souveraines, sécurisées et augmentées par l'IA. Mon objectif n'est plus de vendre du temps, mais de <strong style="color:var(--txt)">posséder et déployer la technologie</strong> qui transforme durablement la société — avec un ancrage fort en France et un pont stratégique vers la Turquie.</p>
+        <div class="targets">
+          <span>État &amp; Ministères</span>
+          <span>Organismes publics</span>
+          <span>Grands comptes</span>
+          <span>Financeurs de l'innovation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section-pad" id="contact" style="background:var(--bg-soft);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="eyebrow reveal">Contact</div>
+        <h2 class="reveal d1">Discutons de votre projet</h2>
+        <p class="reveal d2">Vous portez un projet à fort enjeu, institutionnel ou technologique ? Présentez-moi votre contexte : je vous répondrai avec une analyse franche et des pistes concrètes.</p>
+
+        <div class="ci-item reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+          <div><div class="lbl">Email</div><a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a></div>
+        </div>
+        <div class="ci-item reveal d3">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-3 2c1 2 3 4 5 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></div>
+          <div><div class="lbl">Téléphone</div><a href="tel:+33682893482">06 82 89 34 82</a></div>
+        </div>
+        <div class="ci-item reveal d4">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div><div class="lbl">Localisation</div><span class="val">Schweighouse-sur-Moder, Grand Est</span></div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal d2" id="contactForm">
+        <div class="form-row">
+          <div class="field">
+            <label for="nom">Nom complet</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+          </div>
+          <div class="field">
+            <label for="org">Organisation</label>
+            <input type="text" id="org" name="org" placeholder="Entreprise / Institution">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="vous@organisation.fr" required>
+          </div>
+          <div class="field">
+            <label for="tel">Téléphone</label>
+            <input type="tel" id="tel" name="tel" placeholder="Optionnel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Votre projet</label>
+          <textarea id="message" name="message" placeholder="Décrivez votre contexte, vos enjeux et vos objectifs…" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Envoyer le message
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        </button>
+        <p class="form-note">Votre message ouvrira votre messagerie vers conseil@mehmettuzcu.fr.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#hero" class="brand">
+          <img src="LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU">
+          <span>
+            <span class="b-name">Mehmet TUZCU</span>
+            <span class="b-sub">Architecte Opérationnel</span>
+          </span>
+        </a>
+        <p>Architecte opérationnel et expert en intelligence artificielle. Je conçois, développe et déploie des systèmes technologiques et organisationnels pour les institutions et les grands comptes.</p>
+      </div>
+      <div class="foot-nav">
+        <div class="foot-col">
+          <h5>Navigation</h5>
+          <a href="#about">À propos</a>
+          <a href="#expertise">Expertise</a>
+          <a href="#projets">Réalisations</a>
+          <a href="#methode">Méthode</a>
+        </div>
+        <div class="foot-col">
+          <h5>Contact</h5>
+          <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a>
+          <a href="tel:+33682893482">06 82 89 34 82</a>
+          <a href="#contact">Formulaire</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="year"></span> Mehmet TUZCU — Tous droits réservés.</p>
+      <div class="socials">
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H19v-5.3c0-1.27-.02-2.9-1.77-2.9-1.78 0-2.05 1.38-2.05 2.8V21H9z"/></svg>
+        </a>
+        <a href="https://github.com/conseil-maker/mehmettuzcu.fr" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05A9.4 9.4 0 0112 6.85c.85 0 1.71.12 2.51.34 1.91-1.32 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.03 10.03 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+        </a>
+        <a href="mailto:conseil@mehmettuzcu.fr" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span>Merci ! Votre message est prêt à être envoyé.</span>
+</div>
+
+<script>
+// Year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Navbar scrolled state
+const nav = document.getElementById('nav');
+const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 40); };
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const menu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  menu.classList.toggle('open');
+  document.body.classList.toggle('no-scroll', menu.classList.contains('open'));
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  menu.classList.remove('open'); document.body.classList.remove('no-scroll');
+}));
+
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+}, {threshold:.14, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+
+// Animated counters
+const fmt = (n) => n.toLocaleString('fr-FR');
+const animateNum = (el) => {
+  const target = parseFloat(el.dataset.target);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const dur = 1600; const start = performance.now();
+  const step = (now) => {
+    const p = Math.min((now - start)/dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(target * eased);
+    el.textContent = prefix + fmt(val) + suffix;
+    if(p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+};
+const numIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ animateNum(e.target); numIO.unobserve(e.target);} });
+}, {threshold:.6});
+document.querySelectorAll('.stat .num[data-target]').forEach(el => numIO.observe(el));
+
+// Contact form -> mailto
+document.getElementById('contactForm').addEventListener('submit', function(ev){
+  ev.preventDefault();
+  const f = ev.target;
+  const nom = encodeURIComponent(f.nom.value || '');
+  const org = encodeURIComponent(f.org.value || '');
+  const email = encodeURIComponent(f.email.value || '');
+  const tel = encodeURIComponent(f.tel.value || '');
+  const msg = encodeURIComponent(f.message.value || '');
+  const subject = `Demande de contact — ${decodeURIComponent(nom)}${org? ' ('+decodeURIComponent(org)+')':''}`;
+  const body = `Nom : ${decodeURIComponent(nom)}%0D%0AOrganisation : ${decodeURIComponent(org)}%0D%0AEmail : ${decodeURIComponent(email)}%0D%0ATéléphone : ${decodeURIComponent(tel)}%0D%0A%0D%0A${decodeURIComponent(msg)}`;
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 4000);
+  window.location.href = `mailto:conseil@mehmettuzcu.fr?subject=${encodeURIComponent(subject)}&body=${body}`;
+});
+</script>
 </body>
 </html>
-

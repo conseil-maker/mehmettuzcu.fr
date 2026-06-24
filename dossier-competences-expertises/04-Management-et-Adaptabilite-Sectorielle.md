@@ -17,10 +17,19 @@ Contrairement à un expert confiné à un seul domaine, Mehmet TUZCU apporte un 
 | Secteur d'Intervention | Rôle et Actions Clés | Résultats Mesurés |
 |---|---|---|
 | **BTP / Construction** | Direction Générale de PME | Structuration de l'entreprise, gestion financière complète. |
-| **IT / Digital** | Manager de Transition (Netz Informatique) | Progression du CA de 225 000 € à 1 450 000 € en 2 ans. |
-| **Formation (EdTech)** | Responsable Qualité / Architecte Logiciel | Obtention de 100% des certifications Qualiopi et Qualirépar. |
+| **IT / Digital / EdTech** | Directeur Innovation & Développement (Netz) | CA x6 (225K€ → 1,45M€), sauvetage crise CPF (-27,5% charges). |
+| **Formation** | Responsable Qualité / Architecte Logiciel | Obtention et maintien Qualiopi (2022-2028). |
 | **Immobilier Premium** | Digitalisation Commerciale | Conception de plateformes de vente haut de gamme. |
 | **Robotique** | Développement Stratégique | Négociation de partenariats de distribution internationale. |
+
+## Gestion de Crise et Sauvetage Économique (Cas Netz Informatique)
+Le management ne se résume pas à la croissance ; il s'éprouve dans la tempête. Lors de la réforme du CPF en 2026 (participation obligatoire, plafond, contrôles accrus), Netz Informatique a subi une chute brutale de 40% de son chiffre d'affaires.
+
+En tant que Directeur Innovation et Développement, Mehmet TUZCU a pris la direction des opérations de sauvetage :
+- **Analyse financière chirurgicale** : Modélisation du seuil de rentabilité avec scénarios (optimiste, réaliste, pessimiste).
+- **Restructuration des charges** : Réduction des charges fixes de 86 476 € à 62 664 € par mois (-27,5%).
+- **Abaissement du point mort** : Le seuil de rentabilité mensuel est passé de 133 040 € à 96 406 €.
+- **Sacrifice et exemplarité** : Il a suspendu sa propre facturation (11 812 €/mois) pour soulager la trésorerie de l'entreprise, privilégiant la survie du groupe et la loyauté humaine au profit immédiat.
 
 ## Méthodologie de Transformation
 L'adaptabilité repose sur une méthodologie rigoureuse et reproductible en 4 étapes, applicable à tout type d'organisation :

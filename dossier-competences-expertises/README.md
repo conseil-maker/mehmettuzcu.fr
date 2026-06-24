@@ -20,6 +20,7 @@ Chaque fichier présente en détail un domaine de compétence, alimenté par l'e
 | [08 — Négociation et Développement Commercial](./08-Negociation-et-Developpement-Commercial.md) | Négociations multi-parties, croissance du CA (225K€ → 1,45M€ en 2 ans), structuration d'offres commerciales. |
 | [09 — Histoire Personnelle et Parcours](./09-Histoire-Personnelle-et-Parcours.md) | Trajectoire professionnelle (février 2017 → aujourd'hui), valeurs, méthode de décision, ambition institutionnelle. |
 | [10 — Outils et Automatisations](./10-Outils-et-Automatisations.md) | Zapier, Google Workspace, Adobe Sign, Pennylane, ChatGPT Enterprise, automatisation de 80% des processus. |
+| [11 — Projet Reflektif (EdTech IA)](./11-Projet-Reflektif-EdTech-IA.md) | Fondateur solo, algorithme SmartMatch, 110 questions psychométriques, 928 métiers, +1000 utilisateurs, valorisation 400K-600K€. |
 
 ## Profil Synthétique
 

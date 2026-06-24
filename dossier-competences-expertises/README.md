@@ -17,7 +17,9 @@ Chaque fichier présente en détail un domaine de compétence, alimenté par l'e
 | [05 — Gestion Financière et Comptable](./05-Gestion-Financiere-et-Comptable.md) | Pilotage financier de PME, automatisation comptable (80%), négociation bancaire, modélisation économique. |
 | [06 — Formation Professionnelle et EdTech](./06-Formation-Professionnelle-et-EdTech.md) | Gestion de centre de formation Qualiopi, bilans de compétences, conception de plateformes pédagogiques IA. |
 | [07 — Développement Web et Création Digitale](./07-Developpement-Web-et-Creation-Digitale.md) | Portefeuille de 7+ réalisations web (React, Next.js, Supabase), design UI/UX, déploiement cloud. |
-| [08 — Négociation et Développement Commercial](./08-Negociation-et-Developpement-Commercial.md) | Négociations multi-parties, croissance du CA (x3 en 2 ans), structuration d'offres commerciales. |
+| [08 — Négociation et Développement Commercial](./08-Negociation-et-Developpement-Commercial.md) | Négociations multi-parties, croissance du CA (225K€ → 1,45M€ en 2 ans), structuration d'offres commerciales. |
+| [09 — Histoire Personnelle et Parcours](./09-Histoire-Personnelle-et-Parcours.md) | Trajectoire professionnelle (février 2017 → aujourd'hui), valeurs, méthode de décision, ambition institutionnelle. |
+| [10 — Outils et Automatisations](./10-Outils-et-Automatisations.md) | Zapier, Google Workspace, Adobe Sign, Pennylane, ChatGPT Enterprise, automatisation de 80% des processus. |
 
 ## Profil Synthétique
 

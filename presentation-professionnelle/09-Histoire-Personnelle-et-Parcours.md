@@ -41,7 +41,11 @@ Le parcours de Mehmet TUZCU est guidé par des valeurs fortes et une méthode de
 Clarifier le problème → Identifier le cadre légal ou opérationnel → Modéliser l'organisation → Choisir les outils → Sécuriser la conformité → Automatiser. Cette séquence est reproductible et applicable à tout type d'organisation.
 
 ## Ce qui le Différencie Fondamentalement
-Deux types de profils coexistent sur le marché : les consultants qui recommandent, et les développeurs qui codent. Mehmet TUZCU est les deux à la fois.
+Ce qui distingue fondamentalement Mehmet TUZCU, c'est sa **double culture** :
+- **La culture du résultat et de la direction** (son passé de DG).
+- **La culture de l'agilité technologique** (sa maîtrise de l'IA et du code).
+
+Il parle le langage du patron et celui de la machine. Deux types de profils coexistent sur le marché : les consultants qui recommandent, et les développeurs qui codent. Mehmet TUZCU est les deux à la fois.
 
 Il ne part pas de la technologie seule. Il part du **besoin métier**, de la **conformité réglementaire**, du **fonctionnement humain** et de l'**organisation**. Puis il construit l'outil adapté. C'est ce qui définit son profil d'**"architecte opérationnel"**.
 
@@ -51,4 +55,3 @@ Aujourd'hui, l'ambition de Mehmet TUZCU dépasse le cadre de la PME et du consul
 Il se positionne comme un **architecte opérationnel et stratégique** capable de dialoguer simultanément avec des ministères, des financeurs de l'innovation, et des organismes publics. Il comprend les contraintes de terrain, maîtrise les cadres réglementaires (RGPD, Qualiopi), et code lui-même les plateformes d'intelligence artificielle pour y répondre.
 
 Son objectif n'est plus de vendre du temps, mais de **posséder et déployer la technologie** qui transforme la société, avec un ancrage fort en France et un pont stratégique vers la Turquie.
-Turquie.

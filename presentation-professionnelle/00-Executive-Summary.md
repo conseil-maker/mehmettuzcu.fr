@@ -2,7 +2,7 @@
 **Architecte de Transformation Multi-Sectorielle & Expert IA**
 
 ## Profil Synthétique
-Mehmet TUZCU est un professionnel hybride, alliant la vision stratégique d'un dirigeant d'entreprise, la rigueur d'un expert en conformité réglementaire, et les compétences techniques d'un développeur full-stack spécialisé en Intelligence Artificielle. 
+Mehmet TUZCU est un professionnel hybride doté d'une double culture rare : il parle le langage du patron (culture du résultat, passé de Directeur Général) et celui de la machine (agilité technologique, développement full-stack, IA). Il allie la vision stratégique, la rigueur d'un expert en conformité réglementaire, et la capacité d'exécution d'un architecte logiciel. 
 
 Fort d'une expérience allant de la direction générale de PME à la conception de plateformes EdTech complexes, il se positionne comme un "architecte opérationnel" capable de dialoguer avec des institutions publiques (B2G) et de piloter des projets de transformation d'envergure.
 

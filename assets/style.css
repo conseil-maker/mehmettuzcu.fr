@@ -131,7 +131,7 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .section-intro {
   font-size: 1.06rem;
   color: var(--gray);
-  max-width: 640px;
+  max-width: 760px;
   margin: 0 0 40px;
 }
 
@@ -198,7 +198,7 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .btn:active { transform: translateY(1px); }
 
 /* ---------- About ---------- */
-.about-grid { display: grid; grid-template-columns: 1fr; gap: 18px; max-width: 760px; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 44px; }
 .about-grid p { margin: 0; font-size: 1.04rem; }
 .about-grid p:first-of-type { font-size: 1.12rem; }
 
@@ -233,7 +233,7 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
   padding: 30px 32px;
 }
 .principle h3 { margin: 0 0 8px; color: #fff; font-size: 1.18rem; }
-.principle p { margin: 0; color: #e3edf2; max-width: 760px; }
+.principle p { margin: 0; color: #e3edf2; }
 
 /* ---------- Projects ---------- */
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
@@ -361,10 +361,9 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
   color: #fff;
   border-radius: var(--radius);
   padding: 44px 40px;
-  max-width: 820px;
 }
 .contact-card h2 { color: #fff; }
-.contact-card p { color: #e3edf2; font-size: 1.06rem; max-width: 640px; }
+.contact-card p { color: #e3edf2; font-size: 1.06rem; max-width: 720px; }
 .contact-list { list-style: none; margin: 22px 0 26px; padding: 0; }
 .contact-list li { margin-bottom: 10px; font-size: 1.02rem; }
 .contact-list a { color: #fff; font-weight: 600; }
@@ -400,7 +399,7 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .pillars, .steps { grid-template-columns: 1fr 1fr; }
-  .cards, .proof-groups, .audience { grid-template-columns: 1fr; }
+  .cards, .proof-groups, .audience, .about-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
   section { padding: 56px 0; }

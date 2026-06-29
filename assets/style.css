@@ -381,6 +381,22 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .footer-row a { color: var(--gray); text-decoration: none; }
 .footer-row a:hover { color: var(--accent); }
 
+/* ---------- Paragraphes justifiés (avec césure) ---------- */
+.hero .lede,
+.section-intro,
+.about-grid p,
+.pillar p,
+.principle p,
+.card p,
+.step p,
+.aud p,
+.method-note,
+.contact-card p {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .pillars, .steps { grid-template-columns: 1fr 1fr; }

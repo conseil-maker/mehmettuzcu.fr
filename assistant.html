@@ -283,6 +283,13 @@
 
 <script>
 /* =========================================================================
+   ENDPOINT LLM LIVE — coller ici l'URL du Cloudflare Worker pour activer
+   le mode LLM live. Vide => repli sur /api/chat (404 sur GitHub Pages),
+   donc bascule sur le moteur LOCAL. Voir cloudflare-worker/DEPLOY-WORKER.md.
+   ========================================================================= */
+const CHAT_ENDPOINT = "";  // ← coller l'URL du Worker Cloudflare ici pour activer le LLM live
+
+/* =========================================================================
    BASE DE CONNAISSANCES — source unique de vérité de l'assistant.
    Sert au moteur LOCAL (repli) et n'est jamais dépassée par celui-ci.
    ========================================================================= */
@@ -401,7 +408,6 @@ function answer(rawQuestion){
    Le navigateur ne detient AUCUNE cle : l'endpoint serveur s'en charge,
    et bascule lui-meme sur {answer:""} / code != 200 en cas d'echec LLM.
    ========================================================================= */
-const CHAT_ENDPOINT = "/api/chat";
 const LLM_TIMEOUT_MS = 12000;
 
 async function askLLM(question, priorHistory){
@@ -409,7 +415,7 @@ async function askLLM(question, priorHistory){
   const ctrl = new AbortController();
   const timer = setTimeout(()=>ctrl.abort(), LLM_TIMEOUT_MS);
   try{
-    const res = await fetch(CHAT_ENDPOINT, {
+    const res = await fetch(CHAT_ENDPOINT || "/api/chat", {
       method:"POST",
       headers:{ "Content-Type":"application/json" },
       body: JSON.stringify({ message: question, history: priorHistory || [] }),

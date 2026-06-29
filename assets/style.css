@@ -387,7 +387,7 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .principle p,
 .method-note,
 .contact-card p {
-  text-align: justify;
+  text-align: left;
   -webkit-hyphens: none;
   hyphens: none;
 }

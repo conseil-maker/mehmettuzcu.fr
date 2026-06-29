@@ -392,15 +392,15 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .principle p,
 .method-note,
 .contact-card p {
-  text-align: left;
+  text-align: justify;
   -webkit-hyphens: none;
   hyphens: none;
 }
 /* Cartes étroites : alignées à gauche, pas de coupure de mots (TypeScript, PostgreSQL…) */
 .pillar p, .card p, .step p, .aud p {
-  text-align: left;
-  -webkit-hyphens: manual;
-  hyphens: manual;
+  text-align: justify;
+  -webkit-hyphens: none;
+  hyphens: none;
 }
 
 /* ---------- Responsive ---------- */

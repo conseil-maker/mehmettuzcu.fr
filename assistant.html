@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Assistant conversationnel public — Présente-moi Mehmet TUZCU : architecte opérationnel France-Turquie, fondateur-développeur de Reflektif." />
 <title>Présente-moi Mehmet — Assistant</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
     --accent:#1f5673;
@@ -192,6 +193,28 @@
   footer a{color:var(--accent);text-decoration:none;font-weight:600}
   footer a:hover{text-decoration:underline}
   footer .dot{margin:0 7px;opacity:.5}
+  /* Actions discretes (export PDF + effacer) */
+  .hero-actions{flex:0 0 auto;margin-left:auto;display:flex;align-items:center}
+  .pdf-btn{
+    border:1px solid var(--accent-line);background:#fff;color:var(--accent);
+    font-family:inherit;font-size:12px;font-weight:600;
+    padding:7px 12px;border-radius:999px;cursor:pointer;transition:.15s;
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .pdf-btn svg{width:14px;height:14px}
+  .pdf-btn:hover:not(:disabled){background:var(--accent);color:#fff;border-color:var(--accent)}
+  .pdf-btn:active:not(:disabled){transform:scale(.98)}
+  .pdf-btn:disabled{opacity:.4;cursor:default}
+  .clear-link{
+    background:none;border:none;font-family:inherit;font-size:11.5px;
+    color:var(--ink-faint);cursor:pointer;padding:0;text-decoration:underline;
+    text-underline-offset:2px;transition:.15s;
+  }
+  .clear-link:hover{color:var(--accent)}
+  @media (max-width:560px){
+    .pdf-btn span{display:none}
+    .pdf-btn{padding:7px 9px}
+  }
   /* Scrollbar */
   .messages::-webkit-scrollbar{width:8px}
   .messages::-webkit-scrollbar-thumb{background:var(--accent-line);border-radius:8px}
@@ -219,6 +242,14 @@
         <p class="tagline">Un dirigeant qui code — architecte opérationnel France-Turquie</p>
         <p class="sub"><span class="status-dot" aria-hidden="true"></span>Posez vos questions sur Mehmet</p>
       </div>
+      <div class="hero-actions">
+        <button type="button" id="pdfBtn" class="pdf-btn" disabled
+                title="Télécharger la conversation au format PDF"
+                aria-label="Télécharger la conversation au format PDF">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Télécharger la conversation (PDF)</span>
+        </button>
+      </div>
     </header>
 
     <div class="chat-shell">
@@ -245,6 +276,8 @@
       <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a>
       <span class="dot">•</span>
       <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a>
+      <span class="dot">•</span>
+      <button type="button" id="clearBtn" class="clear-link">Effacer la conversation</button>
     </footer>
   </div>
 
@@ -401,9 +434,48 @@ const startersEl  = document.getElementById("starters");
 const formEl      = document.getElementById("composer");
 const inputEl     = document.getElementById("input");
 const sendBtn     = document.getElementById("sendBtn");
+const pdfBtn      = document.getElementById("pdfBtn");
+const clearBtn    = document.getElementById("clearBtn");
 
 // Historique conversationnel transmis a l'API (jamais utilise pour inventer).
 const history = [];
+
+/* =========================================================================
+   PERSISTANCE — historique {role:'user'|'assistant', text, ts} en localStorage.
+   La conversation survit a la fermeture du drawer ET au rechargement de page.
+   ========================================================================= */
+const STORAGE_KEY = "mt_assistant_chat_v1";
+
+// Tableau source de verite pour la persistance et l'export PDF.
+let chatLog = [];
+
+// Lecture defensive : tout JSON corrompu => tableau vide (jamais de plantage).
+function loadChatLog(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    const arr = JSON.parse(raw);
+    if(!Array.isArray(arr)) return [];
+    return arr.filter(m => m && (m.role==="user"||m.role==="assistant") && typeof m.text==="string");
+  }catch(_e){ return []; }
+}
+
+// Ecriture defensive : un quota plein ne doit jamais bloquer la conversation.
+function saveChatLog(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(chatLog)); }catch(_e){}
+}
+
+// Enregistre un message (appele a CHAQUE tour, utilisateur comme assistant).
+function recordMessage(role, text){
+  chatLog.push({ role, text, ts: Date.now() });
+  saveChatLog();
+  refreshExportState();
+}
+
+// Active/desactive le bouton PDF selon qu'il y a ou non de la matiere.
+function refreshExportState(){
+  pdfBtn.disabled = chatLog.length === 0;
+}
 
 // Echappe le HTML, puis linkifie e-mails et domaines connus (sans risque XSS).
 function renderContent(text){
@@ -490,12 +562,14 @@ async function handleSend(rawText){
   const q = (rawText||"").trim();
   if(!q || busy) return;
   setBusy(true);
+  if(startersEl) startersEl.style.display = "none";   // coherent avec l'etat « conversation »
   addBubble("visitor", renderContent(q));
   inputEl.value = "";
 
   // Historique transmis a l'API : etat AVANT cette question.
   const priorHistory = history.slice();
   history.push({ role:"user", content:q });
+  recordMessage("user", q);   // persistance immediate du tour utilisateur
 
   const typing = addTyping();
 
@@ -513,6 +587,7 @@ async function handleSend(rawText){
   const bubble = addBubble("bot", "");
   await typeInto(bubble, text);
   history.push({ role:"assistant", content:text });
+  recordMessage("assistant", text);   // persistance du tour assistant
   setBusy(false);
   inputEl.focus();
 }
@@ -533,15 +608,167 @@ formEl.addEventListener("submit", e=>{
   handleSend(inputEl.value);
 });
 
-// Message d'accueil au chargement.
+// Texte d'accueil (affiche uniquement quand il n'y a aucun historique).
+const WELCOME_TEXT =
+  "Bonjour ! Je suis l'assistant public de Mehmet TUZCU — un dirigeant qui code, " +
+  "architecte opérationnel France-Turquie et fondateur-développeur de Reflektif.\n\n" +
+  "Posez-moi vos questions sur son parcours, Reflektif, ses compétences techniques, " +
+  "la conformité ou une éventuelle collaboration. Vous pouvez aussi cliquer sur une " +
+  "question suggérée ci-dessous.";
+
+// Affiche l'accueil + laisse les amorces visibles (etat « conversation vide »).
+function showWelcome(){
+  addBubble("bot", renderContent(WELCOME_TEXT));
+  if(startersEl) startersEl.style.display = "";
+}
+
+// Rejoue tout l'historique persiste dans l'UI, et reconstruit `history` (API).
+function restoreConversation(){
+  history.length = 0;
+  chatLog.forEach(m=>{
+    const role = m.role==="user" ? "visitor" : "bot";
+    addBubble(role, renderContent(m.text));
+    history.push({ role:(m.role==="user"?"user":"assistant"), content:m.text });
+  });
+  // On masque les amorces des qu'une vraie conversation existe.
+  if(startersEl) startersEl.style.display = "none";
+  scrollToBottom();
+}
+
+/* =========================================================================
+   EXPORT PDF — 100% navigateur, aucune cle, aucun appel reseau.
+   Voie principale : jsPDF (texte selectionnable, pagination auto).
+   Repli : vue imprimable + window.print() (« Enregistrer en PDF »).
+   ========================================================================= */
+const PDF_TITLE   = "Conversation avec l'assistant de Mehmet TUZCU";
+const PDF_FILENAME = "conversation-mehmet-tuzcu.pdf";
+
+function todayFR(){
+  try{
+    return new Date().toLocaleDateString("fr-FR",
+      { day:"2-digit", month:"long", year:"numeric" });
+  }catch(_e){ return new Date().toLocaleDateString(); }
+}
+
+function speakerLabel(role){
+  return role==="user" ? "Vous : " : "Assistant : ";
+}
+
+// Generation jsPDF : titre, date, puis chaque message enveloppe + pagine.
+function exportViaJsPDF(){
+  const jspdf = window.jspdf;
+  if(!jspdf || !jspdf.jsPDF) return false;
+  try{
+    const doc = new jspdf.jsPDF({ unit:"pt", format:"a4" });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 48;
+    const maxW = pageW - margin*2;
+    let y = margin;
+
+    const ensureRoom = (lineH)=>{
+      if(y + lineH > pageH - margin){ doc.addPage(); y = margin; }
+    };
+
+    // Titre.
+    doc.setFont("helvetica","bold"); doc.setFontSize(16);
+    doc.setTextColor(31,86,115);   // accent #1f5673
+    doc.splitTextToSize(PDF_TITLE, maxW).forEach(line=>{
+      ensureRoom(20); doc.text(line, margin, y); y += 20;
+    });
+
+    // Date du jour.
+    doc.setFont("helvetica","normal"); doc.setFontSize(10.5);
+    doc.setTextColor(120,120,120);
+    ensureRoom(16); doc.text(todayFR(), margin, y); y += 26;
+
+    // Messages.
+    chatLog.forEach(m=>{
+      const block = speakerLabel(m.role) + (m.text||"");
+      doc.setFont("helvetica","normal"); doc.setFontSize(11.5);
+      doc.setTextColor(m.role==="user" ? 31 : 29,
+                       m.role==="user" ? 86 : 39,
+                       m.role==="user" ? 115 : 51);
+      const lines = doc.splitTextToSize(block, maxW);
+      lines.forEach(line=>{ ensureRoom(15); doc.text(line, margin, y); y += 15; });
+      y += 9;   // espace entre les tours
+    });
+
+    doc.save(PDF_FILENAME);
+    return true;
+  }catch(_e){
+    return false;
+  }
+}
+
+// Repli imprimable : on construit une fenetre sobre et on lance window.print().
+function exportViaPrint(){
+  const esc = s => String(s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const rows = chatLog.map(m=>
+    '<p class="m ' + (m.role==="user"?"u":"a") + '">' +
+    '<strong>' + esc(speakerLabel(m.role)) + '</strong>' +
+    esc(m.text||"") + '</p>'
+  ).join("");
+  const html =
+    '<!doctype html><html lang="fr"><head><meta charset="utf-8">' +
+    '<title>' + esc(PDF_FILENAME) + '</title><style>' +
+    'body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1d2733;' +
+    'line-height:1.5;max-width:720px;margin:32px auto;padding:0 24px}' +
+    'h1{color:#1f5673;font-size:20px;margin:0 0 4px}' +
+    '.date{color:#888;font-size:12px;margin:0 0 22px}' +
+    '.m{white-space:pre-wrap;margin:0 0 12px;font-size:13px}' +
+    '.m.u strong{color:#1f5673}.m.a strong{color:#1d2733}' +
+    '@media print{body{margin:0}}' +
+    '</style></head><body>' +
+    '<h1>' + esc(PDF_TITLE) + '</h1>' +
+    '<p class="date">' + esc(todayFR()) + '</p>' +
+    rows +
+    '<scr'+'ipt>window.onload=function(){window.print();};</scr'+'ipt>' +
+    '</body></html>';
+  const w = window.open("", "_blank");
+  if(!w){
+    alert("Veuillez autoriser les fenêtres pop-up pour exporter la conversation.");
+    return;
+  }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+// Point d'entree export : jsPDF d'abord, repli print si la lib n'a pas charge.
+function handleExport(){
+  if(chatLog.length === 0) return;
+  if(!exportViaJsPDF()){
+    exportViaPrint();   // hors-ligne / CDN bloque -> vue imprimable
+  }
+}
+
+// Efface l'historique : action VOLONTAIRE de l'utilisateur uniquement.
+function handleClear(){
+  if(chatLog.length === 0) return;
+  if(!window.confirm("Effacer définitivement cette conversation ?")) return;
+  chatLog = [];
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(_e){}
+  history.length = 0;
+  messagesEl.innerHTML = "";
+  refreshExportState();
+  showWelcome();
+  inputEl.focus();
+}
+
+pdfBtn.addEventListener("click", handleExport);
+clearBtn.addEventListener("click", handleClear);
+
+// Demarrage : restaure l'historique s'il existe, sinon affiche l'accueil.
 window.addEventListener("DOMContentLoaded", ()=>{
-  const welcome =
-    "Bonjour ! Je suis l'assistant public de Mehmet TUZCU — un dirigeant qui code, " +
-    "architecte opérationnel France-Turquie et fondateur-développeur de Reflektif.\n\n" +
-    "Posez-moi vos questions sur son parcours, Reflektif, ses compétences techniques, " +
-    "la conformité ou une éventuelle collaboration. Vous pouvez aussi cliquer sur une " +
-    "question suggérée ci-dessous.";
-  addBubble("bot", renderContent(welcome));
+  chatLog = loadChatLog();
+  refreshExportState();
+  if(chatLog.length > 0){
+    restoreConversation();
+  } else {
+    showWelcome();
+  }
   inputEl.focus();
 });
 </script>

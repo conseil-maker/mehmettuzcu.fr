@@ -169,6 +169,157 @@
     color: var(--gray);
   }
 
+  /* HERO — strip de capacités */
+  .cap-strip {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cap-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef3f6;
+    border: 1px solid #d8dee3;
+    color: #1c2126;
+    border-radius: 999px;
+    padding: 7px 14px 7px 12px;
+    font-size: .9rem;
+    line-height: 1.25;
+  }
+  .cap-ico {
+    color: #1f5673;
+    flex-shrink: 0;
+  }
+
+  /* HERO — bandeau de preuve */
+  .hero-proof {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid #d8dee3;
+    font-size: .9rem;
+    color: #5a6772;
+    line-height: 1.6;
+  }
+  .hero-proof .hp-num {
+    color: #1f5673;
+    font-weight: 700;
+  }
+
+  .hero-cta .btn {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* DRAWER ASSISTANT */
+  #assistant-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 63, 84, .42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .32s ease, visibility .32s ease;
+    z-index: 1400;
+  }
+  #assistant-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  #assistant-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(440px, 100%);
+    background: #fff;
+    box-shadow: -16px 0 48px rgba(22, 63, 84, .22);
+    transform: translateX(100%);
+    transition: transform .32s ease;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+  }
+  #assistant-drawer.open { transform: translateX(0); }
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #d8dee3;
+    flex-shrink: 0;
+  }
+  .drawer-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1c2126;
+  }
+  .drawer-close {
+    appearance: none;
+    border: 1px solid #d8dee3;
+    background: #f7f9fa;
+    color: #1c2126;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover { background: #eef3f6; }
+  .drawer-close:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 2px;
+  }
+  .drawer-body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .drawer-body iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* BOUTON FLOTTANT */
+  #assistant-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    background: #1f5673;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(22, 63, 84, .34);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1600;
+    transition: background .2s ease, transform .2s ease;
+  }
+  #assistant-fab:hover { transform: translateY(-2px); }
+  #assistant-fab:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 3px;
+  }
+  #assistant-fab .ico-close { display: none; }
+  #assistant-fab.open .ico-open { display: none; }
+  #assistant-fab.open .ico-close { display: block; }
+
+  @media (max-width: 560px) {
+    #assistant-drawer { width: 100%; }
+    #assistant-fab { bottom: 18px; right: 18px; }
+  }
+
   @media (max-width: 900px) {
     .hero-layout { grid-template-columns: 1fr; }
     .hero-portrait { display: none; }
@@ -196,7 +347,7 @@
       <li><a href="#expertises">Expertises</a></li>
       <li><a href="#projets">Réalisations</a></li>
       <li><a href="#methode">Méthode</a></li>
-      <li><a href="#assistant">Assistant IA</a></li>
+      <li><a href="#assistant" data-open-assistant>Assistant IA</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -210,16 +361,49 @@
       <div class="hero-layout">
         <div class="hero-text">
           <span class="hero-tag">Architecte opérationnel · un dirigeant qui code</span>
-          <h1 id="hero-title">Concevoir des systèmes <span class="accent">conformes dès leur création.</span></h1>
+          <h1 id="hero-title">Créer, structurer, sécuriser —<br /><span class="accent">puis coder ce qui automatise.</span></h1>
           <p class="lede">
-            Je conçois des systèmes conformes dès leur architecture, à l'intersection de trois cultures :
-            l'opérationnel (direction de PME, finance, RH), le réglementaire (Qualiopi, CPF/OPCO, RGPD/KVKK)
-            et le technologique (développement full-stack, IA générative). J'opère nativement des deux côtés
-            du pont France-Turquie.
+            À l'intersection de trois cultures — opérationnel, réglementaire, technologique — je conçois
+            des systèmes conformes dès leur architecture, et je les automatise. Des deux côtés du pont
+            France-Turquie.
           </p>
+
+          <ul class="cap-strip" aria-label="Domaines d'intervention">
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-5h6v5"/></svg>
+              <span>Créer &amp; structurer une société (FR · TR)</span>
+            </li>
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
+              <span>Piloter la croissance &amp; la finance</span>
+            </li>
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+              <span>Superviser la comptabilité</span>
+            </li>
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
+              <span>Traverser un contrôle URSSAF / fiscal</span>
+            </li>
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Sécuriser la conformité (Qualiopi · RGPD)</span>
+            </li>
+            <li class="cap-pill">
+              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Coder la plateforme qui automatise</span>
+            </li>
+          </ul>
+
+          <p class="hero-proof">
+            <span class="hp-num">PME de ~30 personnes</span> dirigée (ex-DG) ·
+            <span class="hp-num">~167 000 lignes</span> codées en solo ·
+            <span class="hp-num">Centre Qualiopi</span> piloté
+          </p>
+
           <div class="hero-cta">
-            <a class="btn btn-primary" href="#contact">Discutons de votre projet →</a>
-            <a class="btn btn-secondary" href="#assistant">Discuter avec mon assistant</a>
+            <button type="button" class="btn btn-primary" onclick="openAssistant()">Discuter avec mon assistant</button>
+            <a class="btn btn-secondary" href="#contact">Discutons de votre projet →</a>
           </div>
         </div>
         <div class="hero-portrait">
@@ -515,31 +699,6 @@
     </div>
   </section>
 
-  <!-- ASSISTANT IA -->
-  <section id="assistant" class="section-alt" aria-labelledby="assist-title">
-    <div class="container">
-      <p class="eyebrow">Assistant IA</p>
-      <h2 id="assist-title">Discutez avec mon assistant</h2>
-      <p class="section-intro">
-        Une question sur mon parcours, mes expertises ou une mission possible ? Mon assistant conversationnel
-        répond à partir d'informations publiques et vérifiées.
-      </p>
-
-      <div class="assistant-wrap">
-        <iframe
-          class="assistant-frame"
-          src="assistant.html"
-          title="Assistant conversationnel — Présente-moi Mehmet TUZCU"
-          loading="lazy"
-          referrerpolicy="no-referrer"></iframe>
-        <p class="assistant-fallback">
-          L'assistant ne s'affiche pas ?
-          <a href="assistant.html" target="_blank" rel="noopener">Ouvrir l'assistant dans un nouvel onglet →</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
   <!-- POUR QUI -->
   <section id="pour-qui" aria-labelledby="aud-title">
     <div class="container">
@@ -651,9 +810,73 @@
   </div>
 </footer>
 
+<!-- DRAWER ASSISTANT -->
+<div id="assistant-backdrop" hidden></div>
+<aside id="assistant-drawer" role="dialog" aria-modal="true" aria-label="Assistant conversationnel" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Assistant — Mehmet TUZCU</h2>
+    <button type="button" class="drawer-close" aria-label="Fermer" onclick="closeAssistant()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <iframe src="assistant.html" title="Assistant conversationnel — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
+  </div>
+</aside>
+
+<!-- BOUTON FLOTTANT -->
+<button type="button" id="assistant-fab" aria-label="Ouvrir l'assistant" aria-expanded="false" onclick="toggleAssistant()">
+  <svg class="ico-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+  <svg class="ico-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
 <script>
   // Année dynamique
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Assistant — drawer latéral (l'iframe reste montée : la conversation n'est jamais perdue)
+  var __asDrawer = document.getElementById('assistant-drawer');
+  var __asBackdrop = document.getElementById('assistant-backdrop');
+  var __asFab = document.getElementById('assistant-fab');
+
+  function openAssistant() {
+    if (!__asDrawer) return;
+    if (__asBackdrop) { __asBackdrop.hidden = false; void __asBackdrop.offsetWidth; __asBackdrop.classList.add('open'); }
+    __asDrawer.classList.add('open');
+    __asDrawer.setAttribute('aria-hidden', 'false');
+    if (__asFab) { __asFab.classList.add('open'); __asFab.setAttribute('aria-expanded', 'true'); __asFab.setAttribute('aria-label', "Fermer l'assistant"); }
+    var closeBtn = __asDrawer.querySelector('.drawer-close');
+    if (closeBtn) closeBtn.focus();
+  }
+  function closeAssistant() {
+    if (!__asDrawer) return;
+    __asDrawer.classList.remove('open');
+    __asDrawer.setAttribute('aria-hidden', 'true');
+    if (__asBackdrop) {
+      __asBackdrop.classList.remove('open');
+      window.setTimeout(function () { if (!__asBackdrop.classList.contains('open')) __asBackdrop.hidden = true; }, 340);
+    }
+    if (__asFab) { __asFab.classList.remove('open'); __asFab.setAttribute('aria-expanded', 'false'); __asFab.setAttribute('aria-label', "Ouvrir l'assistant"); }
+  }
+  function toggleAssistant() {
+    if (__asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+    else openAssistant();
+  }
+  if (__asBackdrop) __asBackdrop.addEventListener('click', closeAssistant);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && __asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+  });
+  // Liens de nav pointant vers l'ancienne section : ouvrir le drawer
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-assistant]'), function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var navLinks = document.getElementById('nav-links');
+      var navToggle = document.querySelector('.nav-toggle');
+      if (navLinks) navLinks.classList.remove('open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+      openAssistant();
+    });
+  });
 
   // Menu mobile
   (function () {

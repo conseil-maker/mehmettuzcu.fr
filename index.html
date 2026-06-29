@@ -218,6 +218,12 @@
   .pillar-caps { list-style:none; margin:14px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
   .pillar-caps li { background:#fff; border:1px solid #d8dee3; color:#2a3942; border-radius:999px; padding:5px 11px; font-size:.82rem; line-height:1.25; }
 
+  /* HERO — aperçu des 3 domaines (remplace les chiffres) */
+  .hero-cats { margin-top: 28px; padding-top: 20px; border-top: 1px solid #d8dee3; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .hero-cats .cat { display:block; font-weight:700; color:#1f5673; font-size:1.02rem; }
+  .hero-cats .cat-d { display:block; margin-top:5px; color:#5a6772; font-size:.9rem; line-height:1.45; }
+  @media (max-width: 760px){ .hero-cats { grid-template-columns: 1fr; gap:14px; } }
+
   /* DRAWER ASSISTANT */
   #assistant-backdrop {
     position: fixed;
@@ -382,11 +388,41 @@
         </div>
       </div>
 
-      <div class="trust" aria-label="Repères vérifiés">
-        <div><span class="num">≈167 000</span><span class="lbl">lignes de code en production (solo)</span></div>
-        <div><span class="num">71</span><span class="lbl">tables PostgreSQL, 100 % protégées (RLS)</span></div>
-        <div><span class="num">928</span><span class="lbl">métiers, codés O*NET, bilingues FR/TR</span></div>
-        <div><span class="num">2</span><span class="lbl">cultures, France &amp; Turquie</span></div>
+            <div class="hero-cats" aria-label="Trois domaines d'expertise">
+        <div><span class="cat">Opérationnel</span><span class="cat-d">Diriger, financer et structurer une entreprise</span></div>
+        <div><span class="cat">Réglementaire</span><span class="cat-d">Qualiopi, RGPD/KVKK, contrôles, financements publics</span></div>
+        <div><span class="cat">Technologique</span><span class="cat-d">Full-stack, IA générative, automatisation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <p class="eyebrow">À propos</p>
+      <h2 id="about-title">De l'opérationnel au code : un bâtisseur biculturel</h2>
+      <div class="about-grid">
+        <p>
+          Arrivé en France à l'âge de dix ans sans parler un mot de français, je suis aujourd'hui bilingue
+          (turc langue maternelle, français C1) et biculturel France-Turquie. J'ai fait de cette double culture
+          un atout stratégique : un pont entre deux écosystèmes économiques, réglementaires et institutionnels.
+        </p>
+        <p>
+          Mon parcours est celui d'un terrain exigeant. Entré comme assistant administratif dans une PME du bâtiment,
+          j'en suis devenu Directeur Général (2017-2023), encadrant jusqu'à une trentaine de personnes et assumant
+          la gestion financière complète de l'entreprise — du devis de chantier à la clôture comptable. J'y ai acquis
+          une compréhension intime de tous les rouages d'une entreprise.
+        </p>
+        <p>
+          J'ai ensuite basculé vers le conseil en transformation, puis vers le développement full-stack et la fondation
+          d'une startup EdTech. Développeur autodidacte, j'ai conçu et codé en solo la plateforme Reflektif. Cette
+          trajectoire atypique me confère une capacité rare d'analyse systémique : lier le besoin métier, la conformité
+          et la technologie dans un même mouvement.
+        </p>
+        <p>
+          J'aborde chaque mission comme une édification — comprendre la réalité du terrain avant de la traduire en système.
+          Je me positionne en co-constructeur plus qu'en prestataire : je ne travaille pas pour facturer, mais pour transformer.
+        </p>
       </div>
     </div>
   </section>
@@ -460,37 +496,6 @@
           Je conçois des systèmes conformes dès leur architecture, et non corrigés après coup. La conformité n'est
           pas une contrainte ajoutée à la fin : c'est une propriété du système, instrumentée dans le code. Chaque
           automatisation que je déploie doit être défendable, auditable et utile — transposable à tout contexte réglementé.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- À PROPOS -->
-  <section id="about" aria-labelledby="about-title">
-    <div class="container">
-      <p class="eyebrow">À propos</p>
-      <h2 id="about-title">De l'opérationnel au code : un bâtisseur biculturel</h2>
-      <div class="about-grid">
-        <p>
-          Arrivé en France à l'âge de dix ans sans parler un mot de français, je suis aujourd'hui bilingue
-          (turc langue maternelle, français C1) et biculturel France-Turquie. J'ai fait de cette double culture
-          un atout stratégique : un pont entre deux écosystèmes économiques, réglementaires et institutionnels.
-        </p>
-        <p>
-          Mon parcours est celui d'un terrain exigeant. Entré comme assistant administratif dans une PME du bâtiment,
-          j'en suis devenu Directeur Général (2017-2023), encadrant jusqu'à une trentaine de personnes et assumant
-          la gestion financière complète de l'entreprise — du devis de chantier à la clôture comptable. J'y ai acquis
-          une compréhension intime de tous les rouages d'une entreprise.
-        </p>
-        <p>
-          J'ai ensuite basculé vers le conseil en transformation, puis vers le développement full-stack et la fondation
-          d'une startup EdTech. Développeur autodidacte, j'ai conçu et codé en solo la plateforme Reflektif. Cette
-          trajectoire atypique me confère une capacité rare d'analyse systémique : lier le besoin métier, la conformité
-          et la technologie dans un même mouvement.
-        </p>
-        <p>
-          J'aborde chaque mission comme une édification — comprendre la réalité du terrain avant de la traduire en système.
-          Je me positionne en co-constructeur plus qu'en prestataire : je ne travaille pas pour facturer, mais pour transformer.
         </p>
       </div>
     </div>

@@ -380,20 +380,22 @@ h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .footer-row a { color: var(--gray); text-decoration: none; }
 .footer-row a:hover { color: var(--accent); }
 
-/* ---------- Paragraphes justifiés (avec césure) ---------- */
+/* ---------- Paragraphes justifiés (prose large uniquement ; cartes étroites = à gauche) ---------- */
 .hero .lede,
 .section-intro,
 .about-grid p,
-.pillar p,
 .principle p,
-.card p,
-.step p,
-.aud p,
 .method-note,
 .contact-card p {
   text-align: justify;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+/* Cartes étroites : alignées à gauche, pas de coupure de mots (TypeScript, PostgreSQL…) */
+.pillar p, .card p, .step p, .aud p {
+  text-align: left;
+  -webkit-hyphens: manual;
+  hyphens: manual;
 }
 
 /* ---------- Responsive ---------- */

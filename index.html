@@ -214,6 +214,10 @@
     cursor: pointer;
   }
 
+  /* Expertises — capacités concrètes par pilier */
+  .pillar-caps { list-style:none; margin:14px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .pillar-caps li { background:#fff; border:1px solid #d8dee3; color:#2a3942; border-radius:999px; padding:5px 11px; font-size:.82rem; line-height:1.25; }
+
   /* DRAWER ASSISTANT */
   #assistant-backdrop {
     position: fixed;
@@ -368,39 +372,6 @@
             France-Turquie.
           </p>
 
-          <ul class="cap-strip" aria-label="Domaines d'intervention">
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-5h6v5"/></svg>
-              <span>Créer &amp; structurer une société (FR · TR)</span>
-            </li>
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
-              <span>Piloter la croissance &amp; la finance</span>
-            </li>
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-              <span>Superviser la comptabilité</span>
-            </li>
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
-              <span>Traverser un contrôle URSSAF / fiscal</span>
-            </li>
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              <span>Sécuriser la conformité (Qualiopi · RGPD)</span>
-            </li>
-            <li class="cap-pill">
-              <svg class="cap-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-              <span>Coder la plateforme qui automatise</span>
-            </li>
-          </ul>
-
-          <p class="hero-proof">
-            <span class="hp-num">PME de ~30 personnes</span> dirigée (ex-DG) ·
-            <span class="hp-num">~167 000 lignes</span> codées en solo ·
-            <span class="hp-num">Centre Qualiopi</span> piloté
-          </p>
-
           <div class="hero-cta">
             <button type="button" class="btn btn-primary" onclick="openAssistant()">Discuter avec mon assistant</button>
             <a class="btn btn-secondary" href="#contact">Discutons de votre projet →</a>
@@ -473,6 +444,11 @@
             comptabilité, RH, stratégie, modélisation économique et restructuration. Une maîtrise forgée dans
             l'opérationnel, pas dans la théorie.
           </p>
+          <ul class="pillar-caps">
+            <li>Créer &amp; structurer une société (FR · TR)</li>
+            <li>Piloter la croissance &amp; la finance</li>
+            <li>Superviser la comptabilité</li>
+          </ul>
         </article>
 
         <article class="pillar">
@@ -486,6 +462,10 @@
             (RNCP/RS, France Compétences). Je construis des dispositifs propres, crédibles et auditables face aux
             administrations et aux auditeurs.
           </p>
+          <ul class="pillar-caps">
+            <li>Traverser un contrôle URSSAF / fiscal</li>
+            <li>Sécuriser la conformité (Qualiopi · RGPD)</li>
+          </ul>
         </article>
 
         <article class="pillar">
@@ -499,6 +479,10 @@
             applicative. Auteur solo et full-stack de l'ensemble de mes réalisations numériques, de la conception
             à la mise en production.
           </p>
+          <ul class="pillar-caps">
+            <li>Coder la plateforme qui automatise</li>
+            <li>Automatiser les process métier</li>
+          </ul>
         </article>
       </div>
 

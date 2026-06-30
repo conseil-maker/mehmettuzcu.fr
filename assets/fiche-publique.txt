@@ -27,7 +27,7 @@ Expertise EdTech rare combinant trois dimensions complémentaires : maîtrise r�
 
 **Identité courte**
 - Mehmet TUZCU.
-- Dirigeant-développeur full-stack bilingue et biculturel France-Turquie (turc langue maternelle, français C1), opérant des deux côtés de la frontière.
+- Dirigeant-développeur full-stack bilingue et biculturel France-Turquie (turc langue maternelle, français), opérant des deux côtés de la frontière.
 - Basé en Alsace (Grand Est).
 
 **Proposition de valeur**
@@ -48,12 +48,12 @@ Fondateur et développeur full-stack de Reflektif, consultant en transformation,
 
 **Récit biculturel et résilience**
 - D'origine turque et biculturel France-Turquie, arrivé en France à l'âge de 10 ans, Mehmet TUZCU a fait de cette double culture un atout stratégique de pont entre les deux écosystèmes.
-- Arrivé en France sans parler un mot de français et devenu opérationnel en français jusqu'au niveau C1, Mehmet tire de cette trajectoire une résilience et une capacité d'adaptation qui structurent sa démarche : comprendre la réalité de terrain avant de la traduire en système.
+- Arrivé en France sans parler un mot de français et devenu pleinement opérationnel en français, Mehmet tire de cette trajectoire une résilience et une capacité d'adaptation qui structurent sa démarche : comprendre la réalité de terrain avant de la traduire en système.
 - Parcours atypique et résilient — d'un terrain opérationnel exigeant vers le développement full-stack et la fondation d'une startup EdTech — conférant une capacité rare d'analyse systémique liant besoin métier, conformité et technologie.
 - Mehmet aborde le travail comme une édification : chaque projet est une brique d'un édifice plus grand.
 
 **Langues**
-Bilingue turc (langue maternelle) et français (C1), Mehmet pilote simultanément les deux versants francophone et turcophone de ses projets et dialogue avec les écosystèmes institutionnels des deux pays.
+Bilingue turc (langue maternelle) et français, Mehmet pilote simultanément les deux versants francophone et turcophone de ses projets et dialogue avec les écosystèmes institutionnels des deux pays.
 
 **Formation**
 - BTS Comptabilité et Gestion (Lycée Robert Schuman, Strasbourg, 2011-2013).

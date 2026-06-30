@@ -6,7 +6,7 @@
 // CORS limité à mehmettuzcu.fr. Aucune clé en dur.
 
 const FICHE_URL = "https://mehmettuzcu.fr/assets/fiche-publique.txt";
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-sonnet-4-6";
 const ALLOWED = ["https://mehmettuzcu.fr", "https://www.mehmettuzcu.fr"];
 
 // Repli minimal si la fiche live est injoignable (rare).

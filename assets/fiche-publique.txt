@@ -59,7 +59,7 @@ Bilingue turc (langue maternelle) et français (C1), Mehmet pilote simultanémen
 - BTS Comptabilité et Gestion (Lycée Robert Schuman, Strasbourg, 2011-2013).
 - Licence Gestion d'Entreprise (CNAM Alsace, 2013-2014).
 - Certification TOSA DigiComp 751/1000 (valide 2024-2027) — une mesure opposable des compétences numériques.
-- Développeur autodidacte (React, TypeScript, Supabase, IA) : Mehmet a conçu et réalisé en solo la plateforme Reflektif (environ 167 000 lignes de code vérifiées en dépôt).
+- Développeur autodidacte (React, TypeScript, Supabase, IA) : Mehmet a conçu et codé en solo la première version de Reflektif (environ 167 000 lignes de code vérifiées en dépôt) — plateforme aujourd'hui développée en binôme avec son cofondateur Mikail Lekesiz.
 
 **M&G Habitat (2017-2023)**
 - De février 2017 à janvier 2023, Mehmet TUZCU a évolué au sein de M&G Habitat, une PME du BTP française (rénovation énergétique, façades, isolation thermique par l'extérieur, toiture) d'une trentaine de personnes — l'expérience fondatrice de son parcours.
@@ -79,7 +79,7 @@ Chez Netz Informatique (ESN + centre de formation Qualiopi à Haguenau), Mehmet 
 
 ### Reflektif (projet phare)
 - Reflektif est une plateforme EdTech d'orientation professionnelle augmentée par l'IA, nativement bilingue français/turc, dont Mehmet TUZCU porte la conception produit, l'architecture technique et la direction pédagogique en tant que développeur full-stack.
-- Fondateur et développeur de Reflektif, plateforme SaaS d'orientation professionnelle par IA (France + Turquie), conçue et codée en solo, en production réelle depuis février 2026.
+- Fondateur et développeur de Reflektif, plateforme SaaS d'orientation professionnelle par IA (France + Turquie), conçue et codée en solo à l'origine et désormais développée en binôme avec son cofondateur Mikail Lekesiz, en production réelle depuis février 2026.
 - Reflektif est en production active depuis février 2026, hébergée en Europe (Francfort), accessible sur www.reflektif.net et ses portails étudiants FR/TR.
 
 **Genèse**
@@ -146,7 +146,7 @@ Pilotage de PME (jusqu'à 30 personnes), finance, comptabilité, RH, stratégie,
 Qualiopi, QualiRépar, CPF/OPCO, RGPD (France), KVKK (Turquie), DPIA, droit du travail, ingénierie de subventions publiques.
 
 **Développement logiciel & IA**
-TypeScript/React full-stack, tRPC, PostgreSQL/Supabase, IA générative (Vertex AI/Gemini), RAG & embeddings, no-code/low-code, CI/CD, sécurité applicative. Auteur solo et full-stack de l'ensemble de ses réalisations numériques, de la conception à la mise en production.
+TypeScript/React full-stack, tRPC, PostgreSQL/Supabase, IA générative (Vertex AI/Gemini), RAG & embeddings, no-code/low-code, CI/CD, sécurité applicative. Concepteur et développeur full-stack de ses réalisations numériques, de la conception à la mise en production : il en a bâti seul les premières versions, et développe désormais Reflektif en binôme avec son cofondateur Mikail Lekesiz.
 
 **Ingénierie de certification professionnelle (RNCP/RS)**
 Dépôt d'un dossier de certification professionnelle auprès de France Compétences (ingénierie de certification IA) et pilotage Qualiopi (renouvellement, extension bilan de compétences, audits de surveillance). Maîtrise du référentiel Qualiopi (32 indicateurs du RNQ, spécificités des bilans de compétences) et sécurisation de l'éligibilité aux financements publics (CPF, OPCO).
@@ -195,7 +195,7 @@ Biculturalité France-Turquie (langue, réglementation, réseaux) permettant d'o
 > Tous les chiffres de cette section sont vérifiés en base. Ils reflètent l'usage produit et la profondeur technique — distincts du chiffre d'affaires.
 
 **Plateforme Reflektif — profondeur technique**
-- Plateforme SaaS de ≈167 000 lignes de TypeScript/TSX en production (831 fichiers, 2 251 commits, 231 fichiers de documentation), développée et maintenue en solo, active quotidiennement.
+- Plateforme SaaS de ≈167 000 lignes de TypeScript/TSX en production (831 fichiers, 2 251 commits, 231 fichiers de documentation), dont la première version a été conçue et codée en solo, désormais développée en binôme avec son cofondateur Mikail Lekesiz, active quotidiennement.
 - Reflektif représente un monolithe modulaire d'environ 167 000 lignes de code (1 308 fichiers), 71 tables PostgreSQL toutes protégées par RLS, 231 fichiers de documentation et plus de 2 250 commits.
 - Stack de production moderne : React 19/Vite (front), Node 22/Express 5/tRPC v11 sur Railway (back), Supabase PostgreSQL 17.6 hébergé en Europe avec Row-Level Security sur 100 % des tables, authentification applicative custom.
 - Moteur IA générative reposant sur Vertex AI EU (Gemini 2.5-flash) hébergé en Europe, avec embeddings et RAG, et une observabilité IA native (traçage des appels LLM, scrubbing des données personnelles) — souveraineté et conformité by design.
@@ -236,7 +236,7 @@ Reflektif compte plus de 1 200 utilisateurs (pilotes universitaires turcs et pre
 - Bilan-Easy repose sur React/TypeScript, une base Supabase dédiée (12 tables avec RLS), une génération PDF, l'intégration de l'API Wedof pour la gestion administrative, et un déploiement Vercel/Cloudflare avec CI/CD.
 
 **Synthèse de capacité**
-Reflektif démontre un profil rare d'architecte de systèmes complets : en solo, codage full-stack, conception scientifique (psychométrie + matching mathématique), intégration d'un référentiel métiers international, conformité multi-juridictionnelle et structuration business bi-nationale.
+Reflektif démontre un profil rare d'architecte de systèmes complets : conception et codage full-stack de la première version en solo (désormais développée en binôme avec Mikail Lekesiz), conception scientifique (psychométrie + matching mathématique), intégration d'un référentiel métiers international, conformité multi-juridictionnelle et structuration business bi-nationale.
 
 ---
 

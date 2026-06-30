@@ -162,6 +162,22 @@
   }
   .chip:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px)}
   .chip:active{transform:translateY(0)}
+  /* Pistes de suivi après chaque réponse (boucle guidée) */
+  .followups{
+    align-self:flex-start;display:flex;flex-wrap:wrap;gap:8px;
+    margin:-4px 0 2px 38px;animation:rise .28s ease both;
+  }
+  .followups .fu-lbl{
+    width:100%;font-size:11px;color:var(--ink-faint);font-weight:600;
+    letter-spacing:.3px;margin:0 0 1px;
+  }
+  .followup-chip{
+    border:1px solid var(--accent-line);background:#fff;color:var(--accent);
+    font-family:inherit;font-size:12.5px;font-weight:600;line-height:1.2;
+    padding:6px 12px;border-radius:999px;cursor:pointer;transition:.15s;
+  }
+  .followup-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-1px)}
+  .followup-chip:active{transform:translateY(0)}
   /* Input */
   .composer{
     display:flex;gap:10px;padding:14px 16px;
@@ -581,11 +597,58 @@ function setBusy(state){
   sendBtn.disabled = state;
 }
 
+/* =========================================================================
+   PISTES DE SUIVI (boucle guidée) — l'assistant termine chaque réponse par
+   un bloc [[Piste 1 | Piste 2 | …]] qu'on extrait du texte et qu'on affiche
+   en boutons cliquables. La personne n'a qu'à cliquer pour continuer.
+   ========================================================================= */
+const FOLLOWUP_DEFAULT = [
+  "Sa singularité par rapport à d'autres ?",
+  "Est-il fait pour ma mission ?",
+  "Le lien avec son parcours de terrain",
+  "Parle-moi de Reflektif"
+];
+
+function parseSuggestions(text){
+  const s = String(text||"");
+  const m = s.match(/\[\[([^\]]+)\]\]\s*$/);
+  if(!m) return { clean: s.trim(), sug: [] };
+  const sug = m[1].split("|").map(x=>x.trim()).filter(Boolean).slice(0,4);
+  return { clean: s.slice(0, m.index).trim(), sug };
+}
+
+function clearFollowups(){
+  const olds = messagesEl.querySelectorAll(".followups");
+  for(let i=0;i<olds.length;i++) olds[i].remove();
+}
+
+function renderFollowups(sug){
+  clearFollowups();
+  const list = (sug && sug.length) ? sug.slice(0,4) : FOLLOWUP_DEFAULT.slice(0,3);
+  const box = document.createElement("div");
+  box.className = "followups";
+  const lbl = document.createElement("span");
+  lbl.className = "fu-lbl";
+  lbl.textContent = "Pour continuer :";
+  box.appendChild(lbl);
+  list.forEach(s=>{
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "followup-chip";
+    chip.textContent = s;
+    chip.addEventListener("click", ()=>handleSend(s));
+    box.appendChild(chip);
+  });
+  messagesEl.appendChild(box);
+  scrollToBottom();
+}
+
 async function handleSend(rawText){
   const q = (rawText||"").trim();
   if(!q || busy) return;
   setBusy(true);
   if(startersEl) startersEl.style.display = "none";   // coherent avec l'etat « conversation »
+  clearFollowups();                                    // les anciennes pistes disparaissent dès qu'on agit
   addBubble("visitor", renderContent(q));
   inputEl.value = "";
 
@@ -607,10 +670,12 @@ async function handleSend(rawText){
   }
 
   typing.remove();
+  const parsed = parseSuggestions(text);               // sépare la réponse des pistes [[…]]
   const bubble = addBubble("bot", "");
-  await typeInto(bubble, text);
-  history.push({ role:"assistant", content:text });
-  recordMessage("assistant", text);   // persistance du tour assistant
+  await typeInto(bubble, parsed.clean);
+  history.push({ role:"assistant", content:parsed.clean });
+  recordMessage("assistant", parsed.clean);            // on persiste la réponse sans le bloc de pistes
+  renderFollowups(parsed.sug);                         // boucle guidée : toujours des pistes cliquables
   setBusy(false);
   inputEl.focus();
 }
@@ -663,6 +728,7 @@ function restoreConversation(){
   });
   // On masque les amorces des qu'une vraie conversation existe.
   if(startersEl) startersEl.style.display = "none";
+  if(chatLog.length) renderFollowups([]);   // après un rechargement, on relance la boucle guidée
   scrollToBottom();
 }
 

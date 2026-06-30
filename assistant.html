@@ -287,7 +287,7 @@
    le mode LLM live. Vide => repli sur /api/chat (404 sur GitHub Pages),
    donc bascule sur le moteur LOCAL. Voir cloudflare-worker/DEPLOY-WORKER.md.
    ========================================================================= */
-const CHAT_ENDPOINT = "https://mehmettuzcu.app.n8n.cloud/webhook/assistant-mehmet";  // n8n → Gemini (repli moteur local si erreur/429)
+const CHAT_ENDPOINT = "https://assistant-mehmet.conseil-40b.workers.dev/";  // Cloudflare Worker → Claude Opus 4.8 (repli moteur local si erreur/429)
 
 /* =========================================================================
    BASE DE CONNAISSANCES — source unique de vérité de l'assistant.

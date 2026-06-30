@@ -15,7 +15,7 @@ const FALLBACK_SYSTEM =
   "réunissant direction d'entreprise/BTP, conformité institutionnelle (Qualiopi, RGE/Qualibat, RGPD/KVKK) " +
   "et développement full-stack IA, fondateur-développeur de la plateforme EdTech Reflektif. " +
   "Réponds brièvement, en français, à la troisième personne, sans rien inventer. " +
-  "Si tu n'as pas l'information en accès public, oriente vers mehmet@reflektif.net.";
+  "Si tu n'as pas l'information en accès public, oriente vers conseil@mehmettuzcu.fr.";
 
 async function getSystem() {
   try {

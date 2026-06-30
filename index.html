@@ -894,6 +894,12 @@
             <label for="message">Votre projet</label>
             <textarea id="message" name="message" placeholder="Décrivez votre contexte, vos enjeux et vos objectifs…" required></textarea>
           </div>
+          <div class="field field-consent" id="attachField" hidden>
+            <label class="consent-label" for="attachChat">
+              <input type="checkbox" id="attachChat" name="attachChat" />
+              <span>Joindre ma conversation avec l'assistant à ma demande — ainsi Mehmet sait déjà de quoi vous souhaitez parler.</span>
+            </label>
+          </div>
           <div class="field field-consent">
             <label class="consent-label" for="consent">
               <input type="checkbox" id="consent" name="consent" required />
@@ -970,8 +976,25 @@
     var closeBtn = __asDrawer.querySelector('.drawer-close');
     if (closeBtn) closeBtn.focus();
   }
+  var __dlAsked = false;
   function closeAssistant() {
     if (!__asDrawer) return;
+    // À la fermeture, proposer (une fois) de télécharger la conversation.
+    if (!__dlAsked) {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(log) && log.length >= 2) {
+          __dlAsked = true;
+          if (window.confirm('Souhaitez-vous télécharger votre conversation (PDF) avant de fermer ? Sinon, elle reste enregistrée et vous la retrouverez en rouvrant l’assistant.')) {
+            if (__asIframe && __asIframe.contentWindow) {
+              __asIframe.contentWindow.postMessage({ type: 'mt-download' }, location.origin);
+            }
+            return; // on garde le panneau ouvert le temps du téléchargement
+          }
+        }
+      } catch (_e) {}
+    }
     __asDrawer.classList.remove('open');
     __asDrawer.setAttribute('aria-hidden', 'true');
     if (__asBackdrop) {
@@ -1038,14 +1061,33 @@
     if (!form) return;
     var confirmBox = document.getElementById('formConfirm');
 
-    function sendMailto(nom, org, email, tel, msg) {
+    // Transcription de la conversation avec l'assistant (même origine -> localStorage partagé).
+    function getChatTranscript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) {
+          return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + m.text;
+        }).join('\r\n\r\n');
+      } catch (_e) { return ''; }
+    }
+
+    // L'option « joindre ma conversation » n'apparaît que si une conversation existe.
+    (function revealAttach() {
+      var field = document.getElementById('attachField');
+      if (field && getChatTranscript()) field.hidden = false;
+    })();
+
+    function sendMailto(nom, org, email, tel, msg, transcript) {
       var subject = 'Demande de contact — ' + nom + (org ? ' (' + org + ')' : '');
       var body =
         'Nom : ' + nom + '\r\n' +
         'Entreprise : ' + org + '\r\n' +
         'Email : ' + email + '\r\n' +
         'Téléphone : ' + tel + '\r\n\r\n' +
-        msg;
+        msg +
+        (transcript ? '\r\n\r\n— — — Conversation avec l\'assistant — — —\r\n' + transcript : '');
       window.location.href =
         'mailto:conseil@mehmettuzcu.fr?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
@@ -1065,9 +1107,12 @@
       var email = (form.email.value || '').trim();
       var tel = (form.tel.value || '').trim();
       var msg = (form.message.value || '').trim();
+      var attach = form.attachChat && form.attachChat.checked;
+      var transcript = attach ? getChatTranscript() : '';
 
       if (FORM_ENDPOINT) {
         var data = new FormData(form);
+        if (transcript) data.append('conversation_assistant', transcript);
         fetch(FORM_ENDPOINT, {
           method: 'POST',
           body: data,
@@ -1075,11 +1120,11 @@
         })
           .then(function (res) {
             if (res.ok) showConfirmation();
-            else sendMailto(nom, org, email, tel, msg);
+            else sendMailto(nom, org, email, tel, msg, transcript);
           })
-          .catch(function () { sendMailto(nom, org, email, tel, msg); });
+          .catch(function () { sendMailto(nom, org, email, tel, msg, transcript); });
       } else {
-        sendMailto(nom, org, email, tel, msg);
+        sendMailto(nom, org, email, tel, msg, transcript);
       }
     });
   })();

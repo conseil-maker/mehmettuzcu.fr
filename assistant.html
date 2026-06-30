@@ -597,6 +597,14 @@ function setBusy(state){
   sendBtn.disabled = state;
 }
 
+/* Garde-fou anti-abus : limite quotidienne de questions par navigateur.
+   (Protège le service contre les usages malveillants ; non infaillible —
+    un plafond serveur par IP, côté Cloudflare, le complète si besoin.) */
+const DAILY_LIMIT = 50;
+function quotaKey(){ return "mt_q_" + new Date().toISOString().slice(0,10); }
+function quotaUsed(){ try{ return parseInt(localStorage.getItem(quotaKey())||"0",10)||0; }catch(_e){ return 0; } }
+function quotaBump(){ try{ localStorage.setItem(quotaKey(), String(quotaUsed()+1)); }catch(_e){} }
+
 /* =========================================================================
    PISTES DE SUIVI (boucle guidée) — l'assistant termine chaque réponse par
    un bloc [[Piste 1 | Piste 2 | …]] qu'on extrait du texte et qu'on affiche
@@ -646,6 +654,17 @@ function renderFollowups(sug){
 async function handleSend(rawText){
   const q = (rawText||"").trim();
   if(!q || busy) return;
+  if(quotaUsed() >= DAILY_LIMIT){                       // plafond quotidien atteint
+    if(startersEl) startersEl.style.display = "none";
+    clearFollowups();
+    addBubble("visitor", renderContent(q));
+    addBubble("bot", renderContent(
+      "Vous avez atteint la limite de " + DAILY_LIMIT + " questions pour aujourd'hui — une simple mesure " +
+      "pour préserver le service. Revenez demain, ou pour échanger directement avec Mehmet : conseil@mehmettuzcu.fr."
+    ));
+    return;
+  }
+  quotaBump();
   setBusy(true);
   if(startersEl) startersEl.style.display = "none";   // coherent avec l'etat « conversation »
   clearFollowups();                                    // les anciennes pistes disparaissent dès qu'on agit
@@ -701,6 +720,8 @@ window.addEventListener("message", e=>{
   if(e.origin !== window.location.origin) return;
   if(e.data && e.data.type === "mt-ask" && typeof e.data.q === "string" && e.data.q.trim()){
     handleSend(e.data.q);
+  } else if(e.data && e.data.type === "mt-download"){
+    handleExport();   // téléchargement PDF demandé depuis la page hôte (avant fermeture)
   }
 });
 

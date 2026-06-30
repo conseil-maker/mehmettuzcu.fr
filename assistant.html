@@ -631,6 +631,14 @@ formEl.addEventListener("submit", e=>{
   handleSend(inputEl.value);
 });
 
+// Question envoyée depuis la page hôte (pistes du hero) — même origine uniquement.
+window.addEventListener("message", e=>{
+  if(e.origin !== window.location.origin) return;
+  if(e.data && e.data.type === "mt-ask" && typeof e.data.q === "string" && e.data.q.trim()){
+    handleSend(e.data.q);
+  }
+});
+
 // Texte d'accueil (affiche uniquement quand il n'y a aucun historique).
 const WELCOME_TEXT =
   "Bonjour ! Je connais Mehmet en profondeur — son parcours, ses projets, la science de Reflektif, " +

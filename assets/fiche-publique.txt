@@ -271,4 +271,58 @@ Mehmet s'est formé au Lycée Robert Schuman et au CNAM Alsace, et collabore ave
 - reflektif.net (plateforme d'orientation IA), avec portails étudiants etudiant.reflektif.net / ogrenci.reflektif.net.
 - Contact professionnel : conseil@mehmettuzcu.fr · site mehmettuzcu.fr.
 
+
+
+## REFLEKTIF — DOSSIER DÉTAILLÉ (produit, science, architecture, modèle)
+
+REFLEKTIF (DÉTAILLÉ)
+
+VUE D'ENSEMBLE & MISSION
+
+Reflektif est une plateforme web d'orientation scolaire et professionnelle « IA-First » qui combine des instruments psychométriques validés depuis plus de cinquante ans avec un système d'intelligence artificielle conversationnelle, sous supervision humaine de conseillers. Sa mission répond directement à la crise de l'orientation : un accompagnement de qualité est aujourd'hui soit très limité dans le système public, soit réservé aux familles pouvant s'offrir un coaching privé coûteux, ce qui creuse les inégalités. Reflektif vise à démocratiser cet accès, à un coût plus abordable et avec une disponibilité 24h/24. La plateforme ne se contente pas de restituer des scores : elle produit un accompagnement personnalisé fondé sur une analyse croisée, là où l'équivalent traditionnel mobiliserait plusieurs professionnels qualifiés sur de nombreuses heures par personne.
+
+LA SCIENCE & L'ALGORITHME
+
+Le socle scientifique repose sur trois instruments psychométriques validés : le modèle RIASEC de John Holland (six types d'intérêts — Réaliste, Investigateur, Artistique, Social, Entreprenant, Conventionnel), le Big Five / OCEAN de Costa et McCrae (Ouverture, Conscienciosité, Extraversion, Agréabilité, Stabilité émotionnelle) et un inventaire de valeurs professionnelles inspiré des travaux de Donald Super et Shalom Schwartz. Le parcours comprend 110 questions au total : 30 pour le RIASEC (échelle de Likert, profil à trois lettres), 50 pour le Big Five (10 par facteur, avec items inversés pour limiter le biais d'acquiescement) et 30 pour les valeurs (réparties en catégories intrinsèques, extrinsèques, relationnelles et organisationnelles). Le scoring est automatique et instantané.
+
+Le moteur de recommandation, SmartMatch (Career Matching Engine v2), réalise une analyse tridimensionnelle croisant ce que l'utilisateur aime faire (RIASEC), qui il est (Big Five) et ce qui compte pour lui (Valeurs). Il fonctionne en trois étapes : un pré-filtre RIASEC qui retient les meilleurs candidats — combinant similarité cosinus centrée (forme du profil) et distance euclidienne (proximité absolue) —, un re-scoring multi-facteurs intégrant Big Five et Valeurs, puis un re-classement final par l'IA produisant une liste de métiers les plus compatibles. La pondération privilégie le RIASEC, puis le Big Five et les valeurs, avec un ajustement qualitatif borné issu du contexte conversationnel. Le moteur reste déterministe et explicable : l'IA n'intervient que pour un ré-ordonnancement marginal.
+
+LE PRODUIT & LE PARCOURS
+
+Après chaque test, l'utilisateur entre dans un débriefing conversationnel : la fonctionnalité « Living Tests » transforme un test statique en expérience interactive où l'IA pose 5 à 7 questions de suivi pour explorer le « pourquoi » derrière les réponses. Ce dispositif s'appuie sur des cadres cliniques reconnus — la découverte guidée de Christine Padesky, la technique OARS de l'entretien motivationnel de Miller et Rollnick, l'approche narrative de Mark Savickas et la thérapie brève orientée solutions de de Shazer et Berg. L'entretien suit quatre phases (accueil, exploration, connexion, synthèse) : chaque message de l'IA commence par une reformulation, se termine par une question ouverte, et ne répète jamais deux fois le même type de question. Ces échanges génèrent des « facteurs d'ajustement » qui affinent le scoring — une préférence pour le travail individuel, par exemple, réduit le poids des métiers très sociaux.
+
+Le « Système Caméléon » adapte automatiquement le ton, le vocabulaire et le niveau d'adresse (tutoiement ou vouvoiement) selon quatre profils — collégien, lycéen, étudiant du supérieur, adulte —, tout en conservant la même rigueur scientifique. Le profil est déterminé par une logique à deux niveaux (niveau scolaire d'abord, puis âge), et s'inspire des travaux de Piaget, Vygotsky et Savickas.
+
+Le profil multidimensionnel est confronté à un catalogue de 928 fiches métier bilingues français/turc, toutes dotées de profils psychométriques RIASEC, Big Five et Valeurs complets (100 % de couverture), réparties en 22 catégories standardisées et 4 niveaux d'éducation. Chaque fiche détaille compétences douces et techniques, employeurs types, parcours de formation, progression de carrière, tâches quotidiennes, risque d'automatisation et impact de l'IA. Toutes portent un code O*NET, une partie un code ESCO européen. Un score de compatibilité sur 100 est calculé pour chaque métier ; l'utilisateur peut les mettre en favoris et les comparer.
+
+Le livrable final est un rapport de synthèse diagnostique au format PDF, produit par un agent IA fondé sur une architecture RAG qui agrège résultats de tests, débriefings, favoris, documents téléversés (bulletins, CV) et données géographiques. Structuré en six sections (synthèse du profil, intérêts, personnalité, valeurs, recommandations de carrière, plan d'action) et adapté au profil Caméléon, il suit un workflow de validation brouillon → validé → publié.
+
+L'HUMAIN DANS LA BOUCLE
+
+Reflektif positionne l'IA comme un complément du conseiller, jamais un remplacement. Le portail conseiller permet de suivre en temps réel la progression de chaque utilisateur, d'inviter des clients par e-mail (rattachement automatique), de gérer les étudiants en masse et d'assurer un suivi par cohorte avec indicateurs agrégés. Les conseillers (« Architectes ») valident et enrichissent les rapports : chaque document passe par les statuts brouillon puis validé avant publication, garantissant une supervision humaine systématique. En automatisant l'administration des tests, le scoring, l'analyse croisée et la rédaction, la plateforme libère le temps du professionnel pour l'écoute.
+
+ARCHITECTURE & CONFORMITÉ
+
+Reflektif est une application full-stack TypeScript moderne : interface web réactive côté client et API typée de bout en bout côté serveur, avec base de données relationnelle. La sécurité au niveau des lignes (Row-Level Security) est appliquée sur l'ensemble des tables, en complément d'un contrôle de propriété côté application.
+
+L'ensemble du traitement IA et des données est maintenu à l'intérieur de l'Union européenne, afin d'assurer la conformité RGPD/KVKK. Les modèles d'IA sont opérés sous conditions entreprise (pas d'entraînement sur les données, pas de revue humaine), encadrées par un avenant de traitement des données (DPA). Une conception garantit qu'à défaut de configuration conforme, le service ne bascule jamais hors UE. Les données psychométriques et les transcriptions sont traitées comme données de catégorie particulière (RGPD Art. 9 / KVKK), avec cartographie des données personnelles documentée, enregistrement des consentements, demandes d'exercice de droits, suppression de compte et anonymisation. Les documents téléversés sont automatiquement extraits, anonymisés, segmentés et vectorisés pour alimenter le RAG. Les paiements par carte ne transitent jamais par les serveurs de Reflektif (prestataires certifiés, 3-D Secure). Le contenu des conversations et des réponses IA n'est pas conservé à des fins de supervision technique.
+
+Reflektif applique enfin des principes éthiques explicites : caractère non diagnostique (aucun diagnostic médical ou clinique), transparence des résultats présentés comme des indications, confidentialité et consentement éclairé sur l'usage de l'IA.
+
+MODÈLE & DIFFUSION
+
+La plateforme est conçue comme un écosystème modulaire partageant le même socle scientifique et le même moteur IA : le module Étudiant est actif (collégiens 11-15 ans, lycéens 15-18 ans, étudiants du supérieur 18-25 ans), tandis que des modules sont en développement ou planifiés pour les adultes en reconversion (Career), les employeurs et RH (HR) et les personnes en situation de handicap (Accessible). Multilingue (français, turc, anglais, avec adaptation culturelle au-delà de la simple traduction), Reflektif couvre deux systèmes éducatifs distincts via son positionnement double TR-FR (Parcoursup en France, examens LGS/YKS en Turquie).
+
+Le modèle B2C est freemium (niveau gratuit donnant accès au RIASEC et à l'exploration de base ; niveaux payants débloquant l'ensemble des tests, le rapport et l'accompagnement complet). Le modèle B2B s'adresse aux établissements scolaires, centres de formation, organismes d'orientation et universités (accès complet, portail conseiller, gestion en masse, suivi par cohorte, rapports institutionnels agrégés), avec des usages institutionnels envisagés. La plateforme est également proposable en marque blanche auprès des cabinets et institutions, son architecture multi-tenant assurant l'isolation des données par organisation et la personnalisation de marque.
+
+Reflektif est édité par deux sociétés sœurs : Reflektif Bilişim, installée au Technopark de l'Université Istanbul Sabahattin Zaim (IZÜ Teknopark), et REFLEKTIF FRANCE pour le marché européen.
+
+ROADMAP
+
+La feuille de route publique prévoit le concept de « Jumeau Numérique » (un profil étudiant s'enrichissant continuellement pour des analyses de plus en plus fines), l'extension de la famille d'agents IA (Agent Diagnostic implémenté, Agent Marché et Agent Admission à venir), l'enrichissement des codes ROME pour le croisement avec les données du marché de l'emploi, l'ajout de codes ESCO complets et des intégrations institutionnelles (authentification fédérée, interopérabilité avec les environnements numériques d'apprentissage) pour le segment universitaire et entreprise. Sont également prévus un copilote IA pour les conseillers (questions d'entretien personnalisées, briefing dynamique par étudiant, alertes sur les étudiants inactifs), une évolution vers un assistant agentique proactif, un suivi longitudinal avec ré-évaluation automatique, et des micro-certifications / badges numériques (type Open Badges). Le module Career, en développement pour les adultes en reconversion, s'articule avec les contextes de l'accompagnement à l'emploi et du bilan de compétences.
+
+PREUVES
+
+Reflektif est une plateforme aboutie et déployée, dont le développement suit des standards d'ingénierie exigeants : tests automatisés étendus, parcours de bout en bout (élève, conseiller, administrateur, paiement) couverts, sécurité au niveau des lignes appliquée à l'ensemble des tables et vérifiée par des tests de régression, et chaîne d'intégration continue imposant typage, qualité de code, tests et build avant toute mise en production. Le catalogue compte 928 fiches métier bilingues. Les données personnelles sont maintenues dans l'Union européenne. La plateforme fait l'objet d'une expérimentation pilote dans un cadre universitaire, et sa technologie de matching peut accompagner des dispositifs d'orientation menés en partenariat, notamment dans le cadre de programmes européens de développement des compétences numériques.
+
 ==================== FIN DE LA BASE ====================

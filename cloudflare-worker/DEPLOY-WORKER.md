@@ -1,115 +1,44 @@
-# Déployer l'assistant IA (Cloudflare Worker) — guide pas-à-pas
+# Assistant mehmettuzcu.fr — proxy Claude via Cloudflare Worker
 
-Le site **mehmettuzcu.fr** est statique (GitHub Pages). Pour activer l'assistant en
-**mode LLM live**, on déploie un petit serveur autonome — un **Cloudflare Worker** —
-qui reçoit la question du visiteur, interroge Gemini avec la fiche publique de Mehmet,
-et renvoie la réponse. Le site l'appelle « à distance » (cross-origin).
+Le site est statique (GitHub Pages) : la clé Anthropic ne peut pas vivre dans le
+navigateur. Ce Worker Cloudflare la garde côté serveur (en **Secret**), appelle
+Claude (Anthropic) et renvoie `{ "answer": "..." }`. CORS limité à mehmettuzcu.fr.
 
-> Rien à installer côté site. Le Worker est indépendant. Si Gemini est indisponible,
-> l'assistant bascule automatiquement sur son **repli local** : il ne tombe jamais.
+## Déploiement — Dashboard Cloudflare (recommandé)
 
-Vous avez besoin de :
-- un compte **Cloudflare** (gratuit) ;
-- une **clé API Gemini** (Google AI Studio → *Get API key*).
+1. **Récupérer le code** : copier tout le contenu de `worker.js` (bouton « Copy raw file » sur GitHub).
+2. **Créer le Worker** : [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages**
+   → **Create** → **Create Worker** → nommer ex. `assistant-mehmet` → **Deploy**.
+3. **Coller le code** : **Edit code** → tout sélectionner / supprimer → coller `worker.js` → **Deploy**.
+4. **Ajouter la clé en Secret** : Worker → **Settings** → **Variables and Secrets** → **Add** →
+   type **Secret**, nom **`ANTHROPIC_API_KEY`**, valeur = la clé `sk-ant-…` → **Save** (re-Deploy si demandé).
+5. **URL du Worker** : de la forme `https://assistant-mehmet.<sous-domaine>.workers.dev`.
+   → **Communiquer cette URL** pour la brancher dans `assistant.html` (`CHAT_ENDPOINT`).
 
-Le fichier à déployer est : **`worker.js`** (dans ce même dossier).
-
----
-
-## Option A — Tableau de bord Cloudflare (recommandé, sans ligne de commande)
-
-1. Connectez-vous sur **https://dash.cloudflare.com**.
-2. Menu de gauche → **Workers & Pages**.
-3. Cliquez **Create** (Créer) → onglet **Workers** → **Create Worker**.
-4. Donnez-lui un nom, par exemple **`mehmet-assistant`** → **Deploy** (un Worker de
-   démonstration est créé).
-5. Cliquez **Edit code** (Modifier le code). Dans l'éditeur, **effacez tout** le contenu
-   par défaut et **collez l'intégralité du fichier `worker.js`** de ce dossier.
-6. Cliquez **Deploy** (Déployer) en haut à droite.
-7. Ajoutez la clé Gemini en **Secret** (jamais en clair dans le code) :
-   - Revenez à la page du Worker → onglet **Settings** (Paramètres).
-   - Section **Variables and Secrets** (Variables et secrets) → **Add** (Ajouter).
-   - Type : **Secret** (pas « Text »).
-   - **Name / Nom** : `GEMINI_API_KEY`
-   - **Value / Valeur** : votre clé Gemini.
-   - **Save** (Enregistrer) puis **Deploy** si demandé.
-8. Récupérez **l'URL du Worker**. Elle est de la forme :
-   ```
-   https://mehmet-assistant.<votre-sous-domaine>.workers.dev
-   ```
-   (visible en haut de la page du Worker, ou dans **Settings → Domains & Routes**).
-
-➡️ **Notez cette URL : il faut la communiquer pour brancher l'assistant** (voir plus bas).
-
----
-
-## Option B — En ligne de commande (wrangler)
-
-Depuis ce dossier (`cloudflare-worker/`), dans un terminal :
+## Test (après déploiement)
 
 ```bash
-# 1. Déployer le Worker (vous serez invité à vous connecter la 1re fois)
-npx wrangler deploy worker.js
-
-# 2. Enregistrer la clé Gemini en secret (on vous demandera de la coller)
-npx wrangler secret put GEMINI_API_KEY
-```
-
-`wrangler` affiche l'URL publique du Worker à la fin du déploiement
-(`https://mehmet-assistant.<votre-sous-domaine>.workers.dev`).
-
-> Si `wrangler` demande un fichier `wrangler.toml`, vous pouvez en créer un minimal :
-> ```toml
-> name = "mehmet-assistant"
-> main = "worker.js"
-> compatibility_date = "2024-11-01"
-> ```
-
----
-
-## Tester le Worker
-
-Une fois déployé, testez-le directement (remplacez `<URL>` par l'URL de votre Worker) :
-
-```bash
-curl -X POST <URL> \
+curl -X POST <URL_DU_WORKER> \
   -H "Content-Type: application/json" \
+  -H "Origin: https://mehmettuzcu.fr" \
   -d '{"message":"Qui es-tu ?"}'
 ```
 
-Réponse attendue : un JSON `{"answer":"..."}` où Mehmet est présenté.
+Doit renvoyer `{"answer":"..."}`.
 
-> Astuce : si vous obtenez `{"error":"missing_api_key"}`, le secret `GEMINI_API_KEY`
-> n'est pas (ou mal) enregistré — refaites l'étape 7 (ou `wrangler secret put`).
+## Alternative — CLI wrangler
 
----
+```bash
+npx wrangler deploy worker.js
+npx wrangler secret put ANTHROPIC_API_KEY   # coller la clé sk-ant-…
+```
 
-## Brancher l'assistant sur le site
+## Notes
 
-1. Ouvrez **`assistant.html`** (à la racine du site).
-2. Tout en haut du `<script>`, repérez la ligne :
-   ```js
-   const CHAT_ENDPOINT = "";  // ← coller l'URL du Worker Cloudflare ici pour activer le LLM live
-   ```
-3. Collez **l'URL de votre Worker** entre les guillemets, par exemple :
-   ```js
-   const CHAT_ENDPOINT = "https://mehmet-assistant.votre-sous-domaine.workers.dev";
-   ```
-4. Enregistrez, commitez et redéployez le site (GitHub Pages).
-
-> Tant que `CHAT_ENDPOINT` reste vide (`""`), le comportement est **inchangé** : le site
-> tente `/api/chat` (qui n'existe pas sur GitHub Pages) et bascule sur le **repli local**.
-> Dès que vous y mettez l'URL du Worker, l'assistant passe en **LLM live**.
-
----
-
-## Bon à savoir
-
-- **Free tier Cloudflare Workers** : jusqu'à **100 000 requêtes par jour** — largement
-  suffisant pour une vitrine.
-- **Free tier Gemini** : peut renvoyer ponctuellement des erreurs **429** (quota) ou
-  **503** (surcharge). Ce n'est pas grave : l'assistant **bascule automatiquement sur son
-  repli local** et continue de répondre à partir de la fiche publique. Il ne tombe jamais.
-- **Sécurité** : la clé Gemini n'est **jamais** dans le code ni exposée au navigateur ;
-  elle vit uniquement côté Worker, en *Secret*. L'accès est restreint à
-  `https://mehmettuzcu.fr` (et `https://www.mehmettuzcu.fr`).
+- Modèle : `claude-opus-4-8` (qualité maximale). Pour des réponses plus rapides/moins chères,
+  remplacer `const MODEL = "claude-opus-4-8"` par `"claude-sonnet-4-6"` dans `worker.js`.
+- Free tier Cloudflare Workers : 100 000 requêtes/jour. Coût Anthropic : quelques centimes/mois
+  à ce volume (le prompt système est mis en cache via `cache_control`).
+- Aucune clé n'est jamais en dur dans le code : elle vit uniquement dans le Secret `ANTHROPIC_API_KEY`.
+- Repli : si le Worker renvoie une erreur (429/5xx) ou est injoignable, l'assistant bascule
+  automatiquement sur son moteur local embarqué — il ne tombe jamais.

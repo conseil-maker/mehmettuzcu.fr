@@ -111,7 +111,6 @@
     flex-direction:column;
     gap:14px;
     scroll-behavior:smooth;
-    max-height:52vh;
   }
   .msg{display:flex;gap:10px;max-width:88%;animation:rise .28s ease both}
   @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -145,10 +144,10 @@
     letter-spacing:.2px;animation:rise .28s ease both;
   }
   /* Starters */
+  /* Amorces : affichées dans le fil, juste sous le message d'accueil (pas de bloc séparé en bas → moins de vide). */
   .starters{
-    padding:4px 18px 14px;
+    padding:2px 2px 2px;
     display:flex;flex-wrap:wrap;gap:8px;
-    border-top:1px solid var(--accent-soft);
   }
   .starters .lbl{
     width:100%;font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;
@@ -188,7 +187,7 @@
   /* Footer */
   footer{
     text-align:center;font-size:11.5px;color:var(--ink-faint);
-    padding:16px 12px 22px;max-width:var(--maxw);margin:0 auto;width:100%;
+    padding:10px 14px 14px;max-width:var(--maxw);margin:0 auto;width:100%;
   }
   footer a{color:var(--accent);text-decoration:none;font-weight:600}
   footer a:hover{text-decoration:underline}
@@ -255,7 +254,7 @@
     <div class="chat-shell">
       <div class="messages" id="messages" aria-live="polite" aria-label="Conversation"></div>
 
-      <div class="starters" id="starters">
+      <div class="starters" id="starters" style="display:none">
         <span class="lbl">Questions suggérées</span>
       </div>
 
@@ -269,13 +268,9 @@
     </div>
 
     <footer>
-      Assistant en ligne avec repli local — répond uniquement à partir d'informations publiques vérifiées.
+      Réponses à partir d'informations publiques vérifiées.
       <span class="dot">•</span>
       <a href="mailto:mehmet@reflektif.net">mehmet@reflektif.net</a>
-      <span class="dot">•</span>
-      <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a>
-      <span class="dot">•</span>
-      <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a>
       <span class="dot">•</span>
       <button type="button" id="clearBtn" class="clear-link">Effacer la conversation</button>
     </footer>
@@ -625,7 +620,8 @@ const WELCOME_TEXT =
 // Affiche l'accueil + laisse les amorces visibles (etat « conversation vide »).
 function showWelcome(){
   addBubble("bot", renderContent(WELCOME_TEXT));
-  if(startersEl) startersEl.style.display = "";
+  // Place les amorces dans le fil, juste sous le message d'accueil (évite le grand vide).
+  if(startersEl){ startersEl.style.display = ""; messagesEl.appendChild(startersEl); }
 }
 
 // Rejoue tout l'historique persiste dans l'UI, et reconstruit `history` (API).

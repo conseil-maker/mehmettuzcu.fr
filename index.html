@@ -377,9 +377,11 @@
     align-items: center;
     justify-content: center;
     z-index: 1600;
-    transition: background .2s ease, transform .2s ease;
+    transition: background .2s ease, transform .2s ease, opacity .2s ease;
   }
   #assistant-fab:hover { transform: translateY(-2px); }
+  /* Quand le tiroir est ouvert, on masque le bouton flottant : la croix d'en-tête suffit (évite le doublon + le chevauchement avec le pied de page). */
+  #assistant-drawer.open ~ #assistant-fab { transform: scale(.4); opacity: 0; pointer-events: none; }
   #assistant-fab:focus-visible {
     outline: 2px solid #1f5673;
     outline-offset: 3px;

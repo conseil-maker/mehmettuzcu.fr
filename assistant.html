@@ -482,10 +482,18 @@ function refreshExportState(){
 function renderContent(text){
   let safe = String(text)
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  safe = safe.replace(/([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,})/gi,
-    '<a href="mailto:$1">$1</a>');
-  safe = safe.replace(/\b(reflektif\.net|mehmettuzcu\.fr)\b/gi,
-    '<a href="https://$1" target="_blank" rel="noopener">$1</a>');
+  // **gras** markdown -> <strong> (le LLM peut en produire)
+  safe = safe.replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+  // e-mails ET urls en UN SEUL passage : l'alternance « e-mail d'abord » consomme
+  // l'e-mail entier, donc le domaine interne n'est jamais re-linkifié (corrige le
+  // bug `reflektif.net">mehmet@…`).
+  safe = safe.replace(
+    /([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,})|\b(reflektif\.net|mehmettuzcu\.fr)\b/gi,
+    function(m, email, url){
+      return email
+        ? '<a href="mailto:'+email+'">'+email+'</a>'
+        : '<a href="https://'+url+'" target="_blank" rel="noopener">'+url+'</a>';
+    });
   return safe;
 }
 

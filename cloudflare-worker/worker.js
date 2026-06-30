@@ -46,8 +46,19 @@ function json(obj, status, ch) {
   });
 }
 
+// Journalisation anonyme d'un échange dans Cloudflare D1 (binding env.DB).
+// Sans binding D1, c'est un no-op : le Worker fonctionne exactement comme avant.
+function logTurn(env, sessionId, question, answer) {
+  if (!env || !env.DB) return Promise.resolve();
+  return env.DB
+    .prepare("INSERT INTO conversations (session_id, created_at, question, answer) VALUES (?, ?, ?, ?)")
+    .bind(sessionId, Date.now(), question, answer)
+    .run()
+    .catch(() => {}); // la journalisation ne doit JAMAIS casser la réponse
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
     const ch = corsHeaders(origin);
 
@@ -60,6 +71,8 @@ export default {
 
     const msg = (body.message || "").toString().slice(0, 1000);
     if (!msg.trim()) return json({ error: "empty_message" }, 400, ch);
+
+    const sessionId = (body.session_id || "").toString().slice(0, 64) || "anon";
 
     const hist = Array.isArray(body.history) ? body.history.slice(-12) : [];
     const messages = [];
@@ -114,6 +127,18 @@ export default {
     }
     if (!answer) return json({ error: "empty_answer" }, 502, ch);
 
+    // Journalisation anonyme (asynchrone : n'ajoute pas de latence à la réponse).
+    if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(logTurn(env, sessionId, msg, answer));
+
     return json({ answer }, 200, ch);
+  },
+
+  // Purge automatique : conservation limitée à 90 jours.
+  // Déclenchée par un Cron Trigger quotidien (Worker → Settings → Triggers → Cron).
+  async scheduled(event, env, ctx) {
+    if (!env || !env.DB) return;
+    const cutoff = Date.now() - 90 * 24 * 60 * 60 * 1000;
+    const job = env.DB.prepare("DELETE FROM conversations WHERE created_at < ?").bind(cutoff).run().catch(() => {});
+    if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job); else await job;
   },
 };

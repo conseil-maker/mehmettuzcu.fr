@@ -208,6 +208,8 @@
   footer a{color:var(--accent);text-decoration:none;font-weight:600}
   footer a:hover{text-decoration:underline}
   footer .dot{margin:0 7px;opacity:.5}
+  .privacy-note{margin:7px 0 0;font-size:10.5px;line-height:1.45;color:var(--ink-faint);opacity:.9}
+  .privacy-note a{font-weight:600}
   /* Actions discretes (export PDF + effacer) */
   .hero-actions{flex:0 0 auto;margin-left:auto;display:flex;align-items:center}
   .pdf-btn{
@@ -289,6 +291,7 @@
       <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a>
       <span class="dot">•</span>
       <button type="button" id="clearBtn" class="clear-link">Effacer la conversation</button>
+      <div class="privacy-note">Vos échanges sont conservés de façon anonyme et peuvent être consultés pour améliorer le service et préparer un éventuel contact. N'y indiquez pas d'informations sensibles. <a href="politique-confidentialite.html" target="_blank" rel="noopener">En savoir plus</a>.</div>
     </footer>
   </div>
 
@@ -429,7 +432,7 @@ async function askLLMOnce(question, priorHistory){
     const res = await fetch(CHAT_ENDPOINT || "/api/chat", {
       method:"POST",
       headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ message: question, history: priorHistory || [] }),
+      body: JSON.stringify({ message: question, history: priorHistory || [], session_id: getSessionId() }),
       signal: ctrl.signal
     });
     clearTimeout(timer);
@@ -476,6 +479,16 @@ const history = [];
    La conversation survit a la fermeture du drawer ET au rechargement de page.
    ========================================================================= */
 const STORAGE_KEY = "mt_assistant_chat_v1";
+// Identifiant de session ANONYME (aucune donnée personnelle) — permet à Mehmet de
+// relire une conversation d'un seul tenant, sans jamais identifier la personne.
+const SESSION_KEY = "mt_session_id";
+function getSessionId(){
+  try{
+    let s = localStorage.getItem(SESSION_KEY);
+    if(!s){ s = "s_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,10); localStorage.setItem(SESSION_KEY, s); }
+    return s;
+  }catch(_e){ return "anon"; }
+}
 
 // Tableau source de verite pour la persistance et l'export PDF.
 let chatLog = [];

@@ -263,14 +263,6 @@
         <p class="tagline">Un dirigeant qui code — architecte opérationnel France-Turquie</p>
         <p class="sub"><span class="status-dot" aria-hidden="true"></span>Posez vos questions sur Mehmet</p>
       </div>
-      <div class="hero-actions">
-        <button type="button" id="pdfBtn" class="pdf-btn" disabled
-                title="Télécharger la conversation au format PDF"
-                aria-label="Télécharger la conversation au format PDF">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Télécharger la conversation (PDF)</span>
-        </button>
-      </div>
     </header>
 
     <div class="chat-shell">
@@ -526,7 +518,7 @@ function recordMessage(role, text){
 
 // Active/desactive le bouton PDF selon qu'il y a ou non de la matiere.
 function refreshExportState(){
-  pdfBtn.disabled = chatLog.length === 0;
+  if (pdfBtn) pdfBtn.disabled = chatLog.length === 0;
 }
 
 // Echappe le HTML, puis linkifie e-mails et domaines connus (sans risque XSS).
@@ -896,7 +888,7 @@ function handleClear(){
   inputEl.focus();
 }
 
-pdfBtn.addEventListener("click", handleExport);
+if (pdfBtn) pdfBtn.addEventListener("click", handleExport);
 clearBtn.addEventListener("click", handleClear);
 
 // CTA « Être recontacté » : demande à la page hôte d'ouvrir le formulaire (conversation jointe).

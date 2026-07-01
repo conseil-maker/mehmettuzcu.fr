@@ -1014,7 +1014,6 @@
     var closeBtn = __asDrawer.querySelector('.drawer-close');
     if (closeBtn) closeBtn.focus();
   }
-  var __leaveShown = false;
   function __hasConv() {
     try { var raw = localStorage.getItem('mt_assistant_chat_v1'); var log = raw ? JSON.parse(raw) : []; return Array.isArray(log) && log.length >= 2; } catch (_e) { return false; }
   }
@@ -1032,9 +1031,9 @@
   // À la fermeture, si une conversation existe, proposer (une fois) : recontact / télécharger / fermer.
   function closeAssistant() {
     if (!__asDrawer) return;
-    if (!__leaveShown && __hasConv()) {
+    if (__hasConv()) {
       var lv = document.getElementById('drawerLeave');
-      if (lv) { __leaveShown = true; lv.hidden = false; return; }
+      if (lv && lv.hidden) { lv.hidden = false; return; }  // propose recontact/telechargement A CHAQUE fermeture
     }
     doCloseDrawer();
   }

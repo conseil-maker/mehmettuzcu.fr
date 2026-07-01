@@ -389,6 +389,33 @@
     border: 0;
     display: block;
   }
+  .drawer-leave {
+    position: absolute; inset: 0; z-index: 5;
+    background: rgba(244,246,247,.95);
+    display: flex; align-items: center; justify-content: center; padding: 22px;
+    animation: dlfade .18s ease both;
+  }
+  @keyframes dlfade { from { opacity: 0 } to { opacity: 1 } }
+  .drawer-leave .dl-card {
+    background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 16px;
+    padding: 20px; width: 100%; max-width: 340px; box-shadow: 0 12px 36px rgba(22,63,84,.18); text-align: center;
+  }
+  .drawer-leave .dl-title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; }
+  .drawer-leave .dl-sub { margin: 0 0 16px; font-size: .88rem; color: var(--gray,#6b7680); }
+  .drawer-leave button { display: block; width: 100%; font: inherit; cursor: pointer; }
+  .drawer-leave .dl-primary {
+    background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 11px;
+    padding: 12px; font-weight: 700; font-size: .95rem; margin: 0 0 10px; line-height: 1.25;
+  }
+  .drawer-leave .dl-primary small { display: block; font-weight: 400; font-size: .78rem; opacity: .88; margin-top: 2px; }
+  .drawer-leave .dl-primary:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-btn {
+    background: #fff; color: var(--accent,#1f5673); border: 1px solid var(--accent,#1f5673);
+    border-radius: 11px; padding: 10px; font-weight: 600; font-size: .9rem; margin: 0 0 8px;
+  }
+  .drawer-leave .dl-btn:hover { background: #eef3f6; }
+  .drawer-leave .dl-link { background: none; border: 0; color: var(--gray,#6b7680); font-size: .84rem; padding: 4px; text-decoration: underline; }
+  .drawer-leave .dl-link:hover { color: var(--accent,#1f5673); }
 
   /* BOUTON FLOTTANT */
   #assistant-fab {
@@ -949,6 +976,15 @@
   <div class="drawer-body">
     <iframe src="assistant.html" title="Assistant conversationnel — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
   </div>
+  <div id="drawerLeave" class="drawer-leave" hidden>
+    <div class="dl-card">
+      <p class="dl-title">Avant de partir…</p>
+      <p class="dl-sub">Gardez le contact — Mehmet peut vous répondre lui-même.</p>
+      <button type="button" class="dl-primary" id="dlContact">📩 Être recontacté par Mehmet<small>je lui transmets cette conversation</small></button>
+      <button type="button" class="dl-btn" id="dlDownload">⬇&nbsp;&nbsp;Télécharger la conversation (PDF)</button>
+      <button type="button" class="dl-link" id="dlClose">Fermer sans rien envoyer</button>
+    </div>
+  </div>
 </aside>
 
 <!-- BOUTON FLOTTANT -->
@@ -977,25 +1013,13 @@
     var closeBtn = __asDrawer.querySelector('.drawer-close');
     if (closeBtn) closeBtn.focus();
   }
-  var __dlAsked = false;
-  function closeAssistant() {
+  var __leaveShown = false;
+  function __hasConv() {
+    try { var raw = localStorage.getItem('mt_assistant_chat_v1'); var log = raw ? JSON.parse(raw) : []; return Array.isArray(log) && log.length >= 2; } catch (_e) { return false; }
+  }
+  function doCloseDrawer() {
     if (!__asDrawer) return;
-    // À la fermeture, proposer (une fois) de télécharger la conversation.
-    if (!__dlAsked) {
-      try {
-        var raw = localStorage.getItem('mt_assistant_chat_v1');
-        var log = raw ? JSON.parse(raw) : [];
-        if (Array.isArray(log) && log.length >= 2) {
-          __dlAsked = true;
-          if (window.confirm('Souhaitez-vous télécharger votre conversation (PDF) avant de fermer ? Sinon, elle reste enregistrée et vous la retrouverez en rouvrant l’assistant.')) {
-            if (__asIframe && __asIframe.contentWindow) {
-              __asIframe.contentWindow.postMessage({ type: 'mt-download' }, location.origin);
-            }
-            return; // on garde le panneau ouvert le temps du téléchargement
-          }
-        }
-      } catch (_e) {}
-    }
+    var lv = document.getElementById('drawerLeave'); if (lv) lv.hidden = true;
     __asDrawer.classList.remove('open');
     __asDrawer.setAttribute('aria-hidden', 'true');
     if (__asBackdrop) {
@@ -1003,6 +1027,15 @@
       window.setTimeout(function () { if (!__asBackdrop.classList.contains('open')) __asBackdrop.hidden = true; }, 340);
     }
     if (__asFab) { __asFab.classList.remove('open'); __asFab.setAttribute('aria-expanded', 'false'); __asFab.setAttribute('aria-label', "Ouvrir l'assistant"); }
+  }
+  // À la fermeture, si une conversation existe, proposer (une fois) : recontact / télécharger / fermer.
+  function closeAssistant() {
+    if (!__asDrawer) return;
+    if (!__leaveShown && __hasConv()) {
+      var lv = document.getElementById('drawerLeave');
+      if (lv) { __leaveShown = true; lv.hidden = false; return; }
+    }
+    doCloseDrawer();
   }
   function toggleAssistant() {
     if (__asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
@@ -1026,6 +1059,42 @@
   Array.prototype.forEach.call(document.querySelectorAll('.journey[data-q]'), function (b) {
     b.addEventListener('click', function () { askAssistant(b.getAttribute('data-q')); });
   });
+
+  // Connexion assistant -> formulaire : « Être recontacté par Mehmet ».
+  // Ferme le panneau, va au formulaire, coche « joindre ma conversation » (la conversation
+  // est déjà liée côté back-office via le session_id à l'envoi).
+  function openContactForm() {
+    doCloseDrawer();
+    try {
+      var hasConv = false;
+      try { hasConv = !!localStorage.getItem('mt_assistant_chat_v1'); } catch (_e) {}
+      var field = document.getElementById('attachField');
+      var cb = document.getElementById('attachChat');
+      if (hasConv && field) field.hidden = false;
+      if (hasConv && cb) cb.checked = true;
+    } catch (_e) {}
+    var target = document.getElementById('contact') || document.getElementById('contactForm');
+    if (target) window.setTimeout(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var nom = document.getElementById('nom');
+      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e) { nom.focus(); } }, 600);
+    }, 360);
+  }
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    if (e.data && e.data.type === 'mt-contact') openContactForm();
+  });
+
+  // Panneau de sortie (recontact / téléchargement / fermer).
+  (function () {
+    var c = document.getElementById('dlContact'), d = document.getElementById('dlDownload'), x = document.getElementById('dlClose');
+    if (c) c.addEventListener('click', function () { openContactForm(); });
+    if (d) d.addEventListener('click', function () {
+      if (__asIframe && __asIframe.contentWindow) { try { __asIframe.contentWindow.postMessage({ type: 'mt-download' }, location.origin); } catch (_e) {} }
+      window.setTimeout(doCloseDrawer, 400);
+    });
+    if (x) x.addEventListener('click', function () { doCloseDrawer(); });
+  })();
 
   // Liens de nav pointant vers l'ancienne section : ouvrir le drawer
   Array.prototype.forEach.call(document.querySelectorAll('[data-open-assistant]'), function (a) {

@@ -938,7 +938,7 @@
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Envoyer le message →</button>
           </div>
-          <p class="form-note">En envoyant, votre messagerie s'ouvre avec un e-mail prêt à partir ; votre conversation y est jointe si vous l'avez cochée. Aucune donnée n'est transmise à un tiers.</p>
+          <p class="form-note">Votre demande m'est transmise directement ; votre conversation y est jointe si vous l'avez cochée. Aucune donnée n'est transmise à un tiers.</p>
         </form>
         <div class="form-confirm" id="formConfirm" hidden>
           <p>Merci, votre message a bien été envoyé. Je vous réponds rapidement.</p>
@@ -1184,32 +1184,23 @@
       var attach = form.attachChat && form.attachChat.checked;
       var transcript = attach ? getChatTranscript() : '';
 
-      // Enregistre le lead dans le back-office (en plus de l'e-mail), lié à la conversation si elle existe.
-      try {
-        var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
-        var hp = (form.hp && form.hp.value) || '';
-        fetch('https://assistant-mehmet.conseil-40b.workers.dev/lead', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: msg, session_id: sid, hp: hp })
-        }).catch(function () {});
-      } catch (_e) {}
+      // Envoi direct au back-office : stockage D1 + notification e-mail côté serveur. Plus de dépendance au client mail.
+      var full = msg + (transcript ? '\n\n— — — Conversation avec l\'assistant — — —\n' + transcript : '');
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var hp = (form.hp && form.hp.value) || '';
+      var btn = form.querySelector('button[type="submit"]');
+      var lbl = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
 
-      if (FORM_ENDPOINT) {
-        var data = new FormData(form);
-        if (transcript) data.append('conversation_assistant', transcript);
-        fetch(FORM_ENDPOINT, {
-          method: 'POST',
-          body: data,
-          headers: { Accept: 'application/json' }
-        })
-          .then(function (res) {
-            if (res.ok) showConfirmation();
-            else sendMailto(nom, org, email, tel, msg, transcript);
-          })
-          .catch(function () { sendMailto(nom, org, email, tel, msg, transcript); });
-      } else {
-        sendMailto(nom, org, email, tel, msg, transcript);
-      }
+      fetch('https://assistant-mehmet.conseil-40b.workers.dev/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: full, session_id: sid, hp: hp })
+      })
+        .then(function (r) { if (r && r.ok) { showConfirmation(); } else { throw new Error('bad'); } })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = lbl; }
+          alert('Une erreur est survenue à l\'envoi. Réessayez, ou écrivez à conseil@mehmettuzcu.fr.');
+        });
     });
   })();
 </script>

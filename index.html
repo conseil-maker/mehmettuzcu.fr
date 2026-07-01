@@ -389,6 +389,7 @@
     border: 0;
     display: block;
   }
+  .drawer-leave[hidden] { display: none; }
   .drawer-leave {
     position: absolute; inset: 0; z-index: 5;
     background: rgba(244,246,247,.95);
@@ -1073,12 +1074,11 @@
       if (hasConv && field) field.hidden = false;
       if (hasConv && cb) cb.checked = true;
     } catch (_e) {}
-    var target = document.getElementById('contact') || document.getElementById('contactForm');
-    if (target) window.setTimeout(function () {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(function () {
+      try { location.hash = '#contact'; } catch (_e) {}   // ancre native (le scroll programmatique est capricieux ici)
       var nom = document.getElementById('nom');
-      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e) { nom.focus(); } }, 600);
-    }, 360);
+      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e2) {} }, 700);
+    }, 420);
   }
   window.addEventListener('message', function (e) {
     if (e.origin !== location.origin) return;

@@ -1075,9 +1075,16 @@
       if (hasConv && cb) cb.checked = true;
     } catch (_e) {}
     window.setTimeout(function () {
-      try { location.hash = '#contact'; } catch (_e) {}   // ancre native (le scroll programmatique est capricieux ici)
+      var c = document.getElementById('contact');
+      if (c) {
+        try { c.scrollIntoView({ behavior: 'instant', block: 'start' }); }  // instant : le smooth se fait interrompre par la fermeture
+        catch (_e) {
+          var h = document.documentElement, pv = h.style.scrollBehavior; h.style.scrollBehavior = 'auto';
+          window.scrollTo(0, c.getBoundingClientRect().top + window.pageYOffset - 12); h.style.scrollBehavior = pv;
+        }
+      }
       var nom = document.getElementById('nom');
-      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e2) {} }, 700);
+      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e2) {} }, 400);
     }, 420);
   }
   window.addEventListener('message', function (e) {

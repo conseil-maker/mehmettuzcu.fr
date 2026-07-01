@@ -870,6 +870,7 @@
           à <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a>.
         </p>
         <form class="contact-form" id="contactForm" novalidate>
+          <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
           <div class="form-row">
             <div class="field">
               <label for="nom">Nom complet</label>
@@ -1109,6 +1110,16 @@
       var msg = (form.message.value || '').trim();
       var attach = form.attachChat && form.attachChat.checked;
       var transcript = attach ? getChatTranscript() : '';
+
+      // Enregistre le lead dans le back-office (en plus de l'e-mail), lié à la conversation si elle existe.
+      try {
+        var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+        var hp = (form.hp && form.hp.value) || '';
+        fetch('https://assistant-mehmet.conseil-40b.workers.dev/lead', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: msg, session_id: sid, hp: hp })
+        }).catch(function () {});
+      } catch (_e) {}
 
       if (FORM_ENDPOINT) {
         var data = new FormData(form);

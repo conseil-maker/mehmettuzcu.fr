@@ -96,6 +96,7 @@ function detectEmail(text) { const m = (text || "").match(/[a-z0-9._%+-]+@[a-z0-
 function detectPhone(text) { const m = (text || "").match(/(?:\+?\d[\d .\-]{7,}\d)/); return m ? m[0].trim() : null; }
 
 const DAY = 86400000;
+const COST_PER_MSG = 0.0018; // estimation $ par échange (Sonnet 4.6 + cache), ajustable
 
 // -------- API : tableau de bord --------
 async function apiOverview(env, range) {
@@ -233,7 +234,30 @@ async function apiSystem(env) {
     "SELECT date(created_at/1000,'unixepoch') d, COUNT(*) n, SUM(is_fallback) f FROM conversations WHERE deleted_at IS NULL AND created_at>=? GROUP BY d ORDER BY d"
   ).bind(Date.now() - 7 * DAY).all();
   const prospects = await one("SELECT COUNT(*) FROM prospects");
-  return { last_conversation_at: last, total_rows: total, oldest_at: oldest, expiring_count: expiring, fallback_7d: fbRes.results || [], prospects_total: prospects };
+  const msgs30 = await one("SELECT COUNT(*) FROM conversations WHERE deleted_at IS NULL AND created_at>=?", Date.now() - 30 * DAY);
+  const est_cost_30d = Math.round(msgs30 * COST_PER_MSG * 100) / 100;
+  return { last_conversation_at: last, total_rows: total, oldest_at: oldest, expiring_count: expiring, fallback_7d: fbRes.results || [], prospects_total: prospects, messages_30d: msgs30, est_cost_30d };
+}
+
+// Enregistrement d'un lead issu du formulaire de contact du site (public, anti-spam honeypot).
+async function handleLead(request, env, ch) {
+  let b; try { b = await request.json(); } catch (e) { return json({ error: "bad_json" }, 400, ch); }
+  if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore silencieusement
+  const email = (b.email || "").toString().slice(0, 200).trim();
+  const nom = (b.nom || "").toString().slice(0, 120).trim();
+  const org = (b.org || "").toString().slice(0, 120).trim();
+  const tel = (b.tel || "").toString().slice(0, 60).trim();
+  const message = (b.message || "").toString().slice(0, 4000).trim();
+  const sid = (b.session_id || "").toString().slice(0, 64) || null;
+  if (!email && !message) return json({ ok: false }, 400, ch);
+  const subject = ("Formulaire" + (nom ? " — " + nom : "") + (org ? " (" + org + ")" : "")).slice(0, 160);
+  const body = (tel ? "Tél : " + tel + "\n" : "") + message;
+  if (env.DB) {
+    const now = Date.now();
+    await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
+      .bind(sid, email || null, subject, body, "form", "new", now, now).run().catch(() => {});
+  }
+  return json({ ok: true }, 200, ch);
 }
 async function apiPurge(env, body) {
   const before = (body && body.before_ts) ? body.before_ts : Date.now() - 90 * DAY;
@@ -483,6 +507,7 @@ function viewSystem(){setNav('system');V.innerHTML='<div class="hd"><h2>Données
    '<div class="card kpi"><div class="lab">Lignes (total)</div><div class="val">'+d.total_rows+'</div><div class="d flat">prospects : '+d.prospects_total+'</div></div>'+
    '<div class="card kpi"><div class="lab">Réponses faibles (auj.)</div><div class="val">'+rate+'%</div><div class="d '+(rate>40?'down':'flat')+'">'+(fbToday?fbToday.n+' msg':'—')+'</div></div>'+
    '<div class="card kpi"><div class="lab">Expirent &lt; 7 j</div><div class="val">'+d.expiring_count+'</div><div class="d flat">rétention 90 j</div></div>'+
+   '<div class="card kpi"><div class="lab">Coût estimé (30j)</div><div class="val">$'+(d.est_cost_30d||0)+'</div><div class="d flat">'+(d.messages_30d||0)+' messages · estimation</div></div>'+
   '</div>'+
   '<div class="card" style="margin-bottom:14px"><h3 class="sec">Export</h3><div class="row">'+
    '<a class="btn ghost sm" href="/admin/api/export?type=conversations&format=csv&range=90">Conversations CSV</a>'+
@@ -514,6 +539,10 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const ch = corsHeaders(origin);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: ch });
+    if (url.pathname === "/lead" || url.pathname === "/lead/") {
+      if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
+      return handleLead(request, env, ch);
+    }
     if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
     if (!env.ANTHROPIC_API_KEY) return json({ error: "missing_key" }, 500, ch);
 

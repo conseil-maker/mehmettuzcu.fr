@@ -481,7 +481,7 @@
       <li><a href="#projets">Réalisations</a></li>
       <li><a href="#methode">Méthode</a></li>
       <li><a href="#assistant" data-open-assistant>Assistant IA</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" data-open-assistant>Contact</a></li>
     </ul>
   </div>
 </header>
@@ -517,7 +517,7 @@
               <button type="button" class="journey" data-q="La science derrière Reflektif">La science derrière Reflektif</button>
               <button type="button" class="journey" data-q="Est-il fait pour ma mission ou mon institution ?">Est-il fait pour ma mission&nbsp;?</button>
             </div>
-            <p class="hero-secondary"><a href="#contact">Ou discutons directement de votre projet →</a></p>
+            <p class="hero-secondary"><a href="#contact" data-open-assistant>Ou discutons directement de votre projet →</a></p>
           </div>
         </div>
         <div class="hero-portrait">
@@ -884,18 +884,17 @@
           présentons-nous mutuellement nos cartes.
         </p>
         <ul class="contact-list">
-          <li><span class="k">Email</span> <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a></li>
           <li><span class="k">Conseil en transformation</span> <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a></li>
           <li><span class="k">Plateforme d'orientation IA</span> <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a></li>
         </ul>
-        <a class="btn btn-secondary" href="mailto:conseil@mehmettuzcu.fr">Me contacter →</a>
+        <button type="button" class="btn btn-secondary" onclick="openAssistant()">Discuter avec mon assistant →</button>
       </div>
 
       <div class="contact-form-panel">
         <h3>Présentez-moi votre projet</h3>
         <p class="form-intro">
-          Remplissez ce formulaire : il ouvrira votre messagerie avec un message prêt à envoyer
-          à <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a>.
+          Remplissez ce formulaire et envoyez-le : je reçois votre demande — avec votre conversation
+          si vous l'avez jointe — et je vous réponds.
         </p>
         <form class="contact-form" id="contactForm" novalidate>
           <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
@@ -938,9 +937,8 @@
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Envoyer le message →</button>
-            <a class="btn btn-secondary" href="mailto:conseil@mehmettuzcu.fr">Écrire directement à conseil@mehmettuzcu.fr</a>
           </div>
-          <p class="form-note">Votre message ouvrira votre messagerie vers conseil@mehmettuzcu.fr — aucune donnée n'est envoyée à un tiers.</p>
+          <p class="form-note">En envoyant, votre messagerie s'ouvre avec un e-mail prêt à partir ; votre conversation y est jointe si vous l'avez cochée. Aucune donnée n'est transmise à un tiers.</p>
         </form>
         <div class="form-confirm" id="formConfirm" hidden>
           <p>Merci, votre message a bien été envoyé. Je vous réponds rapidement.</p>

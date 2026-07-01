@@ -53,7 +53,7 @@ function detectTopic(text) {
 // Réponse "faible" : vide, très courte, ou marqueur de redirection/ignorance.
 function isFallback(answer) {
   const a = (answer || "").trim();
-  if (a.length < 40) return 1;
+  if (a.length < 25) return 1;
   if (/je n'?ai pas (cette|d'|l'|cette )?info|pas l'information en acc[èe]s public|je ne (sais|peux) pas|n'?est pas communiqu/i.test(a)) return 1;
   return 0;
 }
@@ -93,7 +93,7 @@ function authChallenge() {
   });
 }
 function detectEmail(text) { const m = (text || "").match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i); return m ? m[0] : null; }
-function detectPhone(text) { const m = (text || "").match(/(?:\+?\d[\d .\-]{7,}\d)/); return m ? m[0].trim() : null; }
+function detectPhone(text) { const m = (text || "").match(/(?:\+33|\+90|0[1-9])[\d .\-]{6,}\d/); return m ? m[0].trim() : null; }
 
 const DAY = 86400000;
 const COST_PER_MSG = 0.0018; // estimation $ par échange (Sonnet 4.6 + cache), ajustable
@@ -179,18 +179,21 @@ async function apiConversationDetail(env, sid) {
 }
 async function apiFlag(env, sid, body) {
   const flag = body && body.flag === "improve" ? "improve" : null;
-  await env.DB.prepare("UPDATE conversations SET flag=? WHERE session_id=?").bind(flag, sid).run();
+  await env.DB.prepare("UPDATE conversations SET flag=? WHERE session_id=? AND deleted_at IS NULL").bind(flag, sid).run();
   return { ok: true, flag };
 }
-async function apiPromote(env, sid) {
+async function apiPromote(env, sid, ctx) {
   const det = await apiConversationDetail(env, sid);
   const first = det.messages.length ? det.messages[0].question : "";
-  const exists = await env.DB.prepare("SELECT id FROM prospects WHERE session_id=? AND source='manual'").bind(sid).first();
+  // Anti-doublon sur la SESSION entière (quelle que soit la source : form OU manual).
+  const exists = sid ? await env.DB.prepare("SELECT id FROM prospects WHERE session_id=? ORDER BY id LIMIT 1").bind(sid).first() : null;
   const now = Date.now();
   if (exists) return { ok: true, id: exists.id, already: true };
+  const subject = ("Conversation : " + first).slice(0, 120);
   const ins = await env.DB.prepare(
     "INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)"
-  ).bind(sid, det.detected_email || null, ("Conversation : " + first).slice(0, 120), first.slice(0, 500), "manual", "new", now, now).run();
+  ).bind(sid, det.detected_email || null, subject, first.slice(0, 500), "manual", "new", now, now).run();
+  notifyProspect(env, ctx, { email: det.detected_email, subject: subject, message: first });
   return { ok: true, id: ins.meta ? ins.meta.last_row_id : null };
 }
 async function apiDelete(env, sid, hard) {
@@ -203,6 +206,7 @@ async function apiDelete(env, sid, hard) {
 async function apiProspects(env, p) {
   const cond = ["1=1"]; const args = [];
   if (p.status && p.status !== "all") { cond.push("status=?"); args.push(p.status); }
+  if (p.q) { cond.push("(email LIKE ? OR subject LIKE ? OR message LIKE ? OR note LIKE ?)"); const like = "%" + p.q + "%"; args.push(like, like, like, like); }
   const res = await env.DB.prepare(
     "SELECT id, session_id, email, subject, message, source, status, note, created_at, updated_at FROM prospects WHERE " +
     cond.join(" AND ") + " ORDER BY (status='new') DESC, created_at DESC LIMIT 500"
@@ -222,6 +226,29 @@ async function apiProspectPatch(env, id, body) {
   const row = await env.DB.prepare("SELECT * FROM prospects WHERE id=?").bind(id).first();
   return { ok: true, row };
 }
+async function apiProspectDelete(env, id) {
+  await env.DB.prepare("DELETE FROM prospects WHERE id=?").bind(id).run();
+  return { ok: true, deleted: true };
+}
+
+// Notification e-mail d'un nouveau prospect (via Resend). No-op si RESEND_API_KEY n'est pas configuré.
+function notifyProspect(env, ctx, p) {
+  if (!env || !env.RESEND_API_KEY) return;
+  const to = env.NOTIFY_EMAIL || "conseil@mehmettuzcu.fr";
+  const from = env.NOTIFY_FROM || "Assistant mehmettuzcu.fr <onboarding@resend.dev>";
+  const payload = {
+    from, to: [to],
+    subject: "Nouveau prospect : " + (p.email || p.subject || "sans e-mail"),
+    text: (p.email ? "Email : " + p.email + "\n" : "") + (p.subject ? p.subject + "\n\n" : "") + (p.message || "") +
+      "\n\n→ Panneau : https://assistant-mehmet.conseil-40b.workers.dev/admin#/prospects",
+  };
+  const job = fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + env.RESEND_API_KEY, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
+  if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job);
+}
 
 // -------- API : système --------
 async function apiSystem(env) {
@@ -240,7 +267,7 @@ async function apiSystem(env) {
 }
 
 // Enregistrement d'un lead issu du formulaire de contact du site (public, anti-spam honeypot).
-async function handleLead(request, env, ch) {
+async function handleLead(request, env, ch, ctx) {
   let b; try { b = await request.json(); } catch (e) { return json({ error: "bad_json" }, 400, ch); }
   if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore silencieusement
   const email = (b.email || "").toString().slice(0, 200).trim();
@@ -257,6 +284,7 @@ async function handleLead(request, env, ch) {
     await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
       .bind(sid, email || null, subject, body, "form", "new", now, now).run().catch(() => {});
   }
+  notifyProspect(env, ctx, { email, subject, message: body });
   return json({ ok: true }, 200, ch);
 }
 async function apiPurge(env, body) {
@@ -284,7 +312,7 @@ async function apiExport(env, p) {
 }
 
 // -------- Routeur /admin --------
-async function handleAdmin(request, env, url) {
+async function handleAdmin(request, env, url, ctx) {
   const st = checkAuth(request, env);
   if (st === "unset") return new Response("Panneau non configuré : ajoutez la variable secrète ADMIN_PASSWORD au Worker, puis redéployez.", { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } });
   if (st !== "ok") return authChallenge();
@@ -308,12 +336,13 @@ async function handleAdmin(request, env, url) {
     let m;
     if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)$/)) && request.method === "GET") return json(await apiConversationDetail(env, decodeURIComponent(m[1])), 200, null);
     if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)\/flag$/)) && request.method === "POST") return json(await apiFlag(env, decodeURIComponent(m[1]), body), 200, null);
-    if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)\/promote$/)) && request.method === "POST") return json(await apiPromote(env, decodeURIComponent(m[1])), 200, null);
+    if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)\/promote$/)) && request.method === "POST") return json(await apiPromote(env, decodeURIComponent(m[1]), ctx), 200, null);
     if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)\/delete$/)) && request.method === "POST") return json(await apiDelete(env, decodeURIComponent(m[1]), q.hard === "1"), 200, null);
     if ((m = path.match(/^\/admin\/api\/prospects\/(\d+)$/)) && request.method === "PATCH") return json(await apiProspectPatch(env, parseInt(m[1], 10), body), 200, null);
+    if ((m = path.match(/^\/admin\/api\/prospects\/(\d+)$/)) && request.method === "DELETE") return json(await apiProspectDelete(env, parseInt(m[1], 10)), 200, null);
     return json({ error: "not_found", path }, 404, null);
   } catch (e) {
-    return json({ error: "server", message: String(e && e.message || e) }, 500, null);
+    return json({ error: "server" }, 500, null);
   }
 }
 
@@ -385,9 +414,9 @@ small.warn{color:var(--warn)}
 <div class="toast" id="toast"></div>
 <script>
 var V=document.getElementById('view');
-function api(p,o){return fetch('/admin/api/'+p,o).then(function(r){return r.json()})}
+function api(p,o){return fetch('/admin/api/'+p,o).then(function(r){if(r.status===401){location.reload();throw 0}if(!r.ok)throw new Error('http '+r.status);return r.json()}).catch(function(e){var l=document.querySelectorAll('.loading');for(var i=0;i<l.length;i++)l[i].innerHTML='Erreur réseau — <a href="javascript:location.reload()">recharger</a>';toast('Erreur réseau');throw e})}
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},1900)}
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function fmt(ms){if(!ms)return '—';var d=new Date(ms);return d.toISOString().slice(0,16).replace('T',' ')+' UTC'}
 function ago(ms){if(!ms)return '';var s=(Date.now()-ms)/1000;if(s<3600)return Math.round(s/60)+' min';if(s<86400)return Math.round(s/3600)+' h';return Math.round(s/86400)+' j'}
 function md(s){return esc(s).replace(/\[\[[^\]]*\]\]\s*$/,'').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').trim()}
@@ -480,21 +509,23 @@ function closeDrawer(){document.getElementById('drawer').classList.remove('open'
 document.getElementById('dbk').addEventListener('click',closeDrawer);
 
 // ---------- PROSPECTS ----------
-var pStatus='all';
-function viewProspects(){setNav('prospects');V.innerHTML='<div class="hd"><h2>Prospects</h2><div class="seg" id="pseg"></div></div><div id="plist"><div class="loading">Chargement…</div></div>';
+var pStatus='all',pQ='';
+function viewProspects(){setNav('prospects');V.innerHTML='<div class="hd"><h2>Prospects</h2><div class="seg" id="pseg"></div></div><div class="toolbar"><input id="pq" placeholder="Rechercher (email, sujet, note…)" value="'+esc(pQ)+'" style="flex:1;min-width:200px"></div><div id="plist"><div class="loading">Chargement…</div></div>';
  seg('pseg',[['all','Tous'],['new','Nouveaux'],['called','Appelés'],['won','Gagnés'],['ignored','Ignorés']],pStatus,function(v){pStatus=v;loadProspects()});
+ var deb;document.getElementById('pq').addEventListener('input',function(e){clearTimeout(deb);deb=setTimeout(function(){pQ=e.target.value;loadProspects()},350)});
  loadProspects()}
 function loadProspects(){var el=document.getElementById('plist');if(!el)return;
- api('prospects?status='+pStatus).then(function(d){
+ api('prospects?status='+pStatus+(pQ?'&q='+encodeURIComponent(pQ):'')).then(function(d){
   if(!d.data||!d.data.length){el.innerHTML='<div class="empty">Aucun prospect.</div>';return}
   el.innerHTML=d.data.map(function(p){
    var opts=['new','called','won','ignored'].map(function(s){return '<option value="'+s+'"'+(p.status===s?' selected':'')+'>'+s+'</option>'}).join('');
    return '<div class="card" style="margin-bottom:12px"><div class="row" style="justify-content:space-between"><div><strong>'+esc(p.email||p.subject||'Prospect #'+p.id)+'</strong> <span class="pill '+p.status+'">'+p.status+'</span> <span class="meta">· '+esc(p.source)+' · il y a '+ago(p.created_at)+'</span></div>'+
-    '<div class="row"><select onchange="patchP('+p.id+',{status:this.value})">'+opts+'</select>'+(p.session_id?'<button class="btn ghost sm" onclick="openSession(\''+esc(p.session_id)+'\')">Conversation</button>':'')+'</div></div>'+
+    '<div class="row"><select onchange="patchP('+p.id+',{status:this.value})">'+opts+'</select>'+(p.session_id?'<button class="btn ghost sm" onclick="openSession(\''+esc(p.session_id)+'\')">Conversation</button>':'')+'<button class="btn danger sm" onclick="deleteP('+p.id+')">Suppr.</button></div></div>'+
     '<div class="meta" style="margin:6px 0">'+esc(p.subject||'')+(p.message?' — '+esc((p.message||'').slice(0,160)):'')+'</div>'+
     '<textarea placeholder="Note…" style="width:100%;min-height:42px" onblur="patchP('+p.id+',{note:this.value})">'+esc(p.note||'')+'</textarea></div>'
   }).join('')})}
 function patchP(id,b){api('prospects/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(){toast('Enregistré');loadTodo();if(b.status)loadProspects()})}
+function deleteP(id){if(!confirm('Supprimer définitivement ce prospect ?'))return;api('prospects/'+id,{method:'DELETE'}).then(function(){toast('Supprimé');loadTodo();loadProspects()})}
 
 // ---------- SYSTÈME ----------
 function viewSystem(){setNav('system');V.innerHTML='<div class="hd"><h2>Données &amp; système</h2></div><div id="sys"><div class="loading">Chargement…</div></div>';
@@ -534,14 +565,14 @@ window.addEventListener('hashchange',router);router();loadTodo();
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === "/admin" || url.pathname.startsWith("/admin/")) return handleAdmin(request, env, url);
+    if (url.pathname === "/admin" || url.pathname.startsWith("/admin/")) return handleAdmin(request, env, url, ctx);
 
     const origin = request.headers.get("Origin") || "";
     const ch = corsHeaders(origin);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: ch });
     if (url.pathname === "/lead" || url.pathname === "/lead/") {
       if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
-      return handleLead(request, env, ch);
+      return handleLead(request, env, ch, ctx);
     }
     if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
     if (!env.ANTHROPIC_API_KEY) return json({ error: "missing_key" }, 500, ch);

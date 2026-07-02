@@ -1142,7 +1142,7 @@
         var raw = localStorage.getItem('mt_assistant_chat_v1');
         var log = raw ? JSON.parse(raw) : [];
         if (!Array.isArray(log) || !log.length) return '';
-        return log.map(function (m) { return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + m.text; }).join('\r\n\r\n');
+        return log.map(function (m) { return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + String(m.text || '').replace(/\*\*/g, ''); }).join('\r\n\r\n');
       } catch (_e) { return ''; }
     }
     function msg(t, err) { if (!note) return; note.textContent = t; note.hidden = false; note.className = 'dl-email-msg' + (err ? ' err' : ''); }
@@ -1207,7 +1207,7 @@
         var log = raw ? JSON.parse(raw) : [];
         if (!Array.isArray(log) || !log.length) return '';
         return log.map(function (m) {
-          return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + m.text;
+          return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + String(m.text || '').replace(/\*\*/g, '');
         }).join('\r\n\r\n');
       } catch (_e) { return ''; }
     }

@@ -231,16 +231,85 @@ async function apiProspectDelete(env, id) {
   return { ok: true, deleted: true };
 }
 
+// ===================== E-MAILS DE MARQUE (HTML) =====================
+// Rendu "bulletproof" (tables + styles inline, compatible Gmail/Outlook), palette du site (#1f5673).
+// Chaque e-mail part en multipart : text (plein, ** retirés) + html (marque, ** rendus en gras).
+const MAIL_FONT = "font-family:Arial,Helvetica,sans-serif;";
+function escHtml(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function mdBold(s) { return escHtml(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"); }
+function stripMd(s) { return String(s == null ? "" : s).replace(/\*\*/g, ""); }
+
+// Gabarit commun : bandeau accent, titre, intro, corps, CTA optionnel, pied.
+function brandEmail(o) {
+  const cta = o.ctaUrl
+    ? '<tr><td style="padding:8px 28px 24px;" align="left">' +
+      '<a href="' + o.ctaUrl + '" style="' + MAIL_FONT + 'display:inline-block;background:#1f5673;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;padding:12px 22px;border-radius:9px;">' +
+      escHtml(o.ctaLabel || "Ouvrir") + "</a></td></tr>"
+    : "";
+  return '<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#edf1f4;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#edf1f4;"><tr><td align="center" style="padding:26px 12px;">' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;max-width:620px;background:#ffffff;border:1px solid #d8dee3;border-radius:14px;overflow:hidden;">' +
+    '<tr><td style="background:#1f5673;padding:20px 28px;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>' +
+    '<td style="' + MAIL_FONT + 'color:#ffffff;font-size:17px;font-weight:bold;letter-spacing:.2px;">Mehmet TUZCU</td>' +
+    '<td align="right" style="' + MAIL_FONT + 'font-size:12px;"><a href="https://mehmettuzcu.fr" style="color:#bcd2de;text-decoration:none;">mehmettuzcu.fr</a></td>' +
+    "</tr></table>" +
+    '<div style="' + MAIL_FONT + 'color:#bcd2de;font-size:12.5px;padding-top:3px;">' + escHtml(o.tagline || "Architecte opérationnel — un dirigeant qui code") + "</div>" +
+    "</td></tr>" +
+    '<tr><td style="padding:26px 28px 4px;' + MAIL_FONT + 'color:#1c2126;font-size:17px;font-weight:bold;">' + escHtml(o.title || "") + "</td></tr>" +
+    (o.intro ? '<tr><td style="padding:6px 28px 12px;' + MAIL_FONT + 'color:#3d4753;font-size:14px;line-height:1.6;">' + o.intro + "</td></tr>" : "") +
+    '<tr><td style="padding:4px 28px 10px;">' + (o.bodyHtml || "") + "</td></tr>" +
+    cta +
+    '<tr><td style="padding:16px 28px 22px;border-top:1px solid #e6ebee;' + MAIL_FONT + 'color:#6b7680;font-size:12px;line-height:1.6;">' + (o.footHtml || "") + "</td></tr>" +
+    "</table>" +
+    '<div style="' + MAIL_FONT + 'color:#9aa6b0;font-size:11px;padding-top:12px;">© Mehmet TUZCU — <a href="https://mehmettuzcu.fr" style="color:#9aa6b0;">mehmettuzcu.fr</a></div>' +
+    "</td></tr></table></body></html>";
+}
+
+// Conversation "Visiteur : … / Assistant : …" -> blocs façon chat (bulle accent pour l'assistant).
+function transcriptBlocksHtml(transcript) {
+  const blocks = String(transcript || "").split(/\r?\n\r?\n/);
+  let html = "";
+  for (const b of blocks) {
+    if (!b.trim()) continue;
+    const m = b.match(/^(Visiteur|Assistant)\s*:\s*([\s\S]*)$/);
+    const who = m ? m[1] : "";
+    const txt = m ? m[2] : b;
+    const isA = who === "Assistant";
+    html +=
+      '<div style="margin:0 0 14px;">' +
+      (who ? '<div style="' + MAIL_FONT + 'font-size:10.5px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:' + (isA ? "#1f5673" : "#8a95a0") + ';padding:0 0 4px 2px;">' + who + "</div>" : "") +
+      '<div style="' + MAIL_FONT + 'font-size:14px;line-height:1.6;color:#1c2126;background:' + (isA ? "#eef3f6" : "#f7f9fa") + ";border-left:3px solid " + (isA ? "#1f5673" : "#d8dee3") + ';border-radius:0 10px 10px 0;padding:12px 15px;">' +
+      mdBold(txt).replace(/\r?\n/g, "<br>") +
+      "</div></div>";
+  }
+  return html;
+}
+
 // Notification e-mail d'un nouveau prospect (via Resend). No-op si RESEND_API_KEY n'est pas configuré.
 function notifyProspect(env, ctx, p) {
   if (!env || !env.RESEND_API_KEY) return;
   const to = env.NOTIFY_EMAIL || "conseil@mehmettuzcu.fr";
   const from = env.NOTIFY_FROM || "Assistant mehmettuzcu.fr <onboarding@resend.dev>";
+  const adminUrl = "https://assistant-mehmet.conseil-40b.workers.dev/admin#/prospects";
   const payload = {
     from, to: [to],
     subject: "Nouveau prospect : " + (p.email || p.subject || "sans e-mail"),
-    text: (p.email ? "Email : " + p.email + "\n" : "") + (p.subject ? p.subject + "\n\n" : "") + (p.message || "") +
-      "\n\n→ Panneau : https://assistant-mehmet.conseil-40b.workers.dev/admin#/prospects",
+    text: (p.email ? "Email : " + p.email + "\n" : "") + (p.subject ? p.subject + "\n\n" : "") + stripMd(p.message || "") +
+      "\n\n→ Panneau : " + adminUrl,
+    html: brandEmail({
+      tagline: "Back-office — nouveau prospect",
+      title: p.subject || "Nouveau prospect",
+      intro: p.email
+        ? 'De : <a href="mailto:' + escHtml(p.email) + '" style="color:#1f5673;font-weight:bold;">' + escHtml(p.email) + "</a>"
+        : "Sans e-mail communiqué.",
+      bodyHtml: transcriptBlocksHtml(p.message || ""),
+      ctaLabel: "Ouvrir le panneau prospects →",
+      ctaUrl: adminUrl,
+      footHtml: "Notification automatique de l'assistant mehmettuzcu.fr.",
+    }),
   };
   const job = fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -263,9 +332,17 @@ function sendTranscriptToVisitor(env, ctx, email, transcript) {
     subject: "Votre conversation avec l'assistant de Mehmet TUZCU",
     text:
       "Bonjour,\n\nVoici la copie de votre échange avec l'assistant de mehmettuzcu.fr, comme demandé.\n\n" +
-      "— — — — — — — — — —\n\n" + transcript + "\n\n— — — — — — — — — —\n\n" +
+      "— — — — — — — — — —\n\n" + stripMd(transcript) + "\n\n— — — — — — — — — —\n\n" +
       "Pour poursuivre l'échange directement avec Mehmet : conseil@mehmettuzcu.fr\n" +
       "https://mehmettuzcu.fr\n\n— Mehmet TUZCU, architecte opérationnel",
+    html: brandEmail({
+      title: "Votre conversation avec l'assistant",
+      intro: 'Bonjour,<br>Voici la copie de votre échange avec l\'assistant de <a href="https://mehmettuzcu.fr" style="color:#1f5673;">mehmettuzcu.fr</a>, comme demandé.',
+      bodyHtml: transcriptBlocksHtml(transcript),
+      ctaLabel: "Poursuivre avec Mehmet →",
+      ctaUrl: "https://mehmettuzcu.fr/#contact",
+      footHtml: 'Pour échanger directement : <a href="mailto:conseil@mehmettuzcu.fr" style="color:#1f5673;">conseil@mehmettuzcu.fr</a><br>— Mehmet TUZCU, architecte opérationnel France-Turquie',
+    }),
   };
   const job = fetch("https://api.resend.com/emails", {
     method: "POST",

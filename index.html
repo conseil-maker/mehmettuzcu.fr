@@ -102,21 +102,36 @@
 
   /* À propos : agencement intro + photo (rappel, la photo principale est dans le hero) */
 
-  /* Formulaire de contact — palette claire */
-  .contact-form-panel {
-    background: #fff;
+  /* Contact — bloc unifié : en-tête accent + formulaire clair, un seul objet visuel */
+  .contact-unified {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 32px 32px 36px;
-    margin-top: 28px;
+    overflow: hidden;
+    background: #fff;
   }
-  .contact-form-panel h3 {
+  .contact-head {
+    background: var(--accent);
+    color: #fff;
+    padding: 40px 40px 32px;
+  }
+  .contact-head .eyebrow { color: #bcd2de; }
+  .contact-head h2 { color: #fff; margin: 4px 0 14px; }
+  .contact-head p { color: #e3edf2; font-size: 1.02rem; max-width: 660px; }
+  .contact-head .contact-list { list-style: none; margin: 20px 0 22px; padding: 0; }
+  .contact-head .contact-list li { margin-bottom: 8px; font-size: .98rem; }
+  .contact-head .contact-list a { color: #fff; font-weight: 600; }
+  .contact-head .contact-list .k { color: #bcd2de; display: inline-block; min-width: 210px; font-weight: 400; }
+  .contact-form-area {
+    background: #fff;
+    padding: 32px 40px 36px;
+  }
+  .contact-form-area h3 {
     margin: 0 0 6px;
     color: var(--ink);
     font-size: 1.18rem;
   }
-  .contact-form-panel .form-intro {
+  .contact-form-area .form-intro {
     margin: 0 0 22px;
     color: var(--gray);
     font-size: .98rem;
@@ -417,6 +432,16 @@
   .drawer-leave .dl-btn:hover { background: #eef3f6; }
   .drawer-leave .dl-link { background: none; border: 0; color: var(--gray,#6b7680); font-size: .84rem; padding: 4px; text-decoration: underline; }
   .drawer-leave .dl-link:hover { color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email { position: relative; margin: 2px 0 12px; padding-top: 12px; border-top: 1px solid var(--line,#e6ebee); text-align: left; }
+  .drawer-leave .dl-email-lbl { display: block; font-size: .82rem; font-weight: 600; color: var(--gray,#6b7680); margin-bottom: 7px; }
+  .drawer-leave .dl-email-row { display: flex; gap: 8px; }
+  .drawer-leave .dl-email input { flex: 1 1 auto; width: auto; min-width: 0; font: inherit; font-size: .9rem; color: var(--ink,#1c2126); background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 8px; padding: 9px 12px; }
+  .drawer-leave .dl-email input:focus { outline: none; border-color: var(--accent,#1f5673); box-shadow: 0 0 0 3px rgba(31,86,115,.14); }
+  .drawer-leave .dl-send { flex: 0 0 auto; width: auto; background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 8px; padding: 9px 16px; font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+  .drawer-leave .dl-send:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-send:disabled { opacity: .6; cursor: default; filter: none; }
+  .drawer-leave .dl-email-msg { margin: 8px 0 0; font-size: .82rem; color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email-msg.err { color: #b4232a; }
 
   /* BOUTON FLOTTANT */
   #assistant-fab {
@@ -459,7 +484,9 @@
   }
   @media (max-width: 680px) {
     .contact-form .form-row { grid-template-columns: 1fr; }
-    .contact-form-panel { padding: 26px 22px 30px; }
+    .contact-head { padding: 30px 22px 26px; }
+    .contact-head .contact-list .k { min-width: 0; display: block; margin-bottom: 2px; }
+    .contact-form-area { padding: 26px 22px 30px; }
     .brand-logo { height: 34px; }
   }
 </style>
@@ -872,8 +899,9 @@
   <!-- CONTACT -->
   <section id="contact" class="section-alt" aria-labelledby="contact-title">
     <div class="container">
-      <div class="contact-card">
-        <p class="eyebrow" style="color:#bcd2de;">Contact</p>
+      <div class="contact-unified">
+        <div class="contact-head">
+        <p class="eyebrow">Contact</p>
         <h2 id="contact-title">Parlons de votre projet</h2>
         <p>
           Vous portez un projet à l'intersection du métier, de la réglementation et de la technologie ? Vous cherchez
@@ -888,9 +916,9 @@
           <li><span class="k">Plateforme d'orientation IA</span> <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a></li>
         </ul>
         <button type="button" class="btn btn-secondary" onclick="openAssistant()">Discuter avec mon assistant →</button>
-      </div>
+        </div>
 
-      <div class="contact-form-panel">
+        <div class="contact-form-area">
         <h3>Présentez-moi votre projet</h3>
         <p class="form-intro">
           Remplissez ce formulaire et envoyez-le : je reçois votre demande — avec votre conversation
@@ -943,6 +971,7 @@
         <div class="form-confirm" id="formConfirm" hidden>
           <p>Merci, votre message a bien été envoyé. Je vous réponds rapidement.</p>
         </div>
+        </div>
       </div>
     </div>
   </section>
@@ -978,9 +1007,17 @@
   <div id="drawerLeave" class="drawer-leave" hidden>
     <div class="dl-card">
       <p class="dl-title">Avant de partir…</p>
-      <p class="dl-sub">Gardez le contact — Mehmet peut vous répondre lui-même.</p>
+      <p class="dl-sub">Gardez une trace de cet échange — et Mehmet peut vous répondre lui-même.</p>
       <button type="button" class="dl-primary" id="dlContact">📩 Être recontacté par Mehmet<small>je lui transmets cette conversation</small></button>
-      <button type="button" class="dl-btn" id="dlDownload">⬇&nbsp;&nbsp;Télécharger la conversation (PDF)</button>
+      <div class="dl-email">
+        <label class="dl-email-lbl" for="dlEmail">✉️&nbsp;&nbsp;Recevez cette conversation par e-mail</label>
+        <div class="dl-email-row">
+          <input type="email" id="dlEmail" placeholder="vous@email.com" autocomplete="email" inputmode="email" />
+          <button type="button" class="dl-send" id="dlEmailSend">Envoyer</button>
+        </div>
+        <input type="text" id="dlHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <p class="dl-email-msg" id="dlEmailMsg" hidden></p>
+      </div>
       <button type="button" class="dl-link" id="dlClose">Fermer sans rien envoyer</button>
     </div>
   </div>
@@ -993,7 +1030,7 @@
 </button>
 
 <script>
-  const FORM_ENDPOINT = ""; // ← URL Formspree ou Worker (laisser vide = repli mailto)
+  const WORKER_BASE = "https://assistant-mehmet.conseil-40b.workers.dev"; // back-office : /lead + /transcript
 
   // Année dynamique
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -1089,15 +1126,43 @@
     if (e.data && e.data.type === 'mt-contact') openContactForm();
   });
 
-  // Panneau de sortie (recontact / téléchargement / fermer).
+  // Panneau de sortie (recontact / recevoir la conversation par e-mail / fermer).
   (function () {
-    var c = document.getElementById('dlContact'), d = document.getElementById('dlDownload'), x = document.getElementById('dlClose');
+    var c = document.getElementById('dlContact'), x = document.getElementById('dlClose');
     if (c) c.addEventListener('click', function () { openContactForm(); });
-    if (d) d.addEventListener('click', function () {
-      if (__asIframe && __asIframe.contentWindow) { try { __asIframe.contentWindow.postMessage({ type: 'mt-download' }, location.origin); } catch (_e) {} }
-      window.setTimeout(doCloseDrawer, 400);
-    });
     if (x) x.addEventListener('click', function () { doCloseDrawer(); });
+
+    // « Recevez cette conversation par e-mail » : une copie part au visiteur (+ lead côté back-office).
+    var send = document.getElementById('dlEmailSend');
+    var input = document.getElementById('dlEmail');
+    var note = document.getElementById('dlEmailMsg');
+    var hp = document.getElementById('dlHp');
+    function transcript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) { return (m.role === 'user' ? 'Visiteur : ' : 'Assistant : ') + m.text; }).join('\r\n\r\n');
+      } catch (_e) { return ''; }
+    }
+    function msg(t, err) { if (!note) return; note.textContent = t; note.hidden = false; note.className = 'dl-email-msg' + (err ? ' err' : ''); }
+    if (send && input) send.addEventListener('click', function () {
+      var email = (input.value || '').trim();
+      if (!email || email.indexOf('@') < 1 || email.length < 5) { msg('Entrez une adresse e-mail valide.', true); input.focus(); return; }
+      var tx = transcript();
+      if (!tx) { msg('Il n\'y a pas encore de conversation à envoyer.', true); return; }
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var lbl = send.textContent; send.disabled = true; send.textContent = 'Envoi…';
+      fetch(WORKER_BASE + '/transcript', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, transcript: tx, session_id: sid, hp: (hp && hp.value) || '' })
+      })
+        .then(function (r) {
+          if (r && r.ok) { input.disabled = true; send.textContent = 'Envoyé ✓'; msg('C\'est envoyé — vérifiez votre boîte de réception (et vos spams).', false); }
+          else { throw new Error('bad'); }
+        })
+        .catch(function () { send.disabled = false; send.textContent = lbl; msg('Erreur à l\'envoi. Réessayez dans un instant.', true); });
+    });
   })();
 
   // Liens de nav pointant vers l'ancienne section : ouvrir le drawer
@@ -1192,7 +1257,7 @@
       var lbl = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
 
-      fetch('https://assistant-mehmet.conseil-40b.workers.dev/lead', {
+      fetch(WORKER_BASE + '/lead', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: full, session_id: sid, hp: hp })
       })

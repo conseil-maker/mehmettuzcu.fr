@@ -250,6 +250,51 @@ function notifyProspect(env, ctx, p) {
   if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job);
 }
 
+// Envoie au VISITEUR une copie de sa conversation avec l'assistant (via Resend).
+// Nécessite un domaine vérifié dans Resend pour atteindre une adresse externe.
+// No-op si RESEND_API_KEY absent ; échec silencieux (le lead est déjà enregistré).
+function sendTranscriptToVisitor(env, ctx, email, transcript) {
+  if (!env || !env.RESEND_API_KEY || !email) return;
+  const from = env.NOTIFY_FROM || "Assistant mehmettuzcu.fr <onboarding@resend.dev>";
+  const payload = {
+    from,
+    to: [email],
+    reply_to: env.NOTIFY_EMAIL || "conseil@mehmettuzcu.fr",
+    subject: "Votre conversation avec l'assistant de Mehmet TUZCU",
+    text:
+      "Bonjour,\n\nVoici la copie de votre échange avec l'assistant de mehmettuzcu.fr, comme demandé.\n\n" +
+      "— — — — — — — — — —\n\n" + transcript + "\n\n— — — — — — — — — —\n\n" +
+      "Pour poursuivre l'échange directement avec Mehmet : conseil@mehmettuzcu.fr\n" +
+      "https://mehmettuzcu.fr\n\n— Mehmet TUZCU, architecte opérationnel",
+  };
+  const job = fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + env.RESEND_API_KEY, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
+  if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job);
+}
+
+// En quittant l'assistant, le visiteur demande à recevoir sa conversation par e-mail.
+// On lui en envoie une copie ET on enregistre un lead (il a laissé son adresse) + notification.
+async function handleTranscript(request, env, ch, ctx) {
+  let b; try { b = await request.json(); } catch (e) { return json({ error: "bad_json" }, 400, ch); }
+  if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore
+  const email = (b.email || "").toString().slice(0, 200).trim();
+  const transcript = (b.transcript || "").toString().slice(0, 12000).trim();
+  const sid = (b.session_id || "").toString().slice(0, 64) || null;
+  if (!email || email.indexOf("@") < 1 || !transcript) return json({ ok: false }, 400, ch);
+  const subject = ("Conversation demandée par e-mail — " + email).slice(0, 160);
+  if (env.DB) {
+    const now = Date.now();
+    await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
+      .bind(sid, email, subject, transcript, "transcript", "new", now, now).run().catch(() => {});
+  }
+  sendTranscriptToVisitor(env, ctx, email, transcript);
+  notifyProspect(env, ctx, { email, subject, message: "Le visiteur a demandé une copie de sa conversation.\n\n" + transcript });
+  return json({ ok: true }, 200, ch);
+}
+
 // -------- API : système --------
 async function apiSystem(env) {
   const one = async (sql, ...b) => { const r = await env.DB.prepare(sql).bind(...b).first(); return r ? Object.values(r)[0] : 0; };
@@ -573,6 +618,10 @@ export default {
     if (url.pathname === "/lead" || url.pathname === "/lead/") {
       if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
       return handleLead(request, env, ch, ctx);
+    }
+    if (url.pathname === "/transcript" || url.pathname === "/transcript/") {
+      if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
+      return handleTranscript(request, env, ch, ctx);
     }
     if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
     if (!env.ANTHROPIC_API_KEY) return json({ error: "missing_key" }, 500, ch);

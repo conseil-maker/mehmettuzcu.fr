@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Back-office — redirection</title>
+<!-- Raccourci mémorisable : mehmettuzcu.fr/admin -> back-office (Worker).
+     Le site est statique (GitHub Pages), le panneau vit sur le Worker ; cette page fait le pont. -->
+<meta http-equiv="refresh" content="0; url=https://assistant-mehmet.conseil-40b.workers.dev/admin" />
+<script>
+  // Préserve un éventuel fragment (#/prospects, #/conversations…)
+  location.replace('https://assistant-mehmet.conseil-40b.workers.dev/admin' + (location.hash || ''));
+</script>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; background: #f4f7f9; color: #3d4753;
+         display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+  p { font-size: 15px; }
+  a { color: #1f5673; }
+</style>
+</head>
+<body>
+<p>Redirection vers le back-office…
+   <a href="https://assistant-mehmet.conseil-40b.workers.dev/admin">Cliquez ici si rien ne se passe.</a></p>
+</body>
+</html>

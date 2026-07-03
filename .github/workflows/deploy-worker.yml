@@ -1,0 +1,22 @@
+# Déploiement automatique du Worker Cloudflare à chaque push touchant cloudflare-worker/.
+# Nécessite le secret d'Actions CLOUDFLARE_API_TOKEN (token « Edit Cloudflare Workers »).
+name: Deploy Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cloudflare-worker/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: cloudflare-worker

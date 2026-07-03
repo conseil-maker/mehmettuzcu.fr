@@ -1,0 +1,19 @@
+# Config de déploiement du Worker (CI GitHub Actions -> `wrangler deploy`).
+# IMPORTANT : keep_vars préserve les variables saisies dans le dashboard
+# (ANTHROPIC_API_KEY, ADMIN_PASSWORD, RESEND_API_KEY, NOTIFY_FROM) — sans elle,
+# un déploiement wrangler les effacerait.
+name = "assistant-mehmet"
+main = "worker.js"
+account_id = "40b0ec16b7615c8dcc851302ad837821"
+compatibility_date = "2024-11-01"
+workers_dev = true
+keep_vars = true
+
+# Purge quotidienne des conversations > 90 jours (déjà en place côté dashboard).
+[triggers]
+crons = ["0 3 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mehmet-assistant-logs"
+database_id = "7dfea168-85f2-468c-9cfc-8ddeb7503563"

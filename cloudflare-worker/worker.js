@@ -38,6 +38,14 @@ function corsHeaders(origin) {
 function json(obj, status, ch) {
   return new Response(JSON.stringify(obj), { status, headers: { ...(ch || {}), "Content-Type": "application/json; charset=utf-8" } });
 }
+// session_id = jeton opaque : on le réduit à [A-Za-z0-9_-] à l'INGESTION.
+// C'est la défense principale contre le XSS stocké — le back-office rend le
+// session_id dans des attributs onclick, où un échappement HTML ne suffit pas
+// (le parseur décode les entités avant la compilation JS). Aucun caractère
+// dangereux (quote, antislash, chevron) ne peut donc atteindre ces sinks.
+function safeSid(v) {
+  return (v == null ? "" : v.toString()).slice(0, 64).replace(/[^A-Za-z0-9_-]/g, "");
+}
 
 // ===================== INSTRUMENTATION AU WRITE-TIME =====================
 // Bucket métier déterministe (regex FR), calculé à l'écriture de chaque échange.
@@ -359,7 +367,7 @@ async function handleTranscript(request, env, ch, ctx) {
   if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore
   const email = (b.email || "").toString().slice(0, 200).trim();
   const transcript = (b.transcript || "").toString().slice(0, 12000).trim();
-  const sid = (b.session_id || "").toString().slice(0, 64) || null;
+  const sid = safeSid(b.session_id) || null;
   if (!email || email.indexOf("@") < 1 || !transcript) return json({ ok: false }, 400, ch);
   const subject = ("Conversation demandée par e-mail — " + email).slice(0, 160);
   if (env.DB) {
@@ -397,7 +405,7 @@ async function handleLead(request, env, ch, ctx) {
   const org = (b.org || "").toString().slice(0, 120).trim();
   const tel = (b.tel || "").toString().slice(0, 60).trim();
   const message = (b.message || "").toString().slice(0, 4000).trim();
-  const sid = (b.session_id || "").toString().slice(0, 64) || null;
+  const sid = safeSid(b.session_id) || null;
   if (!email && !message) return json({ ok: false }, 400, ch);
   const subject = ("Formulaire" + (nom ? " — " + nom : "") + (org ? " (" + org + ")" : "")).slice(0, 160);
   const body = (tel ? "Tél : " + tel + "\n" : "") + message;
@@ -461,6 +469,7 @@ async function apiCorpusList(env) {
   return { data: rows };
 }
 async function apiCorpusGet(env, id) {
+  await ensureCorpus(env);
   const row = await env.DB.prepare("SELECT * FROM corpus_docs WHERE id=?").bind(id).first();
   return row ? { row } : { error: "not_found" };
 }
@@ -475,16 +484,18 @@ async function apiCorpusCreate(env, body) {
   return { ok: true };
 }
 async function apiCorpusPatch(env, id, body) {
+  await ensureCorpus(env);
   const sets = []; const args = [];
   if (typeof body.name === "string" && body.name.trim()) { sets.push("name=?"); args.push(body.name.slice(0, 120).trim()); }
   if (typeof body.content === "string") { sets.push("content=?"); args.push(body.content.slice(0, 400000)); }
-  if (body.enabled === 0 || body.enabled === 1) { sets.push("enabled=?"); args.push(body.enabled); }
+  if (body.enabled === 0 || body.enabled === 1 || body.enabled === true || body.enabled === false) { sets.push("enabled=?"); args.push(body.enabled ? 1 : 0); }
   if (!sets.length) return { error: "no_fields" };
   sets.push("updated_at=?"); args.push(Date.now()); args.push(id);
   await env.DB.prepare("UPDATE corpus_docs SET " + sets.join(", ") + " WHERE id=?").bind(...args).run();
   return { ok: true };
 }
 async function apiCorpusDelete(env, id) {
+  await ensureCorpus(env);
   await env.DB.prepare("DELETE FROM corpus_docs WHERE id=?").bind(id).run();
   return { ok: true };
 }
@@ -541,6 +552,14 @@ async function handleAdmin(request, env, url, ctx) {
   if (st !== "ok") return authChallenge();
   if (!env.DB) return json({ error: "d1_unbound" }, 503, null);
 
+  // Anti-CSRF : le Basic Auth est renvoyé automatiquement par le navigateur, donc
+  // une requête d'écriture cross-site l'emporterait. On exige que l'Origin (envoyé
+  // sur toute requête mutante) corresponde au Worker ; les GET restent libres.
+  if (request.method === "POST" || request.method === "PATCH" || request.method === "DELETE") {
+    const origin = request.headers.get("Origin");
+    if (origin && origin !== url.origin) return json({ error: "bad_origin" }, 403, null);
+  }
+
   const path = url.pathname;
   const q = Object.fromEntries(url.searchParams.entries());
   let body = {};
@@ -548,7 +567,11 @@ async function handleAdmin(request, env, url, ctx) {
   const seg = path.replace(/^\/admin\/api\//, "").replace(/\/$/, "");
 
   try {
-    if (path === "/admin" || path === "/admin/") return new Response(ADMIN_HTML, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+    if (path === "/admin" || path === "/admin/") return new Response(ADMIN_HTML, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
+      // Défense en profondeur : bloque toute exfiltration vers un tiers (fetch/img/script
+      // externes) même si une injection franchissait l'assainissement. 'unsafe-inline' reste
+      // requis (handlers onclick de la SPA), mais connect/img/script-src 'self' ferme le canal de fuite.
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" } });
     if (path === "/admin/api/overview") return json(await apiOverview(env, parseInt(q.range || "7", 10) || 7), 200, null);
     if (path === "/admin/api/conversations" && request.method === "GET") return json(await apiConversations(env, q), 200, null);
     if (path === "/admin/api/prospects" && request.method === "GET") return json(await apiProspects(env, q), 200, null);
@@ -804,23 +827,27 @@ function prender(){var el=document.getElementById('pmsgs');if(!el)return;var h=p
    '<div style="display:inline-block;max-width:86%;text-align:left;padding:10px 13px;border-radius:'+(isU?'12px 12px 3px 12px':'12px 12px 12px 3px')+';background:'+(isU?'var(--acc)':'var(--soft)')+';color:'+(isU?'#fff':'var(--ink)')+';white-space:pre-wrap;font-size:.92rem;line-height:1.55">'+md2(m.content)+'</div></div>'
  }).join(''):'<div class="empty">Assistant privé — il connaît tout ton dossier (documents actifs du corpus). Sans filtre, sans limite, et rien n&#39;est journalisé.</div>';
  el.scrollTop=el.scrollHeight}
-function pclear(){if(!confirm('Effacer l&#39;historique local de ce navigateur ?'))return;psave([]);prender()}
-function psendMsg(){var inp=document.getElementById('pin');var t=(inp.value||'').trim();if(!t)return;
+function pclear(){if(!confirm('Effacer l\'historique local de ce navigateur ?'))return;psave([]);prender()}
+var pBusy=false;
+function psendMsg(){if(pBusy)return;var inp=document.getElementById('pin');var t=(inp.value||'').trim();if(!t)return;
+ pBusy=true;
  var h=pload();h.push({role:'user',content:t});psave(h);inp.value='';prender();
- var btn=document.getElementById('psend');btn.disabled=true;btn.textContent='…';
+ var btn=document.getElementById('psend');if(btn){btn.disabled=true;btn.textContent='…'}
+ var done=function(){pBusy=false;var b=document.getElementById('psend');if(b){b.disabled=false;b.textContent='Envoyer'}};
  var hist=pload().slice(-16);
- api('pchat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,history:hist.slice(0,-1)})})
- .then(function(d){btn.disabled=false;btn.textContent='Envoyer';
+ var clean=hist.slice(0,-1).filter(function(m){return !(m.role==='assistant'&&m.content.indexOf('⚠️')===0)});
+ api('pchat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,history:clean})})
+ .then(function(d){done();
   var hh=pload();
   if(d.error){var msg='⚠️ Erreur : '+d.error+(d.status?' ('+d.status+')':'')+(d.detail?' — '+d.detail:'');
    if(d.status===429)msg+='\n(Corpus actif trop volumineux pour la limite API : désactive des documents dans « Corpus privé ».)';
    hh.push({role:'assistant',content:msg});psave(hh);prender();return}
   hh.push({role:'assistant',content:d.answer||'(réponse vide)'});psave(hh);prender()})
- .catch(function(){btn.disabled=false;btn.textContent='Envoyer'})}
+ .catch(function(){done();var hh=pload();hh.push({role:'assistant',content:'⚠️ Erreur réseau — réessaie.'});psave(hh);prender()})}
 
 // ---------- CORPUS PRIVÉ ----------
 function viewCorpus(){setNav('corpus');V.innerHTML='<div class="loading">Chargement…</div>';
- api('corpus').then(function(d){var rows=d.data||[];
+ api('corpus').then(function(d){if(location.hash.replace(/^#\//,'').indexOf('corpus')!==0)return;var rows=d.data||[];
   var on=rows.filter(function(r){return r.enabled});var kb=Math.round(on.reduce(function(s,r){return s+r.size},0)/1024);
   var warn=kb>130?' <span style="color:var(--bad);font-weight:700">⚠ volumineux : risque de limite API (429) — désactive des documents</span>':'';
   V.innerHTML='<div class="hd"><h2>Corpus privé</h2><div class="meta">'+on.length+'/'+rows.length+' actifs · ~'+kb+' Ko actifs'+warn+'</div></div>'+
@@ -845,15 +872,19 @@ function cview(id){api('corpus/'+id).then(function(d){if(!d.row){toast('Introuva
  openDrawer()})}
 function cadd(){var n=document.getElementById('cname').value.trim();var c=document.getElementById('ccontent').value;
  if(!n||!c.trim()){toast('Nom et contenu requis');return}
- api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,content:c})}).then(function(){toast('Ajouté');viewCorpus()})}
+ api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,content:c})}).then(function(d){if(d&&d.error){toast('Refusé : '+d.error);return}toast('Ajouté');viewCorpus()})}
 function cimport(){var f=document.getElementById('cfiles');var files=Array.prototype.slice.call((f&&f.files)||[]);
  if(!files.length){toast('Choisis des fichiers');return}
  var act=document.getElementById('cactive').checked?1:0;
  var st=document.getElementById('cimpst');var i=0;
- (function next(){if(i>=files.length){toast(files.length+' fichier(s) importé(s)');viewCorpus();return}
+ var ok=0,ko=0;
+ (function next(){if(i>=files.length){toast(ok+' importé(s)'+(ko?' · '+ko+' échec(s)':''));viewCorpus();return}
   var file=files[i];if(st)st.textContent='Import '+(i+1)+'/'+files.length+' — '+file.name;
   var rd=new FileReader();
-  rd.onload=function(){api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,content:String(rd.result||''),enabled:act})}).then(function(){i++;next()})};
+  rd.onerror=function(){ko++;i++;next()};
+  rd.onload=function(){api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,content:String(rd.result||''),enabled:act})})
+   .then(function(d){if(d&&d.error){ko++}else{ok++}i++;next()})
+   .catch(function(){ko++;i++;next()})};
   rd.readAsText(file)})()}
 
 // ---------- shared ----------
@@ -895,7 +926,7 @@ export default {
     try { body = await request.json(); } catch (e) { return json({ error: "bad_json" }, 400, ch); }
     const msg = (body.message || "").toString().slice(0, 1000);
     if (!msg.trim()) return json({ error: "empty_message" }, 400, ch);
-    const sessionId = (body.session_id || "").toString().slice(0, 64) || "anon";
+    const sessionId = safeSid(body.session_id) || "anon";
 
     const hist = Array.isArray(body.history) ? body.history.slice(-12) : [];
     const messages = [];

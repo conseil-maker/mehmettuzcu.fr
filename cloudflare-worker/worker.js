@@ -447,7 +447,16 @@ const PRIVATE_PREAMBLE =
   "- Si une information manque dans les documents ACTIFS ci-dessous, dis-le explicitement et indique quel document du corpus activer ou ajouter — n'invente jamais.\n" +
   "- Tu peux le challenger, jouer l'avocat du diable, préparer des négociations, rédiger en son nom (e-mails, notes, pitchs).";
 
+// Migration paresseuse : la table se crée toute seule au premier appel (idempotent),
+// aucun passage par la console D1 n'est nécessaire.
+let corpusReady = false;
+async function ensureCorpus(env) {
+  if (corpusReady) return;
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS corpus_docs (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, content TEXT NOT NULL, enabled INTEGER NOT NULL DEFAULT 1, updated_at INTEGER NOT NULL)").run();
+  corpusReady = true;
+}
 async function apiCorpusList(env) {
+  await ensureCorpus(env);
   const rows = (await env.DB.prepare("SELECT id, name, enabled, length(content) AS size, updated_at FROM corpus_docs ORDER BY name").all()).results || [];
   return { data: rows };
 }
@@ -456,6 +465,7 @@ async function apiCorpusGet(env, id) {
   return row ? { row } : { error: "not_found" };
 }
 async function apiCorpusCreate(env, body) {
+  await ensureCorpus(env);
   const name = (body.name || "").toString().slice(0, 120).trim();
   const content = (body.content || "").toString().slice(0, 400000);
   if (!name || !content.trim()) return { error: "missing_fields" };
@@ -486,6 +496,7 @@ async function apiPrivateChat(env, body) {
   if (!env.ANTHROPIC_API_KEY) return { error: "missing_key" };
   const msg = (body.message || "").toString().slice(0, 6000);
   if (!msg.trim()) return { error: "empty_message" };
+  await ensureCorpus(env);
   const docs = (await env.DB.prepare("SELECT name, content FROM corpus_docs WHERE enabled=1 ORDER BY name").all()).results || [];
   let corpus = "";
   for (const d of docs) corpus += "\n\n===== DOCUMENT : " + d.name + " =====\n" + d.content;

@@ -433,6 +433,96 @@ async function apiExport(env, p) {
   return new Response(csv, { headers: { "Content-Type": "text/csv; charset=utf-8", "Content-Disposition": 'attachment; filename="' + type + '.csv"' } });
 }
 
+// ===================== ASSISTANT PRIVÉ (back-office) =====================
+// Chat personnel de Mehmet, derrière le Basic Auth du /admin. À l'inverse de
+// l'assistant public : corpus = dossier PRIVÉ complet (table D1 corpus_docs),
+// aucun filtre, aucune limite applicative, aucune journalisation des échanges.
+// Le corpus ne doit JAMAIS être référencé par le chemin public.
+const PRIVATE_PREAMBLE =
+  "Tu es l'assistant PRIVÉ de Mehmet TUZCU — accessible uniquement à lui, derrière authentification, dans son back-office personnel.\n" +
+  "L'utilisateur EST Mehmet. Ce n'est PAS l'assistant public du site : ici, aucun filtre commercial ou de confidentialité ne s'applique.\n" +
+  "- Utilise TOUTES les informations du dossier ci-dessous, y compris les données privées et sensibles : chiffres financiers, clients, négociations, données personnelles, stratégie.\n" +
+  "- Réponds dans la langue de sa question (turc ou français — il utilise les deux).\n" +
+  "- Sois direct, dense et structuré ; pas de langue de bois. Appuie-toi sur les faits du dossier et cite les chiffres exacts.\n" +
+  "- Si une information manque dans les documents ACTIFS ci-dessous, dis-le explicitement et indique quel document du corpus activer ou ajouter — n'invente jamais.\n" +
+  "- Tu peux le challenger, jouer l'avocat du diable, préparer des négociations, rédiger en son nom (e-mails, notes, pitchs).";
+
+async function apiCorpusList(env) {
+  const rows = (await env.DB.prepare("SELECT id, name, enabled, length(content) AS size, updated_at FROM corpus_docs ORDER BY name").all()).results || [];
+  return { data: rows };
+}
+async function apiCorpusGet(env, id) {
+  const row = await env.DB.prepare("SELECT * FROM corpus_docs WHERE id=?").bind(id).first();
+  return row ? { row } : { error: "not_found" };
+}
+async function apiCorpusCreate(env, body) {
+  const name = (body.name || "").toString().slice(0, 120).trim();
+  const content = (body.content || "").toString().slice(0, 400000);
+  if (!name || !content.trim()) return { error: "missing_fields" };
+  const enabled = (body.enabled === 0 || body.enabled === false) ? 0 : 1;
+  await env.DB.prepare("INSERT INTO corpus_docs (name, content, enabled, updated_at) VALUES (?,?,?,?)")
+    .bind(name, content, enabled, Date.now()).run();
+  return { ok: true };
+}
+async function apiCorpusPatch(env, id, body) {
+  const sets = []; const args = [];
+  if (typeof body.name === "string" && body.name.trim()) { sets.push("name=?"); args.push(body.name.slice(0, 120).trim()); }
+  if (typeof body.content === "string") { sets.push("content=?"); args.push(body.content.slice(0, 400000)); }
+  if (body.enabled === 0 || body.enabled === 1) { sets.push("enabled=?"); args.push(body.enabled); }
+  if (!sets.length) return { error: "no_fields" };
+  sets.push("updated_at=?"); args.push(Date.now()); args.push(id);
+  await env.DB.prepare("UPDATE corpus_docs SET " + sets.join(", ") + " WHERE id=?").bind(...args).run();
+  return { ok: true };
+}
+async function apiCorpusDelete(env, id) {
+  await env.DB.prepare("DELETE FROM corpus_docs WHERE id=?").bind(id).run();
+  return { ok: true };
+}
+
+// Chat privé : system = préambule + concat des documents ACTIFS (avec cache).
+// Réponse JSON { answer, usage } ; les erreurs amont sont remontées avec détail
+// (un 429 signale un corpus actif trop grand pour la limite de débit du palier API).
+async function apiPrivateChat(env, body) {
+  if (!env.ANTHROPIC_API_KEY) return { error: "missing_key" };
+  const msg = (body.message || "").toString().slice(0, 6000);
+  if (!msg.trim()) return { error: "empty_message" };
+  const docs = (await env.DB.prepare("SELECT name, content FROM corpus_docs WHERE enabled=1 ORDER BY name").all()).results || [];
+  let corpus = "";
+  for (const d of docs) corpus += "\n\n===== DOCUMENT : " + d.name + " =====\n" + d.content;
+  const system = PRIVATE_PREAMBLE + (corpus
+    ? "\n\n===== DOSSIER PRIVÉ — DOCUMENTS ACTIFS =====" + corpus
+    : "\n\n(Le corpus privé est vide ou entièrement désactivé — signale-le à Mehmet.)");
+  const hist = Array.isArray(body.history) ? body.history.slice(-16) : [];
+  const messages = [];
+  for (const t of hist) {
+    if (t && typeof t.content === "string" && t.content.trim()) {
+      messages.push({ role: t.role === "assistant" ? "assistant" : "user", content: t.content.slice(0, 8000) });
+    }
+  }
+  while (messages.length && messages[0].role !== "user") messages.shift();
+  messages.push({ role: "user", content: msg });
+  const payload = { model: MODEL, max_tokens: 2000, system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }], messages };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 60000);
+  let r;
+  try {
+    r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "x-api-key": env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+    });
+  } catch (e) { clearTimeout(timer); return { error: "upstream_timeout" }; }
+  clearTimeout(timer);
+  let data;
+  try { data = await r.json(); } catch (e) { return { error: "upstream_parse", status: r.status }; }
+  if (!r.ok) return { error: "upstream_error", status: r.status, detail: ((data && data.error && data.error.message) || "").slice(0, 300) };
+  let answer = "";
+  if (Array.isArray(data.content)) answer = data.content.filter(b => b && b.type === "text").map(b => b.text).filter(Boolean).join("\n").trim();
+  const u = data.usage || {};
+  return { answer, usage: { input: u.input_tokens || 0, output: u.output_tokens || 0, cache_read: u.cache_read_input_tokens || 0, cache_write: u.cache_creation_input_tokens || 0 } };
+}
+
 // -------- Routeur /admin --------
 async function handleAdmin(request, env, url, ctx) {
   const st = checkAuth(request, env);
@@ -454,6 +544,10 @@ async function handleAdmin(request, env, url, ctx) {
     if (path === "/admin/api/system") return json(await apiSystem(env), 200, null);
     if (path === "/admin/api/system/purge" && request.method === "POST") return json(await apiPurge(env, body), 200, null);
     if (path === "/admin/api/export") return apiExport(env, q);
+    // Assistant privé + corpus
+    if (path === "/admin/api/pchat" && request.method === "POST") return json(await apiPrivateChat(env, body), 200, null);
+    if (path === "/admin/api/corpus" && request.method === "GET") return json(await apiCorpusList(env), 200, null);
+    if (path === "/admin/api/corpus" && request.method === "POST") return json(await apiCorpusCreate(env, body), 200, null);
     // /admin/api/conversations/:sid[/action]
     let m;
     if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)$/)) && request.method === "GET") return json(await apiConversationDetail(env, decodeURIComponent(m[1])), 200, null);
@@ -462,6 +556,9 @@ async function handleAdmin(request, env, url, ctx) {
     if ((m = path.match(/^\/admin\/api\/conversations\/([^/]+)\/delete$/)) && request.method === "POST") return json(await apiDelete(env, decodeURIComponent(m[1]), q.hard === "1"), 200, null);
     if ((m = path.match(/^\/admin\/api\/prospects\/(\d+)$/)) && request.method === "PATCH") return json(await apiProspectPatch(env, parseInt(m[1], 10), body), 200, null);
     if ((m = path.match(/^\/admin\/api\/prospects\/(\d+)$/)) && request.method === "DELETE") return json(await apiProspectDelete(env, parseInt(m[1], 10)), 200, null);
+    if ((m = path.match(/^\/admin\/api\/corpus\/(\d+)$/)) && request.method === "GET") return json(await apiCorpusGet(env, parseInt(m[1], 10)), 200, null);
+    if ((m = path.match(/^\/admin\/api\/corpus\/(\d+)$/)) && request.method === "PATCH") return json(await apiCorpusPatch(env, parseInt(m[1], 10), body), 200, null);
+    if ((m = path.match(/^\/admin\/api\/corpus\/(\d+)$/)) && request.method === "DELETE") return json(await apiCorpusDelete(env, parseInt(m[1], 10)), 200, null);
     return json({ error: "not_found", path }, 404, null);
   } catch (e) {
     return json({ error: "server" }, 500, null);
@@ -525,6 +622,8 @@ small.warn{color:var(--warn)}
 <nav class="side">
   <h1>Back-office</h1><div class="sub">assistant · mehmettuzcu.fr</div>
   <a href="#/dashboard" data-r="dashboard"><span class="lbl">Tableau de bord</span></a>
+  <a href="#/prive" data-r="prive"><span class="lbl">Assistant privé</span></a>
+  <a href="#/corpus" data-r="corpus"><span class="lbl">Corpus privé</span></a>
   <a href="#/conversations" data-r="conversations"><span class="lbl">Conversations</span></a>
   <a href="#/prospects" data-r="prospects"><span class="lbl">Prospects</span><span class="b" id="navTodo" style="display:none"></span></a>
   <a href="#/system" data-r="system"><span class="lbl">Données &amp; système</span></a>
@@ -670,6 +769,82 @@ function viewSystem(){setNav('system');V.innerHTML='<div class="hd"><h2>Données
    '<div class="row" style="margin-top:10px"><button class="btn danger sm" onclick="purge()">Purger &gt; 90 jours maintenant</button></div></div>'})}
 function purge(){if(!confirm('Supprimer définitivement les conversations de plus de 90 jours ?'))return;api('system/purge',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(r){toast((r.deleted||0)+' ligne(s) purgée(s)');viewSystem()})}
 
+// ---------- ASSISTANT PRIVÉ ----------
+var PKEY='mt_pchat_v1';
+function pload(){try{var a=JSON.parse(localStorage.getItem(PKEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+function psave(a){try{localStorage.setItem(PKEY,JSON.stringify(a.slice(-60)))}catch(e){}}
+function md2(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')}
+function viewPrive(){setNav('prive');
+ V.innerHTML='<div class="hd"><h2>Assistant privé</h2><div class="row"><span class="meta" id="pcorp">…</span> <button class="btn ghost sm" onclick="pclear()">Effacer l&#39;historique</button></div></div>'+
+  '<div class="card" style="padding:0;display:flex;flex-direction:column;height:calc(100vh - 150px);min-height:420px">'+
+  '<div id="pmsgs" style="flex:1;overflow-y:auto;padding:18px"></div>'+
+  '<form id="pform" style="display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);align-items:flex-end">'+
+  '<textarea id="pin" rows="2" placeholder="Pose ta question — accès complet au dossier privé (aucun filtre, rien n&#39;est journalisé)…" style="flex:1;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;resize:vertical"></textarea>'+
+  '<button class="btn" id="psend" type="submit">Envoyer</button></form></div>';
+ api('corpus').then(function(d){var rows=d.data||[];var on=rows.filter(function(r){return r.enabled});var kb=Math.round(on.reduce(function(s,r){return s+r.size},0)/1024);
+  var el=document.getElementById('pcorp');if(el)el.innerHTML=on.length+' document(s) actif(s) · ~'+kb+' Ko — <a href="#/corpus">gérer le corpus</a>'});
+ prender();
+ document.getElementById('pform').addEventListener('submit',function(ev){ev.preventDefault();psendMsg()});
+ document.getElementById('pin').addEventListener('keydown',function(ev){if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();psendMsg()}});
+}
+function prender(){var el=document.getElementById('pmsgs');if(!el)return;var h=pload();
+ el.innerHTML=h.length?h.map(function(m){var isU=m.role==='user';
+  return '<div style="margin:0 0 12px;'+(isU?'text-align:right':'')+'">'+
+   '<div style="display:inline-block;max-width:86%;text-align:left;padding:10px 13px;border-radius:'+(isU?'12px 12px 3px 12px':'12px 12px 12px 3px')+';background:'+(isU?'var(--acc)':'var(--soft)')+';color:'+(isU?'#fff':'var(--ink)')+';white-space:pre-wrap;font-size:.92rem;line-height:1.55">'+md2(m.content)+'</div></div>'
+ }).join(''):'<div class="empty">Assistant privé — il connaît tout ton dossier (documents actifs du corpus). Sans filtre, sans limite, et rien n&#39;est journalisé.</div>';
+ el.scrollTop=el.scrollHeight}
+function pclear(){if(!confirm('Effacer l&#39;historique local de ce navigateur ?'))return;psave([]);prender()}
+function psendMsg(){var inp=document.getElementById('pin');var t=(inp.value||'').trim();if(!t)return;
+ var h=pload();h.push({role:'user',content:t});psave(h);inp.value='';prender();
+ var btn=document.getElementById('psend');btn.disabled=true;btn.textContent='…';
+ var hist=pload().slice(-16);
+ api('pchat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,history:hist.slice(0,-1)})})
+ .then(function(d){btn.disabled=false;btn.textContent='Envoyer';
+  var hh=pload();
+  if(d.error){var msg='⚠️ Erreur : '+d.error+(d.status?' ('+d.status+')':'')+(d.detail?' — '+d.detail:'');
+   if(d.status===429)msg+='\n(Corpus actif trop volumineux pour la limite API : désactive des documents dans « Corpus privé ».)';
+   hh.push({role:'assistant',content:msg});psave(hh);prender();return}
+  hh.push({role:'assistant',content:d.answer||'(réponse vide)'});psave(hh);prender()})
+ .catch(function(){btn.disabled=false;btn.textContent='Envoyer'})}
+
+// ---------- CORPUS PRIVÉ ----------
+function viewCorpus(){setNav('corpus');V.innerHTML='<div class="loading">Chargement…</div>';
+ api('corpus').then(function(d){var rows=d.data||[];
+  var on=rows.filter(function(r){return r.enabled});var kb=Math.round(on.reduce(function(s,r){return s+r.size},0)/1024);
+  var warn=kb>130?' <span style="color:var(--bad);font-weight:700">⚠ volumineux : risque de limite API (429) — désactive des documents</span>':'';
+  V.innerHTML='<div class="hd"><h2>Corpus privé</h2><div class="meta">'+on.length+'/'+rows.length+' actifs · ~'+kb+' Ko actifs'+warn+'</div></div>'+
+  '<div class="card"><strong>Importer des fichiers (.md, .txt)</strong>'+
+  '<div class="row" style="margin-top:8px;align-items:center;gap:10px"><input type="file" id="cfiles" multiple accept=".md,.txt,text/plain,text/markdown"> '+
+  '<label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="cactive" checked> activer après import</label> '+
+  '<button class="btn sm" onclick="cimport()">Importer</button> <span class="meta" id="cimpst"></span></div>'+
+  '<div style="margin-top:14px"><strong>Ou coller un document</strong>'+
+  '<div class="row" style="margin-top:6px"><input id="cname" placeholder="Nom du document" style="padding:8px 10px;border:1px solid var(--line);border-radius:8px;width:280px;font:inherit"></div>'+
+  '<textarea id="ccontent" rows="4" placeholder="Contenu (Markdown)…" style="width:100%;margin-top:6px;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px"></textarea>'+
+  '<div class="row" style="margin-top:6px"><button class="btn sm" onclick="cadd()">Ajouter</button></div></div></div>'+
+  '<div class="card" style="margin-top:14px">'+(rows.length?rows.map(function(r){
+   return '<div class="row" style="justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap">'+
+    '<label style="display:flex;align-items:center;gap:9px;cursor:pointer;min-width:0"><input type="checkbox" '+(r.enabled?'checked':'')+' onchange="ctoggle('+r.id+',this.checked)"><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:420px">'+esc(r.name)+'</strong></label>'+
+    '<span class="meta" style="white-space:nowrap">'+Math.round(r.size/1024)+' Ko · '+fmt(r.updated_at)+' <button class="btn ghost sm" onclick="cview('+r.id+')">Voir</button> <button class="btn danger sm" onclick="cdel('+r.id+')">Suppr.</button></span></div>'
+  }).join(''):'<div class="empty">Aucun document — importe ton dossier privé.</div>')+'</div>'})}
+function ctoggle(id,en){api('corpus/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled:en?1:0})}).then(function(){viewCorpus()})}
+function cdel(id){if(!confirm('Supprimer ce document du corpus ?'))return;api('corpus/'+id,{method:'DELETE'}).then(function(){toast('Supprimé');viewCorpus()})}
+function cview(id){api('corpus/'+id).then(function(d){if(!d.row){toast('Introuvable');return}
+ document.getElementById('dTitle').textContent=d.row.name;
+ document.getElementById('dBody').innerHTML='<pre style="white-space:pre-wrap;font-size:.85rem;line-height:1.5;margin:0">'+esc(d.row.content)+'</pre>';
+ openDrawer()})}
+function cadd(){var n=document.getElementById('cname').value.trim();var c=document.getElementById('ccontent').value;
+ if(!n||!c.trim()){toast('Nom et contenu requis');return}
+ api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,content:c})}).then(function(){toast('Ajouté');viewCorpus()})}
+function cimport(){var f=document.getElementById('cfiles');var files=Array.prototype.slice.call((f&&f.files)||[]);
+ if(!files.length){toast('Choisis des fichiers');return}
+ var act=document.getElementById('cactive').checked?1:0;
+ var st=document.getElementById('cimpst');var i=0;
+ (function next(){if(i>=files.length){toast(files.length+' fichier(s) importé(s)');viewCorpus();return}
+  var file=files[i];if(st)st.textContent='Import '+(i+1)+'/'+files.length+' — '+file.name;
+  var rd=new FileReader();
+  rd.onload=function(){api('corpus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,content:String(rd.result||''),enabled:act})}).then(function(){i++;next()})};
+  rd.readAsText(file)})()}
+
 // ---------- shared ----------
 function seg(id,opts,cur,cb){var el=document.getElementById(id);if(!el)return;el.innerHTML=opts.map(function(o){return '<button data-v="'+o[0]+'" class="'+(o[0]===cur?'on':'')+'">'+o[1]+'</button>'}).join('');
  var bs=el.querySelectorAll('button');for(var i=0;i<bs.length;i++)bs[i].addEventListener('click',function(e){cb(e.target.getAttribute('data-v'))})}
@@ -679,6 +854,8 @@ function router(){var h=location.hash.replace(/^#\//,'')||'dashboard';var qs={};
  closeDrawer();
  if(h==='conversations')viewConversations(qs);
  else if(h==='prospects')viewProspects();
+ else if(h==='prive')viewPrive();
+ else if(h==='corpus')viewCorpus();
  else if(h==='system')viewSystem();
  else viewDashboard()}
 window.addEventListener('hashchange',router);router();loadTodo();

@@ -272,23 +272,50 @@
     line-height: 1.5;
   }
 
-  /* HERO — bloc « assistant-first » : invitation + barre + pistes */
-  .hero-ask { margin: 24px 0 0; max-width: 580px; }
-  .hero-ask-lead { margin: 0 0 16px; color: var(--gray); font-size: 1.02rem; line-height: 1.55; }
+  /* HERO — bloc « assistant-first » : carte mise en avant (en-tête + barre + pistes) */
+  .hero-ask {
+    margin: 26px 0 0; max-width: 600px;
+    background: linear-gradient(180deg, #eff4f8 0%, #e6eef3 100%);
+    border: 1px solid #d2e0e9; border-radius: 20px;
+    padding: 18px 18px 20px;
+    box-shadow: 0 1px 2px rgba(22,63,84,.05), 0 14px 34px rgba(22,63,84,.10);
+  }
+  .hero-ask-head { display: flex; align-items: center; gap: 10px; margin: 0 0 13px; }
+  .hero-ask-ico {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 10px rgba(31,86,115,.32);
+  }
+  .hero-ask-ico svg { width: 17px; height: 17px; }
+  .hero-ask-label { font-weight: 700; color: var(--ink); font-size: .98rem; letter-spacing: .1px; }
+  .hero-ask-status {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+    font-size: .8rem; font-weight: 600; color: #2f8f5b;
+  }
+  .hero-ask-status .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #2ea36b;
+    box-shadow: 0 0 0 0 rgba(46,163,107,.5); animation: mtDot 2.2s infinite;
+  }
+  @keyframes mtDot { 0%{box-shadow:0 0 0 0 rgba(46,163,107,.5)} 70%{box-shadow:0 0 0 7px rgba(46,163,107,0)} 100%{box-shadow:0 0 0 0 rgba(46,163,107,0)} }
+  .hero-ask-lead { margin: 0 0 14px; color: var(--gray); font-size: 1rem; line-height: 1.55; }
   .hero-ask-lead strong { color: var(--ink); }
   .ask-bar {
     display: flex; align-items: center; gap: 12px; width: 100%;
-    background: #fff; border: 1.5px solid var(--accent); border-radius: 14px;
+    background: #fff; border: 1.5px solid var(--accent); border-radius: 13px;
     padding: 15px 16px; cursor: pointer; text-align: left; font-family: inherit;
     box-shadow: 0 2px 10px rgba(22,63,84,.10);
     transition: box-shadow .15s ease, transform .05s ease;
+    animation: mtGlow 2.8s ease-in-out infinite;
   }
-  .ask-bar:hover { box-shadow: 0 8px 22px rgba(22,63,84,.18); }
+  @keyframes mtGlow { 0%,100%{box-shadow:0 2px 10px rgba(22,63,84,.10)} 50%{box-shadow:0 5px 20px rgba(31,86,115,.30)} }
+  .ask-bar:hover { animation: none; box-shadow: 0 8px 22px rgba(22,63,84,.20); }
   .ask-bar:active { transform: translateY(1px); }
   .ask-bar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .ask-bar .ask-ico { width: 21px; height: 21px; color: var(--accent); flex-shrink: 0; }
   .ask-bar .ask-ph { flex: 1; color: #6b7680; font-size: 1rem; }
-  .ask-bar .ask-go { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
+  .ask-bar .ask-go { color: var(--accent); font-weight: 700; font-size: 1.2rem; transition: transform .15s ease; }
+  .ask-bar:hover .ask-go { transform: translateX(4px); }
   .hero-journeys { display: flex; flex-wrap: wrap; gap: 9px; margin: 14px 0 0; }
   .journey {
     background: var(--accent-soft); border: 1px solid #cddbe4; color: var(--accent-dark);
@@ -472,6 +499,16 @@
   #assistant-fab .ico-close { display: none; }
   #assistant-fab.open .ico-open { display: none; }
   #assistant-fab.open .ico-close { display: block; }
+  /* Anneau pulsé pour attirer l'œil vers l'assistant (masqué quand le tiroir est ouvert) */
+  #assistant-fab::after {
+    content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 0 rgba(31,86,115,.45); animation: mtFab 2.6s infinite;
+  }
+  @keyframes mtFab { 0%{box-shadow:0 0 0 0 rgba(31,86,115,.42)} 70%{box-shadow:0 0 0 13px rgba(31,86,115,0)} 100%{box-shadow:0 0 0 0 rgba(31,86,115,0)} }
+  #assistant-drawer.open ~ #assistant-fab::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ask-status .dot, .ask-bar, #assistant-fab::after { animation: none !important; }
+  }
 
   @media (max-width: 560px) {
     #assistant-drawer { width: 100%; }
@@ -480,7 +517,9 @@
 
   @media (max-width: 900px) {
     .hero-layout { grid-template-columns: 1fr; }
-    .hero-portrait { display: none; }
+    /* Photo visible sur mobile : remontée au-dessus du titre, plus compacte */
+    .hero-portrait { order: -1; max-width: 150px; margin: 0 auto 6px; }
+    .hero-ask { max-width: 100%; }
   }
   @media (max-width: 680px) {
     .contact-form .form-row { grid-template-columns: 1fr; }
@@ -529,6 +568,11 @@
           </p>
 
           <div class="hero-ask">
+            <div class="hero-ask-head">
+              <span class="hero-ask-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></span>
+              <span class="hero-ask-label">Assistant IA de Mehmet</span>
+              <span class="hero-ask-status"><span class="dot" aria-hidden="true"></span>en&nbsp;ligne</span>
+            </div>
             <p class="hero-ask-lead">
               Le moyen le plus simple de me découvrir : <strong>posez vos questions à mon assistant.</strong>
               Il connaît tout mon parcours, fait les liens entre les choses, et va aussi loin que vous le souhaitez.

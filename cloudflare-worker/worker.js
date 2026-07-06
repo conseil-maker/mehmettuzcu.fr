@@ -610,7 +610,7 @@ nav.side a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radiu
 nav.side a:hover{background:var(--soft)}nav.side a.on{background:var(--acc);color:#fff}
 nav.side a .b{margin-left:auto;background:var(--bad);color:#fff;border-radius:999px;font-size:.7rem;padding:1px 7px;font-weight:700}
 nav.side a.on .b{background:#fff;color:var(--bad)}
-main{flex:1;padding:22px 26px;max-width:1000px}
+main{flex:1;padding:22px 26px;min-width:0}
 .hd{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
 .hd h2{margin:0;font-size:1.25rem}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}

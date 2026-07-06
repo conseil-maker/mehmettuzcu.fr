@@ -650,6 +650,10 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--acc)}
 .toast.show{opacity:1}
 .spark{width:100%;height:46px}
 .loading{color:var(--mut);padding:30px 0;text-align:center}
+.pdots{display:inline-flex;gap:5px;align-items:center;height:9px}
+.pdots span{width:7px;height:7px;border-radius:50%;background:var(--mut);animation:pblink 1.2s infinite}
+.pdots span:nth-child(2){animation-delay:.18s}.pdots span:nth-child(3){animation-delay:.36s}
+@keyframes pblink{0%,72%,100%{opacity:.3;transform:translateY(0)}36%{opacity:1;transform:translateY(-4px)}}
 small.warn{color:var(--warn)}
 </style></head><body>
 <div class="layout">
@@ -827,11 +831,12 @@ function prender(){var el=document.getElementById('pmsgs');if(!el)return;var h=p
    '<div style="display:inline-block;max-width:86%;text-align:left;padding:10px 13px;border-radius:'+(isU?'12px 12px 3px 12px':'12px 12px 12px 3px')+';background:'+(isU?'var(--acc)':'var(--soft)')+';color:'+(isU?'#fff':'var(--ink)')+';white-space:pre-wrap;font-size:.92rem;line-height:1.55">'+md2(m.content)+'</div></div>'
  }).join(''):'<div class="empty">Assistant privé — il connaît tout ton dossier (documents actifs du corpus). Sans filtre, sans limite, et rien n&#39;est journalisé.</div>';
  el.scrollTop=el.scrollHeight}
+function pthink(){var el=document.getElementById('pmsgs');if(!el)return;var d=document.createElement('div');d.id='pthinkrow';d.style.cssText='margin:0 0 12px';d.innerHTML='<div style="display:inline-block;padding:13px 16px;border-radius:12px 12px 12px 3px;background:var(--soft)"><span class="pdots"><span></span><span></span><span></span></span></div>';el.appendChild(d);el.scrollTop=el.scrollHeight}
 function pclear(){if(!confirm('Effacer l\'historique local de ce navigateur ?'))return;psave([]);prender()}
 var pBusy=false;
 function psendMsg(){if(pBusy)return;var inp=document.getElementById('pin');var t=(inp.value||'').trim();if(!t)return;
  pBusy=true;
- var h=pload();h.push({role:'user',content:t});psave(h);inp.value='';prender();
+ var h=pload();h.push({role:'user',content:t});psave(h);inp.value='';prender();pthink();
  var btn=document.getElementById('psend');if(btn){btn.disabled=true;btn.textContent='…'}
  var done=function(){pBusy=false;var b=document.getElementById('psend');if(b){b.disabled=false;b.textContent='Envoyer'}};
  var hist=pload().slice(-16);

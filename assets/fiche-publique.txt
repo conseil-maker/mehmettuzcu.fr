@@ -74,7 +74,7 @@ Bilingue turc (langue maternelle) et français, Mehmet pilote simultanément les
 - BTS Comptabilité et Gestion (Lycée Robert Schuman, Strasbourg, 2011-2013).
 - Licence Gestion d'Entreprise (CNAM Alsace, 2013-2014).
 - Certification TOSA DigiComp 751/1000 (valide 2024-2027) — une mesure opposable des compétences numériques.
-- Développeur autodidacte (React, TypeScript, Supabase, IA) : Mehmet a conçu et codé en solo la première version de Reflektif (environ 167 000 lignes de code vérifiées en dépôt) — plateforme aujourd'hui développée en binôme avec son cofondateur Mikail Lekesiz.
+- Développeur autodidacte (React, TypeScript, Supabase, IA) : Mehmet a conçu et codé en solo la première version de Reflektif (environ 167 000 lignes de code vérifiées en dépôt) — plateforme aujourd'hui développée avec Mikail Lekesiz, président de la société sœur turque Reflektif Bilişim (Istanbul) — partenaire produit et technologie.
 
 **M&G Habitat (2017-2023)**
 - De février 2017 à janvier 2023, Mehmet TUZCU a évolué au sein de M&G Habitat, une PME du BTP française (rénovation énergétique, façades, isolation thermique par l'extérieur, toiture) d'une trentaine de personnes — l'expérience fondatrice de son parcours.
@@ -94,11 +94,11 @@ Chez Netz Informatique (ESN + centre de formation Qualiopi à Haguenau), Mehmet 
 
 ### Reflektif (projet phare)
 - Reflektif est une plateforme EdTech d'orientation professionnelle augmentée par l'IA, nativement bilingue français/turc, dont Mehmet TUZCU porte la conception produit, l'architecture technique et la direction pédagogique en tant que développeur full-stack.
-- Fondateur et développeur de Reflektif, plateforme SaaS d'orientation professionnelle par IA (France + Turquie), conçue et codée en solo à l'origine et désormais développée en binôme avec son cofondateur Mikail Lekesiz, en production réelle depuis février 2026.
+- Fondateur et développeur de Reflektif, plateforme SaaS d'orientation professionnelle par IA (France + Turquie), conçue et codée en solo à l'origine et désormais développée avec Mikail Lekesiz (président de la société sœur turque Reflektif Bilişim — partenaire produit et technologie), en production réelle depuis février 2026.
 - Reflektif est en production active depuis février 2026, hébergée en Europe (Francfort), accessible sur www.reflektif.net et ses portails étudiants FR/TR.
 
 **Genèse**
-Reflektif est né d'un parcours hybride (direction de PME, formation professionnelle, découverte des bilans de compétences) et du constat que l'orientation classique est lente, coûteuse et peu accessible. Mehmet s'est associé à Mikail Lekesiz (cofondateur, soutien technique côté Turquie) tout en portant lui-même la vision scientifique, la stratégie produit et la direction du développement.
+Reflektif est né d'un parcours hybride (direction de PME, formation professionnelle, découverte des bilans de compétences) et du constat que l'orientation classique est lente, coûteuse et peu accessible. Mehmet s'est appuyé sur Mikail Lekesiz (président de la société sœur turque Reflektif Bilişim, partenaire produit et technologie, soutien technique côté Turquie) tout en portant lui-même la vision scientifique, la stratégie produit et la direction du développement.
 
 **Problème adressé**
 Reflektif répond à un déficit structurel d'orientation (en France comme en Turquie, très peu de conseillers par personne ; un bilan classique prend des semaines) en proposant une orientation scientifiquement fondée en environ 45 minutes. Le produit vise l'accessibilité des publics fragiles (demandeurs d'emploi, jeunes, personnes en reconversion) à un tarif très inférieur à celui d'un bilan classique, avec consentement parental obligatoire côté serveur pour les mineurs.
@@ -161,7 +161,7 @@ Pilotage de PME (jusqu'à 30 personnes), finance, comptabilité, RH, stratégie,
 Qualiopi, QualiRépar, CPF/OPCO, RGPD (France), KVKK (Turquie), DPIA, droit du travail, ingénierie de subventions publiques.
 
 **Développement logiciel & IA**
-TypeScript/React full-stack, tRPC, PostgreSQL/Supabase, IA générative (Vertex AI/Gemini), RAG & embeddings, no-code/low-code, CI/CD, sécurité applicative. Concepteur et développeur full-stack de ses réalisations numériques, de la conception à la mise en production : il en a bâti seul les premières versions, et développe désormais Reflektif en binôme avec son cofondateur Mikail Lekesiz.
+TypeScript/React full-stack, tRPC, PostgreSQL/Supabase, IA générative (Vertex AI/Gemini), RAG & embeddings, no-code/low-code, CI/CD, sécurité applicative. Concepteur et développeur full-stack de ses réalisations numériques, de la conception à la mise en production : il en a bâti seul les premières versions, et développe désormais Reflektif avec Mikail Lekesiz, président de la société sœur turque Reflektif Bilişim.
 
 **Ingénierie de certification professionnelle (RNCP/RS)**
 Dépôt d'un dossier de certification professionnelle auprès de France Compétences (ingénierie de certification IA) et pilotage Qualiopi (renouvellement, extension bilan de compétences, audits de surveillance). Maîtrise du référentiel Qualiopi (32 indicateurs du RNQ, spécificités des bilans de compétences) et sécurisation de l'éligibilité aux financements publics (CPF, OPCO).
@@ -210,7 +210,7 @@ Biculturalité France-Turquie (langue, réglementation, réseaux) permettant d'o
 > Tous les chiffres de cette section sont vérifiés en base. Ils reflètent l'usage produit et la profondeur technique — distincts du chiffre d'affaires.
 
 **Plateforme Reflektif — profondeur technique**
-- Plateforme SaaS de ≈167 000 lignes de TypeScript/TSX en production (831 fichiers, 2 251 commits, 231 fichiers de documentation), dont la première version a été conçue et codée en solo, désormais développée en binôme avec son cofondateur Mikail Lekesiz, active quotidiennement.
+- Plateforme SaaS de ≈167 000 lignes de TypeScript/TSX en production (831 fichiers, 2 251 commits, 231 fichiers de documentation), dont la première version a été conçue et codée en solo, désormais développée avec Mikail Lekesiz (président de la société sœur turque Reflektif Bilişim), active quotidiennement.
 - Reflektif représente un monolithe modulaire d'environ 167 000 lignes de code (1 308 fichiers), 71 tables PostgreSQL toutes protégées par RLS, 231 fichiers de documentation et plus de 2 250 commits.
 - Stack de production moderne : React 19/Vite (front), Node 22/Express 5/tRPC v11 sur Railway (back), Supabase PostgreSQL 17.6 hébergé en Europe avec Row-Level Security sur 100 % des tables, authentification applicative custom.
 - Moteur IA générative reposant sur Vertex AI EU (Gemini 2.5-flash) hébergé en Europe, avec embeddings et RAG, et une observabilité IA native (traçage des appels LLM, scrubbing des données personnelles) — souveraineté et conformité by design.
@@ -251,7 +251,7 @@ Reflektif compte plus de 1 200 utilisateurs (pilotes universitaires turcs et pre
 - Bilan-Easy repose sur React/TypeScript, une base Supabase dédiée (12 tables avec RLS), une génération PDF, l'intégration de l'API Wedof pour la gestion administrative, et un déploiement Vercel/Cloudflare avec CI/CD.
 
 **Synthèse de capacité**
-Reflektif démontre un profil rare d'architecte de systèmes complets : conception et codage full-stack de la première version en solo (désormais développée en binôme avec Mikail Lekesiz), conception scientifique (psychométrie + matching mathématique), intégration d'un référentiel métiers international, conformité multi-juridictionnelle et structuration business bi-nationale.
+Reflektif démontre un profil rare d'architecte de systèmes complets : conception et codage full-stack de la première version en solo (désormais développée avec Mikail Lekesiz, président de la société sœur turque), conception scientifique (psychométrie + matching mathématique), intégration d'un référentiel métiers international, conformité multi-juridictionnelle et structuration business bi-nationale.
 
 ---
 
@@ -273,7 +273,7 @@ Porteur de projets institutionnels (B2G) : consortium Erasmus, relations avec le
 
 **Noyau d'équipe**
 - Reflektif est porté par un noyau fondateur resserré — Mehmet Tuzcu à la direction produit/technique/pédagogique, un associé en Turquie — appuyé par un réseau académique turc.
-- Mikail LEKESIZ, président de Netz Informatique, est l'associé principal de Reflektif Türkiye et le binôme stratégique de Mehmet sur le développement de l'entreprise.
+- Mikail LEKESIZ, président de Netz Informatique, préside également la société sœur turque Reflektif Bilişim (Istanbul), qui exploite Reflektif sur le marché turc ; il est le partenaire produit et technologie de Mehmet, les capitaux des deux sociétés sœurs étant entièrement séparés.
 
 **Écosystème technique & outils**
 La stack et l'outillage de Mehmet reposent sur des technologies modernes et éprouvées (Supabase, Railway, Vertex AI EU, Vercel, Cloudflare, GitHub Actions, Stripe/iyzico, Pennylane, etc.).

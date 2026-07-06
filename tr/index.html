@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Mehmet TUZCU — Operasyonel mimar &amp; kod yazan yönetici</title>
+<meta name="description" content="Fransa-Türkiye operasyonel mimarı: KOBİ yönetimi, uyum (Qualiopi, RGPD/KVKK) ve full-stack yapay zekâ geliştirme. Compliance by Design." />
+<meta name="keywords" content="operasyonel mimar, kod yazan yönetici, dönüşüm danışmanlığı, Compliance by Design, Qualiopi, RGPD, KVKK, mevzuata uyum, full-stack geliştirici, üretken yapay zekâ, EdTech, kariyer yönlendirme, Fransa-Türkiye, CPF OPCO, France Compétences, no-code otomasyon, KOBİ danışmanlığı, inşaat danışmanlığı, dijital dönüşüm, Alsace Grand Est" />
+<meta name="author" content="Mehmet TUZCU" />
+<link rel="canonical" href="https://mehmettuzcu.fr/tr/" />
+<link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/" />
+<link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/" />
+<link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/" />
+<link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/" />
+<link rel="icon" href="/assets/favicon.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Mehmet TUZCU — Operasyonel mimar &amp; kod yazan yönetici" />
+<meta property="og:description" content="Fransa-Türkiye operasyonel mimarı: KOBİ yönetimi, uyum (Qualiopi, RGPD/KVKK) ve full-stack yapay zekâ geliştirme. Compliance by Design." />
+<meta property="og:url" content="https://mehmettuzcu.fr/tr/" />
+<meta property="og:locale" content="tr_TR" />
+<meta property="og:locale:alternate" content="fr_FR" />
+<meta property="og:locale:alternate" content="en_US" />
+<meta property="og:site_name" content="Mehmet TUZCU" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mehmet TUZCU — Operasyonel mimar &amp; kod yazan yönetici" />
+<meta name="twitter:description" content="KOBİ yönetimi, uyum (Qualiopi, RGPD/KVKK) ve full-stack yapay zekâ geliştirme. Compliance by Design. Fransa-Türkiye köprüsü." />
+
+<link rel="stylesheet" href="/assets/style.css" />
+
+<!-- Données structurées : Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mehmet TUZCU",
+  "jobTitle": "Operasyonel mimar / Reflektif Kurucusu",
+  "url": "https://mehmettuzcu.fr/",
+  "email": "mailto:conseil@mehmettuzcu.fr",
+  "description": "Fransa-Türkiye operasyonel mimarı: KOBİ yönetimi, mevzuata uyum (Qualiopi, CPF/OPCO, RGPD/KVKK) ve full-stack yapay zekâ geliştirme; Compliance by Design ilkesiyle.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "Grand Est",
+    "addressCountry": "FR"
+  },
+  "sameAs": [
+    "https://reflektif.net",
+    "https://mehmettuzcu.fr"
+  ],
+  "knowsLanguage": ["fr", "tr"],
+  "knowsAbout": [
+    "Operasyonel mimari",
+    "Compliance by Design",
+    "Qualiopi",
+    "RGPD",
+    "KVKK",
+    "CPF/OPCO",
+    "France Compétences",
+    "Full-stack geliştirme",
+    "TypeScript",
+    "React",
+    "Üretken yapay zekâ",
+    "EdTech",
+    "Kariyer yönlendirme",
+    "Dijital dönüşüm",
+    "KOBİ danışmanlığı",
+    "Fransa-Türkiye köprüsü"
+  ]
+}
+</script>
+
+<!-- Styles complémentaires : logo, photo, formulaire de contact (palette claire) -->
+<style>
+  /* Logo dans l'en-tête */
+  .brand { align-items: center; }
+  .brand-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
+  }
+  .brand-text { display: inline-flex; align-items: baseline; gap: 8px; }
+  .lang-switch { display: inline-flex; align-items: center; gap: 2px; }
+  .lang-switch a { font-size: .8rem; font-weight: 700; color: var(--gray); padding: 4px 8px; border-radius: 7px; text-decoration: none; letter-spacing: .4px; }
+  .lang-switch a:hover { color: var(--accent); background: var(--accent-soft); }
+  .lang-switch a.on { color: #fff; background: var(--accent); }
+
+  /* Hero : portrait à côté du texte */
+  .hero .container { position: relative; }
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1.5fr .9fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .hero-portrait {
+    justify-self: center;
+    width: 100%;
+    max-width: 320px;
+  }
+  .hero-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(31, 86, 115, .12), 0 16px 38px rgba(22, 63, 84, .20);
+  }
+
+  /* À propos : agencement intro + photo (rappel, la photo principale est dans le hero) */
+
+  /* Contact — bloc unifié : en-tête accent + formulaire clair, un seul objet visuel */
+  .contact-unified {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    background: #fff;
+  }
+  .contact-head {
+    background: var(--accent);
+    color: #fff;
+    padding: 40px 40px 32px;
+  }
+  .contact-head .eyebrow { color: #bcd2de; }
+  .contact-head h2 { color: #fff; margin: 4px 0 14px; }
+  .contact-head p { color: #e3edf2; font-size: 1.02rem; max-width: 660px; }
+  .contact-head .contact-list { list-style: none; margin: 20px 0 22px; padding: 0; }
+  .contact-head .contact-list li { margin-bottom: 8px; font-size: .98rem; }
+  .contact-head .contact-list a { color: #fff; font-weight: 600; }
+  .contact-head .contact-list .k { color: #bcd2de; display: inline-block; min-width: 210px; font-weight: 400; }
+  .contact-form-area {
+    background: #fff;
+    padding: 32px 40px 36px;
+  }
+  .contact-form-area h3 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 1.18rem;
+  }
+  .contact-form-area .form-intro {
+    margin: 0 0 22px;
+    color: var(--gray);
+    font-size: .98rem;
+  }
+  .contact-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .contact-form .field { margin-bottom: 16px; }
+  .contact-form label {
+    display: block;
+    font-size: .84rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: .96rem;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: #9aa6b0; }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31, 86, 115, .14);
+  }
+  .contact-form textarea { resize: vertical; min-height: 130px; }
+  .contact-form .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  .contact-form .form-note {
+    margin: 14px 0 0;
+    font-size: .84rem;
+    color: var(--gray);
+  }
+  .contact-form .field-consent { margin-bottom: 18px; }
+  .contact-form .consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .88rem;
+    font-weight: 400;
+    color: var(--gray);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .contact-form .consent-label input {
+    width: auto;
+    margin: 3px 0 0;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+  }
+  .form-confirm {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 4px;
+  }
+  .form-confirm p {
+    margin: 0;
+    color: var(--ink);
+    font-size: .98rem;
+  }
+
+  /* HERO — strip de capacités */
+  .cap-strip {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cap-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef3f6;
+    border: 1px solid #d8dee3;
+    color: #1c2126;
+    border-radius: 999px;
+    padding: 7px 14px 7px 12px;
+    font-size: .9rem;
+    line-height: 1.25;
+  }
+  .cap-ico {
+    color: #1f5673;
+    flex-shrink: 0;
+  }
+
+  /* HERO — bandeau de preuve */
+  .hero-proof {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid #d8dee3;
+    font-size: .9rem;
+    color: #3d4753;
+    line-height: 1.6;
+  }
+  .hero-proof .hp-num {
+    color: #1f5673;
+    font-weight: 700;
+  }
+
+  .hero-cta .btn {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* HERO — explication de l'assistant + micro-bénéfice sous les CTA */
+  .hero-assistant-note {
+    margin: 18px 0 0;
+    color: var(--gray);
+    font-size: .95rem;
+    line-height: 1.55;
+    max-width: 52ch;
+  }
+  .hero-cta-benefit {
+    margin: 12px 0 0;
+    color: var(--gray);
+    font-size: .85rem;
+    line-height: 1.5;
+  }
+
+  /* HERO — bloc « assistant-first » : carte mise en avant (en-tête + barre + pistes) */
+  .hero-ask {
+    margin: 26px 0 0; max-width: 600px;
+    background: linear-gradient(180deg, #eff4f8 0%, #e6eef3 100%);
+    border: 1px solid #d2e0e9; border-radius: 20px;
+    padding: 18px 18px 20px;
+    box-shadow: 0 1px 2px rgba(22,63,84,.05), 0 14px 34px rgba(22,63,84,.10);
+  }
+  .hero-ask-head { display: flex; align-items: center; gap: 10px; margin: 0 0 13px; }
+  .hero-ask-ico {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 10px rgba(31,86,115,.32);
+  }
+  .hero-ask-ico svg { width: 17px; height: 17px; }
+  .hero-ask-label { font-weight: 700; color: var(--ink); font-size: .98rem; letter-spacing: .1px; }
+  .hero-ask-status {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+    font-size: .8rem; font-weight: 600; color: #2f8f5b;
+  }
+  .hero-ask-status .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #2ea36b;
+    box-shadow: 0 0 0 0 rgba(46,163,107,.5); animation: mtDot 2.2s infinite;
+  }
+  @keyframes mtDot { 0%{box-shadow:0 0 0 0 rgba(46,163,107,.5)} 70%{box-shadow:0 0 0 7px rgba(46,163,107,0)} 100%{box-shadow:0 0 0 0 rgba(46,163,107,0)} }
+  .hero-ask-lead { margin: 0 0 14px; color: var(--gray); font-size: 1rem; line-height: 1.55; }
+  .hero-ask-lead strong { color: var(--ink); }
+  .ask-bar {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    background: #fff; border: 1.5px solid var(--accent); border-radius: 13px;
+    padding: 15px 16px; cursor: pointer; text-align: left; font-family: inherit;
+    box-shadow: 0 2px 10px rgba(22,63,84,.10);
+    transition: box-shadow .15s ease, transform .05s ease;
+    animation: mtGlow 2.8s ease-in-out infinite;
+  }
+  @keyframes mtGlow { 0%,100%{box-shadow:0 2px 10px rgba(22,63,84,.10)} 50%{box-shadow:0 5px 20px rgba(31,86,115,.30)} }
+  .ask-bar:hover { animation: none; box-shadow: 0 8px 22px rgba(22,63,84,.20); }
+  .ask-bar:active { transform: translateY(1px); }
+  .ask-bar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ask-bar .ask-ico { width: 21px; height: 21px; color: var(--accent); flex-shrink: 0; }
+  .ask-bar .ask-ph { flex: 1; color: #6b7680; font-size: 1rem; }
+  .ask-bar .ask-go { color: var(--accent); font-weight: 700; font-size: 1.2rem; transition: transform .15s ease; }
+  .ask-bar:hover .ask-go { transform: translateX(4px); }
+  .hero-journeys { display: flex; flex-wrap: wrap; gap: 9px; margin: 14px 0 0; }
+  .journey {
+    background: var(--accent-soft); border: 1px solid #cddbe4; color: var(--accent-dark);
+    font-family: inherit; font-size: .88rem; font-weight: 600; line-height: 1.2;
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    transition: background .15s, color .15s, transform .1s, border-color .15s;
+  }
+  .journey:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-1px); }
+  .journey:active { transform: translateY(0); }
+  .hero-secondary { margin: 20px 0 0; }
+  .hero-secondary a { color: var(--gray); font-size: .92rem; text-decoration: none; }
+  .hero-secondary a:hover { color: var(--accent); text-decoration: underline; }
+
+  /* Expertises — capacités concrètes par pilier */
+  .pillar-caps { list-style:none; margin:14px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .pillar-caps li { background:#fff; border:1px solid #d8dee3; color:#2a3942; border-radius:999px; padding:5px 11px; font-size:.82rem; line-height:1.25; }
+
+  /* HERO — aperçu des 3 domaines (remplace les chiffres) */
+  .hero-cats { margin-top: 28px; padding-top: 20px; border-top: 1px solid #d8dee3; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .hero-cats .cat { display:block; font-weight:700; color:#1f5673; font-size:1.02rem; }
+  .hero-cats .cat-d { display:block; margin-top:5px; color:#3d4753; font-size:.9rem; line-height:1.45; }
+  @media (max-width: 760px){ .hero-cats { grid-template-columns: 1fr; gap:14px; } }
+
+  /* CTA INTERMÉDIAIRE */
+  .mid-cta { padding: 48px 0; }
+  .mid-cta-inner {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .mid-cta-text {
+    margin: 0;
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* DRAWER ASSISTANT */
+  #assistant-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 63, 84, .42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .32s ease, visibility .32s ease;
+    z-index: 1400;
+  }
+  #assistant-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  #assistant-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(440px, 100%);
+    background: #fff;
+    box-shadow: -16px 0 48px rgba(22, 63, 84, .22);
+    transform: translateX(100%);
+    transition: transform .32s ease;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+  }
+  #assistant-drawer.open { transform: translateX(0); }
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #d8dee3;
+    flex-shrink: 0;
+  }
+  .drawer-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1c2126;
+  }
+  .drawer-close {
+    appearance: none;
+    border: 1px solid #d8dee3;
+    background: #f7f9fa;
+    color: #1c2126;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover { background: #eef3f6; }
+  .drawer-close:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 2px;
+  }
+  .drawer-body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .drawer-body iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .drawer-leave[hidden] { display: none; }
+  .drawer-leave {
+    position: absolute; inset: 0; z-index: 5;
+    background: rgba(244,246,247,.95);
+    display: flex; align-items: center; justify-content: center; padding: 22px;
+    animation: dlfade .18s ease both;
+  }
+  @keyframes dlfade { from { opacity: 0 } to { opacity: 1 } }
+  .drawer-leave .dl-card {
+    background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 16px;
+    padding: 20px; width: 100%; max-width: 340px; box-shadow: 0 12px 36px rgba(22,63,84,.18); text-align: center;
+  }
+  .drawer-leave .dl-title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; }
+  .drawer-leave .dl-sub { margin: 0 0 16px; font-size: .88rem; color: var(--gray,#6b7680); }
+  .drawer-leave button { display: block; width: 100%; font: inherit; cursor: pointer; }
+  .drawer-leave .dl-primary {
+    background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 11px;
+    padding: 12px; font-weight: 700; font-size: .95rem; margin: 0 0 10px; line-height: 1.25;
+  }
+  .drawer-leave .dl-primary small { display: block; font-weight: 400; font-size: .78rem; opacity: .88; margin-top: 2px; }
+  .drawer-leave .dl-primary:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-btn {
+    background: #fff; color: var(--accent,#1f5673); border: 1px solid var(--accent,#1f5673);
+    border-radius: 11px; padding: 10px; font-weight: 600; font-size: .9rem; margin: 0 0 8px;
+  }
+  .drawer-leave .dl-btn:hover { background: #eef3f6; }
+  .drawer-leave .dl-link { background: none; border: 0; color: var(--gray,#6b7680); font-size: .84rem; padding: 4px; text-decoration: underline; }
+  .drawer-leave .dl-link:hover { color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email { position: relative; margin: 2px 0 12px; padding-top: 12px; border-top: 1px solid var(--line,#e6ebee); text-align: left; }
+  .drawer-leave .dl-email-lbl { display: block; font-size: .82rem; font-weight: 600; color: var(--gray,#6b7680); margin-bottom: 7px; }
+  .drawer-leave .dl-email-row { display: flex; gap: 8px; }
+  .drawer-leave .dl-email input { flex: 1 1 auto; width: auto; min-width: 0; font: inherit; font-size: .9rem; color: var(--ink,#1c2126); background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 8px; padding: 9px 12px; }
+  .drawer-leave .dl-email input:focus { outline: none; border-color: var(--accent,#1f5673); box-shadow: 0 0 0 3px rgba(31,86,115,.14); }
+  .drawer-leave .dl-send { flex: 0 0 auto; width: auto; background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 8px; padding: 9px 16px; font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+  .drawer-leave .dl-send:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-send:disabled { opacity: .6; cursor: default; filter: none; }
+  .drawer-leave .dl-email-msg { margin: 8px 0 0; font-size: .82rem; color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email-msg.err { color: #b4232a; }
+
+  /* BOUTON FLOTTANT */
+  #assistant-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    background: #1f5673;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(22, 63, 84, .34);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1600;
+    transition: background .2s ease, transform .2s ease, opacity .2s ease;
+  }
+  #assistant-fab:hover { transform: translateY(-2px); }
+  /* Quand le tiroir est ouvert, on masque le bouton flottant : la croix d'en-tête suffit (évite le doublon + le chevauchement avec le pied de page). */
+  #assistant-drawer.open ~ #assistant-fab { transform: scale(.4); opacity: 0; pointer-events: none; }
+  #assistant-fab:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 3px;
+  }
+  #assistant-fab .ico-close { display: none; }
+  #assistant-fab.open .ico-open { display: none; }
+  #assistant-fab.open .ico-close { display: block; }
+  /* Anneau pulsé pour attirer l'œil vers l'assistant (masqué quand le tiroir est ouvert) */
+  #assistant-fab::after {
+    content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 0 rgba(31,86,115,.45); animation: mtFab 2.6s infinite;
+  }
+  @keyframes mtFab { 0%{box-shadow:0 0 0 0 rgba(31,86,115,.42)} 70%{box-shadow:0 0 0 13px rgba(31,86,115,0)} 100%{box-shadow:0 0 0 0 rgba(31,86,115,0)} }
+  #assistant-drawer.open ~ #assistant-fab::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ask-status .dot, .ask-bar, #assistant-fab::after { animation: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    #assistant-drawer { width: 100%; }
+    #assistant-fab { bottom: 18px; right: 18px; }
+  }
+
+  @media (max-width: 900px) {
+    .hero-layout { grid-template-columns: 1fr; }
+    /* Photo visible sur mobile : remontée au-dessus du titre, plus compacte */
+    .hero-portrait { order: -1; max-width: 150px; margin: 0 auto 6px; }
+    .hero-ask { max-width: 100%; }
+  }
+  @media (max-width: 680px) {
+    .contact-form .form-row { grid-template-columns: 1fr; }
+    .contact-head { padding: 30px 22px 26px; }
+    .contact-head .contact-list .k { min-width: 0; display: block; margin-bottom: 2px; }
+    .contact-form-area { padding: 26px 22px 30px; }
+    .brand-logo { height: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">İçeriğe geç</a>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="#hero">
+      <img class="brand-logo" src="/LOGOMehmet-Tuzcu.png" alt="Mehmet TUZCU logosu" width="40" height="40" />
+      <span class="brand-text">Mehmet TUZCU <span class="brand-role">operasyonel mimar</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="nav-links">Menü</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">Hakkımda</a></li>
+      <li><a href="#expertises">Uzmanlıklar</a></li>
+      <li><a href="#projets">Çalışmalar</a></li>
+      <li><a href="#methode">Yöntem</a></li>
+      <li><a href="#assistant" data-open-assistant>Yapay Zekâ Asistanı</a></li>
+      <li><a href="#contact" data-open-assistant>İletişim</a></li>
+      <li class="lang-switch" aria-label="Langue / Dil / Language">
+        <a href="/" hreflang="fr">FR</a>
+        <a href="/tr/" hreflang="tr" class="on" aria-current="page">TR</a>
+        <a href="/en/" hreflang="en">EN</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <span class="hero-tag">Operasyonel mimar · kod yazan bir yönetici</span>
+          <h1 id="hero-title">Kur, yapılandır, güvence altına al —<br /><span class="accent">sonra otomatikleştireni kodla.</span></h1>
+          <p class="lede">
+            Üç kültürün kesiştiği noktada — operasyonel, mevzuat, teknoloji — mimarisinden itibaren uyumlu
+            sistemler tasarlıyor ve onları otomatikleştiriyorum. Fransa-Türkiye köprüsünün iki yakasında da.
+          </p>
+
+          <div class="hero-ask">
+            <div class="hero-ask-head">
+              <span class="hero-ask-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></span>
+              <span class="hero-ask-label">Mehmet'in yapay zekâ asistanı</span>
+              <span class="hero-ask-status"><span class="dot" aria-hidden="true"></span>çevrim&nbsp;içi</span>
+            </div>
+            <p class="hero-ask-lead">
+              Beni tanımanın en kolay yolu: <strong>sorularınızı asistanıma sorun.</strong>
+              Tüm geçmişimi bilir, konular arasında bağ kurar ve istediğiniz kadar derine iner.
+            </p>
+            <button type="button" class="ask-bar" onclick="openAssistant()" aria-label="Asistanı aç ve bir soru sor">
+              <svg class="ask-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+              <span class="ask-ph">Mehmet hakkında sorunuzu yazın…</span>
+              <span class="ask-go" aria-hidden="true">→</span>
+            </button>
+            <div class="hero-journeys" aria-label="Başlamak için yollar">
+              <button type="button" class="journey" data-q="Bana Mehmet'i 2 dakikada tanıt">Onu 2 dakikada tanıyın</button>
+              <button type="button" class="journey" data-q="Ana çizgi: inşaattan koda">Ana çizgi: inşaattan koda</button>
+              <button type="button" class="journey" data-q="Reflektif'in arkasındaki bilim">Reflektif'in arkasındaki bilim</button>
+              <button type="button" class="journey" data-q="Benim misyonum ya da kurumum için uygun mu?">Misyonum için uygun mu&nbsp;?</button>
+            </div>
+            <p class="hero-secondary"><a href="#contact" data-open-assistant>Ya da doğrudan projenizi konuşalım →</a></p>
+          </div>
+        </div>
+        <div class="hero-portrait">
+          <img src="/assets/profil-rond.png" alt="Mehmet TUZCU" width="320" height="320" loading="eager" />
+        </div>
+      </div>
+
+            <div class="hero-cats" aria-label="Üç uzmanlık alanı">
+        <div><span class="cat">Operasyonel</span><span class="cat-d">Bir şirket kurmak, yapılandırmak, finanse etmek ve yönetmek</span></div>
+        <div><span class="cat">Mevzuat</span><span class="cat-d">Qualiopi, RGE, RGPD/KVKK — başarıyla geçilen denetim ve auditler</span></div>
+        <div><span class="cat">Teknoloji</span><span class="cat-d">Özel full-stack &amp; yapay zekâ ya da mevcut doğru araç</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <p class="eyebrow">Hakkımda</p>
+      <h2 id="about-title">Operasyondan koda: iki kültürlü bir inşacı</h2>
+      <div class="about-grid">
+        <p>
+          İki kültürlü Fransa-Türkiye, iki dilli. Bu çifte kültür bir
+          avantaj: iki ekonomik, düzenleyici ve kurumsal ekosistem arasında bir köprü.
+        </p>
+        <p>
+          Sahada şekillenmiş bir kariyer. İdari asistanlıktan bir inşaat KOBİ'sinin Genel Müdürlüğüne
+          (2017-2023): 30 kişiye kadar ekip yönetimi ve tekliften muhasebe kapanışına kadar eksiksiz mali yönetim.
+        </p>
+        <p>
+          Ardından dönüşüm danışmanlığı, full-stack geliştirme ve bir EdTech girişiminin kuruluşu.
+          Kendi kendini yetiştiren biri olarak Reflektif'in ilk sürümünü tek başıma tasarlayıp kodladım ve bugün
+          onu kurucu ortağım Mikail ile birlikte geliştiriyorum. Bundan ender bir yetkinlik doğuyor: iş ihtiyacını, uyumu
+          ve teknolojiyi tek bir hareketle birbirine bağlamak.
+        </p>
+        <p>
+          Kendimi bir tedarikçi olarak değil, bir birlikte-inşacı olarak konumluyorum: fatura kesmek için değil, dönüştürmek için çalışıyorum.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- EXPERTISES -->
+  <section id="expertises" class="section-alt" aria-labelledby="exp-title">
+    <div class="container">
+      <p class="eyebrow">Uzmanlıklar</p>
+      <h2 id="exp-title">Üç kültür, tek yönlendirici ilke: Compliance by Design</h2>
+      <p class="section-intro">
+        Profilim, aynı kişide nadiren bir araya gelen üç alanı kesiştiriyor. İş birimleri, uyum, teknik ve
+        stratejik karar mercileriyle aynı anda diyalog kurmayı mümkün kılan da bu çapraz yetkinlik.
+      </p>
+
+      <div class="pillars">
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+          </div>
+          <h3>Operasyonel</h3>
+          <p>
+            <strong>Şirket yönetimi &amp; idaresi.</strong> KOBİ yönetimi (30 kişiye kadar), finans,
+            muhasebe, İK, strateji, ekonomik modelleme ve yeniden yapılandırma. Teoride değil, operasyonel
+            sahada şekillenmiş bir hâkimiyet.
+          </p>
+          <ul class="pillar-caps">
+            <li>Bir şirket kurmak &amp; yapılandırmak (FR · TR)</li>
+            <li>Büyümeyi &amp; finansı yönetmek</li>
+            <li>Muhasebeyi denetlemek</li>
+          </ul>
+        </article>
+
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3>Mevzuat</h3>
+          <p>
+            <strong>Kurumsal uyum.</strong> Qualiopi, RGE (Qualibat), QualiRépar, CPF/OPCO, RGPD (Fransa) ve KVKK
+            (Türkiye), DPIA, iş hukuku, kamu hibeleri ve mesleki sertifikasyon mühendisliği
+            (RNCP/RS, France Compétences). İdareler ve denetçiler karşısında temiz, güvenilir ve denetlenebilir
+            düzenekler kuruyorum — denetimler ve auditler başarıyla geçildi.
+          </p>
+          <ul class="pillar-caps">
+            <li>Bir URSSAF / vergi denetiminden geçmek</li>
+            <li>Uyumu güvence altına almak (Qualiopi · RGPD)</li>
+            <li>RGE / Qualibat dosyalarını hazırlamak</li>
+          </ul>
+        </article>
+
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>Teknoloji</h3>
+          <p>
+            <strong>Yazılım geliştirme &amp; yapay zekâ.</strong> TypeScript/React full-stack, tRPC, PostgreSQL/Supabase,
+            üretken yapay zekâ (Vertex AI/Gemini), RAG &amp; embedding, no-code/low-code otomasyon, CI/CD, uygulama
+            güvenliği. Dijital çalışmalarımın tasarımcısı ve full-stack geliştiricisiyim — ilk sürümleri tek başıma kurdum ve bundan böyle Reflektif'i kurucu ortağım Mikail ile birlikte geliştiriyorum —, tasarımdan
+            üretime kadar. Her şeyi yeniden icat etmiyorum: ihtiyaca cevap verdiğinde piyasanın en iyi araçlarını da
+            (Google Workspace, Pennylane…) entegre ediyorum — doğru teknoloji, doğru yerde.
+          </p>
+          <ul class="pillar-caps">
+            <li>Otomatikleştiren platformu kodlamak</li>
+            <li>İş süreçlerini otomatikleştirmek</li>
+            <li>Piyasa araçlarını entegre etmek (Google Workspace, Pennylane…)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="principle">
+        <h3>Yönlendirici ilke — Compliance by Design</h3>
+        <p>
+          Sistemleri sonradan düzeltilmiş değil, mimarisinden itibaren uyumlu olarak tasarlıyorum. Uyum, sona
+          eklenen bir kısıt değildir: sistemin bir özelliğidir, koda gömülüdür. Devreye aldığım her
+          otomasyon savunulabilir, denetlenebilir ve yararlı olmalı — düzenlenmiş her bağlama aktarılabilir olmalı.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJETS -->
+  <section id="projets" aria-labelledby="proj-title">
+    <div class="container">
+      <p class="eyebrow">Çalışmalar</p>
+      <h2 id="proj-title">Tasarlanıp teslim edilmiş eksiksiz sistemler</h2>
+      <p class="section-intro">
+        Slaytlar değil. Her çalışma üç kültürün buluşmasını gösteriyor.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <span class="tag">Öne çıkan proje</span>
+          <h3>Reflektif</h3>
+          <p class="sub">Yapay zekâ destekli EdTech kariyer yönlendirme platformu, Fransa + Türkiye.</p>
+          <p>
+            Yapay zekâ ile güçlendirilmiş, doğuştan Fransızca/Türkçe iki dilli mesleki kariyer yönlendirme SaaS platformu;
+            başlangıçta tek başıma tasarlanıp kodlandı ve bundan böyle kurucu ortağım Mikail Lekesiz ile birlikte geliştiriliyor; Şubat 2026'dan bu yana aktif olarak üretimde ve Avrupa'da (Frankfurt) barındırılıyor.
+            Ürün tasarımını, teknik mimarisini ve pedagojik yönetimini üstleniyorum. Motor,
+            psikometriyi (3 test, 110 soru: RIASEC, Big Five, Değerler) ve üretken yapay zekâyı kesiştiriyor; özel
+            SmartMatch algoritması, kullanıcının profilini 928 meslekten oluşan bir katalogla eşleştiriyor.
+            Üretimde eksiksiz bir yolculuk: testler, yapay zekâ değerlendirmeleri, belge analizi, tanı raporu,
+            meslek keşfi, insan onaylı danışman portalı ve gerçek zamanlı mesajlaşma — beyaz etiketli kohort
+            yönetimine yönelik bir B2B bileşeni ile.
+          </p>
+          <p class="meta">
+            Doğrulanmış veriler: ≈167 000 satır TypeScript/TSX, tamamı Row-Level Security ile korunan 71 PostgreSQL
+            tablosu, koda gömülü RGPD/KVKK uyumu.
+          </p>
+          <a class="card-link" href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net →</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Compliance by Design</span>
+          <h3>Bilan-Easy</h3>
+          <p class="sub">Yetkinlik değerlendirmeleri için yapay zekâ SaaS yazılımı.</p>
+          <p>
+            Bir Qualiopi merkezi için tasarlanıp geliştirildi, üretime alındı, FR/TR iki dilli. Konuşma tabanlı
+            bir yapay zekâ koçu, yetkinlik değerlendirmesinin üç düzenleyici aşaması boyunca süreci yapılandırıyor ve
+            İş Kanunu'na uygun olarak değerlendirme sonrası 3 ve 6 ay takibini otomatikleştiriyor. Özellikler: otomatik
+            RIASEC analizi, PDF sentezleri, danışman panosu, paket yönetimi, Qualiopi memnuniyet anketi ve
+            eksiksiz RGPD yönetimi. Baştan itibaren Qualiopi gerekliliklerini karşılamak üzere tasarlandı.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Danışmanlık &amp; dönüşüm</span>
+          <h3>İnşaat, eğitim &amp; uyum</h3>
+          <p class="sub">Şirketlerin auditi, yeniden yapılandırılması ve uyumu.</p>
+          <p>
+            Alsace inşaat sektöründe bağımsız danışmanlık görevleri: mali ve organizasyonel audit, iyileştirme
+            planları, yönetim araçlarının devreye alınması, uyumun sağlanması ve ekiplerin eğitimi. Netz
+            Informatique'te (BT hizmet şirketi + Qualiopi eğitim merkezi), geçiş dönemi yönetiminde bir dönüşüm görevi:
+            Qualiopi kalite ve uyum yönetimi, dijital dönüşüm (otomasyonlar, öğrenci portalı) ve
+            eğitime uygulanan yapay zekâ.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Portföy</span>
+          <h3>Web çalışmaları</h3>
+          <p class="sub">Teslim edilmiş siteler ve platformlar.</p>
+          <p>
+            Web siteleri ve platformlarından oluşan bir portföy (OzArt, Megalife Istanbul, Local Essence, mehmettuzcu.fr). Bir
+            İstanbullu gayrimenkul geliştirici için, basit bir PDF katalogdan yola çıkılarak 8 dilde tasarlanmış premium
+            satış platformu; uluslararası hedefleme stratejisi ve dönüşüm hunisi ile — doğrudan Fransa-Türkiye çifte
+            kültürünü kullanarak. Local Essence, yerel dizinlerden oluşan çok kiracılı bir SaaS platformudur
+            (12 aktif coğrafi bölge).
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODE -->
+  <section id="methode" class="section-alt" aria-labelledby="meth-title">
+    <div class="container">
+      <p class="eyebrow">Yöntem</p>
+      <h2 id="meth-title">İş ihtiyacından uyumlu ve otomatikleştirilmiş araca</h2>
+      <p class="section-intro">
+        Bir soruna hazır bir çözüm yapıştırmam. Bir saha ihtiyacını uyumlu ve otomatikleştirilmiş bir sisteme
+        dönüştüren, yapılandırılmış ve tekrarlanabilir, adım adım bir yöntem izlerim.
+      </p>
+
+      <div class="steps">
+        <article class="step">
+          <div class="n">1</div>
+          <h3>Sorunu netleştirmek</h3>
+          <p>Her şeyden önce operasyonel gerçeği anlamak — saha teşhisi, iş birimlerini dinlemek.</p>
+        </article>
+        <article class="step">
+          <div class="n">2</div>
+          <h3>Hukuki çerçeveyi belirlemek</h3>
+          <p>Uygulanabilir düzenleyici gereklilikleri en baştan tespit etmek, uyumu mimariye gömmek için.</p>
+        </article>
+        <article class="step">
+          <div class="n">3</div>
+          <h3>Organizasyonu modellemek</h3>
+          <p>İhtiyacı stratejik bir mimariye çevirmek: roller, akışlar, veriler, kontrol noktaları.</p>
+        </article>
+        <article class="step">
+          <div class="n">4</div>
+          <h3>Araçlandırmak</h3>
+          <p>Aracı tasarlayıp geliştirmek — bağlama göre full-stack ya da no-code/low-code, hızlı ve savunulabilir bir devreye almayla.</p>
+        </article>
+        <article class="step">
+          <div class="n">5</div>
+          <h3>Uyumu güvence altına almak</h3>
+          <p>İzlenebilirliği, denetlenebilirliği ve veri korumasını sistemin kendisine gömmek.</p>
+        </article>
+        <article class="step">
+          <div class="n">6</div>
+          <h3>Otomatikleştirmek</h3>
+          <p>Tekrar eden süreçleri sanayileştirmek, savunulabilir, denetlenebilir ve yararlı otomasyonlarla.</p>
+        </article>
+      </div>
+
+      <p class="method-note">
+        Kararlarımı verilerle veririm: kararlı biçimde harekete geçmeden önce senaryolar (iyimser, gerçekçi, kötümser)
+        modellerim. Ve yaltaklanma yerine nesnelliği ve dürüst geri bildirimi tercih ederim.
+      </p>
+    </div>
+  </section>
+
+  <!-- PREUVES -->
+  <section id="preuves" aria-labelledby="proof-title">
+    <div class="container">
+      <p class="eyebrow">Kanıtlar &amp; güvenilirlik</p>
+      <h2 id="proof-title">Vaatler değil, doğrulanmış rakamlar</h2>
+      <p class="section-intro">
+        Aşağıdaki tüm göstergeler veritabanında doğrulanmıştır. Teknik derinliği ve ürün kullanımını
+        yansıtırlar — ciroyla karıştırılmamalıdır.
+      </p>
+
+      <div class="proof-groups">
+        <div class="proof">
+          <h3>Teknik derinlik (Reflektif)</h3>
+          <ul>
+            <li>Üretimde <strong>≈ 167 000 satır</strong> TypeScript/TSX, bunların ilk sürümü tek başıma tasarlanıp kodlandı (geliştirme kurucu ortağım Mikail ile birlikte sürüyor).</li>
+            <li>Tamamı Row-Level Security ile korunan <strong>71 PostgreSQL tablosu</strong> (tabloların %100'ü).</li>
+            <li><strong>2 250'den fazla commit</strong> ve <strong>231 dokümantasyon dosyası</strong>.</li>
+            <li>Modern yığın: React 19/Vite, Node 22/Express 5/tRPC v11, Avrupa'da barındırılan Supabase PostgreSQL, yerel gözlemlenebilirlik ve RAG ile Vertex AI EU yapay zekâsı (Gemini).</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Ürün bilimi</h3>
+          <ul>
+            <li>Bilimsel temelli <strong>3 psikometrik değerlendirme</strong> (RIASEC, Big Five, Değerler), yani <strong>110 soru</strong>.</li>
+            <li>O*NET kodlu ve FR/TR iki dilli <strong>928 meslek</strong> kataloğu.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Mühendislik kalitesi</h3>
+          <ul>
+            <li>Eksiksiz CI/CD (lint, testler, build, audit, dağıtım), kod incelemesi, gizli anahtar taraması, izleme.</li>
+            <li><strong>63'ten 136 teste</strong> çıkarılmış nightly uçtan uca test zinciri (masaüstü + mobil).</li>
+            <li>Üretimde kanıtlanmış RGPD/KVKK uyumu: gerçekleştirilmiş DPIA, izlenen rızalar, gerçekten uygulanmış silinme hakkı, audit günlüğü.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Kullanım çekişi <span style="font-weight:400;text-transform:none;letter-spacing:0;">(≠ ciro)</span></h3>
+          <ul>
+            <li><strong>1 200'den fazla kullanıcı</strong> (Türk üniversite pilotları ve ilk Fransız kullanıcılar).</li>
+            <li><strong>1 800'den fazla test uygulaması</strong> ve <strong>443 tam batarya</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Sertifikalar</h3>
+          <ul>
+            <li><strong>TOSA DigiComp 751/1000</strong> (2024-2027 geçerli) — dijital yetkinliklerin karşı ileri sürülebilir bir ölçütü.</li>
+            <li>Netz eğitim merkezinin, birden çok yenileme döngüsü boyunca sürdürülen <strong>Qualiopi</strong> sertifikası.</li>
+            <li><strong>QualiRépar</strong> etiketi.</li>
+            <li>France Compétences'e <strong>mesleki sertifikasyon</strong> dosyası başvurusu.</li>
+          </ul>
+        </div>
+
+        <p class="proof-disclaimer">
+          Yukarıdaki göstergeler ürün kullanımını ve teknik derinliği yansıtır. Cirodan farklıdırlar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POUR QUI -->
+  <section id="pour-qui" aria-labelledby="aud-title">
+    <div class="container">
+      <p class="eyebrow">Kimler için</p>
+      <h2 id="aud-title">Kimler için çalışıyorum</h2>
+      <p class="section-intro">
+        Yalnızca kutucuk işaretlemek değil, gerçekten dönüşmek isteyen muhataplara hitap ediyorum.
+        Herkesin ne bekleyebileceği aşağıda.
+      </p>
+
+      <div class="audience">
+        <article class="aud">
+          <h3>KOBİ yöneticileri</h3>
+          <p>Organizasyonel ve mali audit, yeniden yapılandırma, uyumun sağlanması, yönetim araçlarının devreye alınması ve ekiplerin eğitimi. Somut bir icrayla birleşen saha okuması.</p>
+        </article>
+        <article class="aud">
+          <h3>Eğitim kurumları &amp; sertifikalı merkezler</h3>
+          <p>Qualiopi yönetimi ve güvenceye alınması, finansman mühendisliği (CPF/OPCO), mesleki sertifikasyon mühendisliği (RNCP/RS) ve İş Kanunu'na uygun iş araçları. Bir yük olarak değil, bir avantaj olarak uyum.</p>
+        </article>
+        <article class="aud">
+          <h3>EdTech &amp; yapay zekâ proje sahipleri</h3>
+          <p>Ürün tasarımı, full-stack teknik mimari, üretken yapay zekâ ve gözlemlenebilirlik, mimariden itibaren gömülü RGPD/KVKK ve AI Act uyumu. Tasarladığını kendi kodlayan bir ortak.</p>
+        </article>
+        <article class="aud">
+          <h3>Fransa-Türkiye aktörleri</h3>
+          <p>İki ülke arasında operasyonel bir köprü: dil, mevzuat (RGPD ve KVKK), akademik ve kurumsal ağlar. Sınırın iki yakasında da doğuştan iş görme yetisi.</p>
+        </article>
+        <article class="aud">
+          <h3>Kurumlar (B2G)</h3>
+          <p>Yönlendirme mimarilerinin tasarımı, konsorsiyum ve fizibilite dosyalarının kurgulanması, Fransız ve Türk kurumsal ekosistemleriyle diyalog.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA INTERMÉDIAIRE -->
+  <section class="mid-cta" aria-label="Eylem çağrısı">
+    <div class="container">
+      <div class="mid-cta-inner">
+        <p class="mid-cta-text">Durumunuz bu örneklerden birine benziyor mu?</p>
+        <button type="button" class="btn btn-primary" onclick="openAssistant()">Bunu asistanımla konuşun</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section-alt" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-unified">
+        <div class="contact-head">
+        <p class="eyebrow">İletişim</p>
+        <h2 id="contact-title">Projenizi konuşalım</h2>
+        <p>
+          İş, mevzuat ve teknolojinin kesişiminde bir proje mi taşıyorsunuz? Sahayı anlayan, hukuki çerçeveye
+          hâkim olan ve çözümü kendi kodlayan bir muhatap mı arıyorsunuz?
+        </p>
+        <p>
+          Görevlerimi basit bir ölçütle seçiyorum: gerçek bir dönüşüm iradesi. Bana yazın, kartlarımızı
+          karşılıklı açalım.
+        </p>
+        <ul class="contact-list">
+          <li><span class="k">Dönüşüm danışmanlığı</span> <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a></li>
+          <li><span class="k">Yapay zekâ kariyer yönlendirme platformu</span> <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a></li>
+        </ul>
+        <button type="button" class="btn btn-secondary" onclick="openAssistant()">Asistanımla konuşun →</button>
+        </div>
+
+        <div class="contact-form-area">
+        <h3>Projenizi bana anlatın</h3>
+        <p class="form-intro">
+          Bu formu doldurup gönderin: talebinizi — eklediyseniz konuşmanızla birlikte — alıyorum
+          ve size yanıt veriyorum.
+        </p>
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <div class="form-row">
+            <div class="field">
+              <label for="nom">Ad soyad</label>
+              <input type="text" id="nom" name="nom" placeholder="Adınız" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="org">Şirket / Kurum</label>
+              <input type="text" id="org" name="org" placeholder="Şirket veya kurum" autocomplete="organization" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="email">E-posta</label>
+              <input type="email" id="email" name="email" placeholder="siz@kurum.fr" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="tel">Telefon</label>
+              <input type="tel" id="tel" name="tel" placeholder="İsteğe bağlı" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Projeniz</label>
+            <textarea id="message" name="message" placeholder="Bağlamınızı, önceliklerinizi ve hedeflerinizi anlatın…" required></textarea>
+          </div>
+          <div class="field field-consent" id="attachField" hidden>
+            <label class="consent-label" for="attachChat">
+              <input type="checkbox" id="attachChat" name="attachChat" />
+              <span>Asistanla konuşmamı talebime ekle — böylece Mehmet ne hakkında konuşmak istediğinizi baştan bilir.</span>
+            </label>
+          </div>
+          <div class="field field-consent">
+            <label class="consent-label" for="consent">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span>Bilgilerimin talebimi işlemek için kullanılmasını kabul ediyorum (bkz.
+                <a href="/politique-confidentialite.html">gizlilik politikası</a>).</span>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Mesajı gönder →</button>
+          </div>
+          <p class="form-note">Talebiniz doğrudan bana iletilir; işaretlediyseniz konuşmanız da eklenir. Hiçbir veri üçüncü bir tarafa aktarılmaz.</p>
+        </form>
+        <div class="form-confirm" id="formConfirm" hidden>
+          <p>Teşekkürler, mesajınız başarıyla gönderildi. Size en kısa sürede yanıt vereceğim.</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© <span id="year">2026</span> Mehmet TUZCU — Operasyonel mimar</span>
+    <nav aria-label="Alt bilgi bağlantıları">
+      <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a> ·
+      <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a> ·
+      <a href="https://www.linkedin.com/in/mehmet-tuzcu-110b4897/" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a href="/mentions-legales.html">Yasal bilgiler</a> ·
+      <a href="/politique-confidentialite.html">Gizlilik politikası</a> ·
+      <a href="#hero">Sayfa başı ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- DRAWER ASSISTANT -->
+<div id="assistant-backdrop" hidden></div>
+<aside id="assistant-drawer" role="dialog" aria-modal="true" aria-label="Konuşma asistanı" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Asistan — Mehmet TUZCU</h2>
+    <button type="button" class="drawer-close" aria-label="Kapat" onclick="closeAssistant()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <iframe src="/assistant.html?lang=tr" title="Konuşma asistanı — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
+  </div>
+  <div id="drawerLeave" class="drawer-leave" hidden>
+    <div class="dl-card">
+      <p class="dl-title">Ayrılmadan önce…</p>
+      <p class="dl-sub">Bu görüşmenin bir kaydını saklayın — ve Mehmet size bizzat yanıt verebilir.</p>
+      <button type="button" class="dl-primary" id="dlContact">📩 Mehmet sizinle iletişime geçsin<small>bu konuşmayı ona iletiyorum</small></button>
+      <div class="dl-email">
+        <label class="dl-email-lbl" for="dlEmail">✉️&nbsp;&nbsp;Bu konuşmayı e-posta ile alın</label>
+        <div class="dl-email-row">
+          <input type="email" id="dlEmail" placeholder="siz@eposta.com" autocomplete="email" inputmode="email" />
+          <button type="button" class="dl-send" id="dlEmailSend">Gönder</button>
+        </div>
+        <input type="text" id="dlHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <p class="dl-email-msg" id="dlEmailMsg" hidden></p>
+      </div>
+      <button type="button" class="dl-link" id="dlClose">Hiçbir şey göndermeden kapat</button>
+    </div>
+  </div>
+</aside>
+
+<!-- BOUTON FLOTTANT -->
+<button type="button" id="assistant-fab" aria-label="Asistanı aç" aria-expanded="false" onclick="toggleAssistant()">
+  <svg class="ico-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+  <svg class="ico-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
+<script>
+  const WORKER_BASE = "https://assistant-mehmet.conseil-40b.workers.dev"; // back-office : /lead + /transcript
+
+  // Année dynamique
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Assistant — drawer latéral (l'iframe reste montée : la conversation n'est jamais perdue)
+  var __asDrawer = document.getElementById('assistant-drawer');
+  var __asBackdrop = document.getElementById('assistant-backdrop');
+  var __asFab = document.getElementById('assistant-fab');
+
+  function openAssistant() {
+    if (!__asDrawer) return;
+    if (__asBackdrop) { __asBackdrop.hidden = false; void __asBackdrop.offsetWidth; __asBackdrop.classList.add('open'); }
+    __asDrawer.classList.add('open');
+    __asDrawer.setAttribute('aria-hidden', 'false');
+    if (__asFab) { __asFab.classList.add('open'); __asFab.setAttribute('aria-expanded', 'true'); __asFab.setAttribute('aria-label', "Asistanı kapat"); }
+    var closeBtn = __asDrawer.querySelector('.drawer-close');
+    if (closeBtn) closeBtn.focus();
+  }
+  function __hasConv() {
+    try { var raw = localStorage.getItem('mt_assistant_chat_v1'); var log = raw ? JSON.parse(raw) : []; return Array.isArray(log) && log.length >= 2; } catch (_e) { return false; }
+  }
+  function doCloseDrawer() {
+    if (!__asDrawer) return;
+    var lv = document.getElementById('drawerLeave'); if (lv) lv.hidden = true;
+    __asDrawer.classList.remove('open');
+    __asDrawer.setAttribute('aria-hidden', 'true');
+    if (__asBackdrop) {
+      __asBackdrop.classList.remove('open');
+      window.setTimeout(function () { if (!__asBackdrop.classList.contains('open')) __asBackdrop.hidden = true; }, 340);
+    }
+    if (__asFab) { __asFab.classList.remove('open'); __asFab.setAttribute('aria-expanded', 'false'); __asFab.setAttribute('aria-label', "Asistanı aç"); }
+  }
+  // À la fermeture, si une conversation existe, proposer (une fois) : recontact / télécharger / fermer.
+  function closeAssistant() {
+    if (!__asDrawer) return;
+    if (__hasConv()) {
+      var lv = document.getElementById('drawerLeave');
+      if (lv && lv.hidden) { lv.hidden = false; return; }  // propose recontact/telechargement A CHAQUE fermeture
+    }
+    doCloseDrawer();
+  }
+  function toggleAssistant() {
+    if (__asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+    else openAssistant();
+  }
+  if (__asBackdrop) __asBackdrop.addEventListener('click', closeAssistant);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && __asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+  });
+
+  // Pistes du hero : ouvrir l'assistant ET lui envoyer directement la question.
+  var __asIframe = __asDrawer ? __asDrawer.querySelector('iframe') : null;
+  function askAssistant(q) {
+    openAssistant();
+    if (__asIframe && __asIframe.contentWindow) {
+      window.setTimeout(function () {
+        try { __asIframe.contentWindow.postMessage({ type: 'mt-ask', q: q }, location.origin); } catch (_e) {}
+      }, 180);
+    }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.journey[data-q]'), function (b) {
+    b.addEventListener('click', function () { askAssistant(b.getAttribute('data-q')); });
+  });
+
+  // Connexion assistant -> formulaire : « Être recontacté par Mehmet ».
+  // Ferme le panneau, va au formulaire, coche « joindre ma conversation » (la conversation
+  // est déjà liée côté back-office via le session_id à l'envoi).
+  function openContactForm() {
+    doCloseDrawer();
+    try {
+      var hasConv = false;
+      try { hasConv = !!localStorage.getItem('mt_assistant_chat_v1'); } catch (_e) {}
+      var field = document.getElementById('attachField');
+      var cb = document.getElementById('attachChat');
+      if (hasConv && field) field.hidden = false;
+      if (hasConv && cb) cb.checked = true;
+    } catch (_e) {}
+    window.setTimeout(function () {
+      var c = document.getElementById('contact');
+      if (c) {
+        try { c.scrollIntoView({ behavior: 'instant', block: 'start' }); }  // instant : le smooth se fait interrompre par la fermeture
+        catch (_e) {
+          var h = document.documentElement, pv = h.style.scrollBehavior; h.style.scrollBehavior = 'auto';
+          window.scrollTo(0, c.getBoundingClientRect().top + window.pageYOffset - 12); h.style.scrollBehavior = pv;
+        }
+      }
+      var nom = document.getElementById('nom');
+      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e2) {} }, 400);
+    }, 420);
+  }
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    if (e.data && e.data.type === 'mt-contact') openContactForm();
+  });
+
+  // Panneau de sortie (recontact / recevoir la conversation par e-mail / fermer).
+  (function () {
+    var c = document.getElementById('dlContact'), x = document.getElementById('dlClose');
+    if (c) c.addEventListener('click', function () { openContactForm(); });
+    if (x) x.addEventListener('click', function () { doCloseDrawer(); });
+
+    // « Recevez cette conversation par e-mail » : une copie part au visiteur (+ lead côté back-office).
+    var send = document.getElementById('dlEmailSend');
+    var input = document.getElementById('dlEmail');
+    var note = document.getElementById('dlEmailMsg');
+    var hp = document.getElementById('dlHp');
+    function transcript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) { return (m.role === 'user' ? 'Ziyaretçi : ' : 'Asistan : ') + m.text; }).join('\r\n\r\n'); // ** conservés : le Worker les rend en gras (HTML) et les retire du texte plein
+      } catch (_e) { return ''; }
+    }
+    function msg(t, err) { if (!note) return; note.textContent = t; note.hidden = false; note.className = 'dl-email-msg' + (err ? ' err' : ''); }
+    if (send && input) send.addEventListener('click', function () {
+      var email = (input.value || '').trim();
+      if (!email || email.indexOf('@') < 1 || email.length < 5) { msg('Geçerli bir e-posta adresi girin.', true); input.focus(); return; }
+      var tx = transcript();
+      if (!tx) { msg('Henüz gönderilecek bir konuşma yok.', true); return; }
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var lbl = send.textContent; send.disabled = true; send.textContent = 'Gönderiliyor…';
+      fetch(WORKER_BASE + '/transcript', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, transcript: tx, session_id: sid, hp: (hp && hp.value) || '' })
+      })
+        .then(function (r) {
+          if (r && r.ok) { input.disabled = true; send.textContent = 'Gönderildi ✓'; msg('Gönderildi — gelen kutunuzu (ve spam klasörünüzü) kontrol edin.', false); }
+          else { throw new Error('bad'); }
+        })
+        .catch(function () { send.disabled = false; send.textContent = lbl; msg('Gönderim sırasında bir hata oluştu. Birazdan tekrar deneyin.', true); });
+    });
+  })();
+
+  // Liens de nav pointant vers l'ancienne section : ouvrir le drawer
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-assistant]'), function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var navLinks = document.getElementById('nav-links');
+      var navToggle = document.querySelector('.nav-toggle');
+      if (navLinks) navLinks.classList.remove('open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+      openAssistant();
+    });
+  });
+
+  // Menu mobile
+  (function () {
+    var toggle = document.querySelector('.nav-toggle');
+    var links = document.getElementById('nav-links');
+    if (!toggle || !links) return;
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // Formulaire de contact -> endpoint (Formspree/Worker) avec repli mailto
+  (function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var confirmBox = document.getElementById('formConfirm');
+
+    // Transcription de la conversation avec l'assistant (même origine -> localStorage partagé).
+    function getChatTranscript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) {
+          return (m.role === 'user' ? 'Ziyaretçi : ' : 'Asistan : ') + m.text;
+        }).join('\r\n\r\n');
+      } catch (_e) { return ''; }
+    }
+
+    // L'option « joindre ma conversation » n'apparaît que si une conversation existe.
+    (function revealAttach() {
+      var field = document.getElementById('attachField');
+      if (field && getChatTranscript()) field.hidden = false;
+    })();
+
+    function sendMailto(nom, org, email, tel, msg, transcript) {
+      var subject = 'İletişim talebi — ' + nom + (org ? ' (' + org + ')' : '');
+      var body =
+        'Ad : ' + nom + '\r\n' +
+        'Şirket : ' + org + '\r\n' +
+        'E-posta : ' + email + '\r\n' +
+        'Telefon : ' + tel + '\r\n\r\n' +
+        msg +
+        (transcript ? '\r\n\r\n— — — Asistanla konuşma — — —\r\n' + transcript : '');
+      window.location.href =
+        'mailto:conseil@mehmettuzcu.fr?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+
+    function showConfirmation() {
+      form.hidden = true;
+      if (confirmBox) confirmBox.hidden = false;
+    }
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+
+      var nom = (form.nom.value || '').trim();
+      var org = (form.org.value || '').trim();
+      var email = (form.email.value || '').trim();
+      var tel = (form.tel.value || '').trim();
+      var msg = (form.message.value || '').trim();
+      var attach = form.attachChat && form.attachChat.checked;
+      var transcript = attach ? getChatTranscript() : '';
+
+      // Envoi direct au back-office : stockage D1 + notification e-mail côté serveur. Plus de dépendance au client mail.
+      var full = msg + (transcript ? '\n\n— — — Asistanla konuşma — — —\n' + transcript : '');
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var hp = (form.hp && form.hp.value) || '';
+      var btn = form.querySelector('button[type="submit"]');
+      var lbl = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Gönderiliyor…'; }
+
+      fetch(WORKER_BASE + '/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: full, session_id: sid, hp: hp })
+      })
+        .then(function (r) { if (r && r.ok) { showConfirmation(); } else { throw new Error('bad'); } })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = lbl; }
+          alert('Gönderim sırasında bir hata oluştu. Tekrar deneyin ya da conseil@mehmettuzcu.fr adresine yazın.');
+        });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -236,7 +236,7 @@
     </div>
 
     <footer>
-      Réponses à partir d'informations publiques vérifiées.
+      <span id="footNote">Réponses à partir d'informations publiques vérifiées.</span>
       <span class="dot">•</span>
       <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a>
       <span class="dot">•</span>
@@ -600,7 +600,7 @@ function renderFollowups(sug){
   box.className = "followups";
   const lbl = document.createElement("span");
   lbl.className = "fu-lbl";
-  lbl.textContent = "Pour continuer :";
+  lbl.textContent = T.cont;
   box.appendChild(lbl);
   list.forEach(s=>{
     const chip = document.createElement("button");
@@ -662,15 +662,19 @@ async function handleSend(rawText){
   inputEl.focus();
 }
 
-// Amorces cliquables (KB.starters).
-KB.starters.forEach(s=>{
-  const chip = document.createElement("button");
-  chip.type = "button";
-  chip.className = "chip";
-  chip.textContent = s;
-  chip.addEventListener("click", ()=>handleSend(s));
-  startersEl.appendChild(chip);
-});
+// Amorces cliquables (localisées selon ?lang) — rendu déclenché APRÈS définition de T, via applyLang().
+function renderStarters(){
+  if(!startersEl || startersEl.getAttribute('data-done')) return;
+  startersEl.setAttribute('data-done','1');
+  ((typeof T !== "undefined" && T && T.starters) ? T.starters : KB.starters).forEach(s=>{
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.textContent = s;
+    chip.addEventListener("click", ()=>handleSend(s));
+    startersEl.appendChild(chip);
+  });
+}
 
 // Soumission : bouton + touche Entree.
 formEl.addEventListener("submit", e=>{
@@ -688,12 +692,58 @@ window.addEventListener("message", e=>{
   }
 });
 
+// ---- Multilingue : la langue vient du paramètre ?lang de l'iframe (fr par défaut) ----
+var LANG = (function(){ try { var l = new URLSearchParams(location.search).get('lang'); return (l === 'tr' || l === 'en') ? l : 'fr'; } catch(e){ return 'fr'; } })();
+var T = ({
+  fr: {
+    welcome: "Bonjour ! Je connais Mehmet en profondeur — son parcours, ses projets, la science de Reflektif, ses compétences et sa façon de travailler.\n\nPlutôt que de tout lire, demandez-moi : je vous explique, je fais les liens entre les choses, et je vais aussi loin que vous le souhaitez. Dites-moi ce qui vous amène — ou choisissez une piste ci-dessous.",
+    ph: "Écrivez votre question…", ariaQ: "Votre question", send: "Envoyer",
+    recontactQ: "Envie que Mehmet vous recontacte ?", recontactA: "Laisser mes coordonnées →",
+    clear: "Effacer la conversation", cont: "Pour continuer :", suggested: "Questions suggérées",
+    footer: "Réponses à partir d'informations publiques vérifiées.",
+    privacy: "Vos échanges sont conservés de façon anonyme et peuvent être consultés pour améliorer le service et préparer un éventuel contact. N'y indiquez pas d'informations sensibles.",
+    more: "En savoir plus",
+    starters: ["Présente-moi Mehmet en 2 minutes","Le fil rouge : du bâtiment au code","La science derrière Reflektif","Est-il fait pour ma mission ou mon institution ?","Sa singularité par rapport à d'autres profils","Pourquoi « un dirigeant qui code » ?"]
+  },
+  tr: {
+    welcome: "Merhaba! Mehmet'i derinlemesine tanıyorum — kariyerini, projelerini, Reflektif'in ardındaki bilimi, yetkinliklerini ve çalışma biçimini.\n\nHer şeyi okumak yerine bana sorun: açıklarım, noktaları birbirine bağlarım ve istediğiniz kadar derine inerim. Sizi buraya ne getirdi, söyleyin — ya da aşağıdan bir başlangıç seçin.",
+    ph: "Sorunuzu yazın…", ariaQ: "Sorunuz", send: "Gönder",
+    recontactQ: "Mehmet sizinle iletişime geçsin mi?", recontactA: "Bilgilerimi bırakayım →",
+    clear: "Sohbeti temizle", cont: "Devam etmek için:", suggested: "Önerilen sorular",
+    footer: "Yanıtlar, doğrulanmış herkese açık bilgilere dayanır.",
+    privacy: "Konuşmalarınız anonim olarak saklanır ve hizmeti geliştirmek ile olası bir iletişim için incelenebilir. Lütfen hassas bilgi paylaşmayın.",
+    more: "Daha fazla bilgi",
+    starters: ["Mehmet'i 2 dakikada tanıt","Ana fikir: inşaattan koda","Reflektif'in ardındaki bilim","İşime ya da kurumuma uygun mu?","Diğer profillerden farkı ne?","Neden 'kod yazan bir yönetici'?"]
+  },
+  en: {
+    welcome: "Hello! I know Mehmet in depth — his career, his projects, the science behind Reflektif, his skills and the way he works.\n\nRather than reading everything, just ask me: I explain, I connect the dots, and I go as far as you like. Tell me what brings you here — or pick a starting point below.",
+    ph: "Type your question…", ariaQ: "Your question", send: "Send",
+    recontactQ: "Want Mehmet to get back to you?", recontactA: "Leave my details →",
+    clear: "Clear the conversation", cont: "To continue:", suggested: "Suggested questions",
+    footer: "Answers based on verified public information.",
+    privacy: "Your conversations are kept anonymously and may be reviewed to improve the service and prepare a possible contact. Please do not share sensitive information.",
+    more: "Learn more",
+    starters: ["Introduce Mehmet in 2 minutes","The through-line: from construction to code","The science behind Reflektif","Is he right for my project or institution?","What sets him apart from other profiles?","Why 'a leader who codes'?"]
+  }
+})[LANG];
+
+function applyLang(){
+  try {
+    document.documentElement.lang = LANG;
+    var inp = document.getElementById('input'); if(inp){ inp.placeholder = T.ph; inp.setAttribute('aria-label', T.ariaQ); }
+    var sb = document.getElementById('sendBtn'); if(sb){ var sp = sb.querySelector('span'); if(sp) sp.textContent = T.send; sb.setAttribute('aria-label', T.send); }
+    var rb = document.getElementById('recontactBtn'); if(rb){ var s = rb.querySelector('span'), st = rb.querySelector('strong'); if(s) s.innerHTML = T.recontactQ; if(st) st.textContent = T.recontactA; }
+    var fn = document.getElementById('footNote'); if(fn) fn.textContent = T.footer;
+    var cb = document.getElementById('clearBtn'); if(cb) cb.textContent = T.clear;
+    var sl = document.querySelector('.starters .lbl'); if(sl) sl.textContent = T.suggested;
+    var pn = document.querySelector('.privacy-note'); if(pn) pn.innerHTML = T.privacy + ' <a href="/politique-confidentialite.html" target="_blank" rel="noopener">' + T.more + '</a>.';
+    if(typeof renderStarters === "function") renderStarters();
+  } catch(e){}
+}
+applyLang();
+
 // Texte d'accueil (affiche uniquement quand il n'y a aucun historique).
-const WELCOME_TEXT =
-  "Bonjour ! Je connais Mehmet en profondeur — son parcours, ses projets, la science de Reflektif, " +
-  "ses compétences et sa façon de travailler.\n\n" +
-  "Plutôt que de tout lire, demandez-moi : je vous explique, je fais les liens entre les choses, " +
-  "et je vais aussi loin que vous le souhaitez. Dites-moi ce qui vous amène — ou choisissez une piste ci-dessous.";
+const WELCOME_TEXT = T.welcome;
 
 // Affiche l'accueil + laisse les amorces visibles (etat « conversation vide »).
 function showWelcome(){

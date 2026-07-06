@@ -9,7 +9,11 @@
 <meta name="keywords" content="architecte opérationnel, dirigeant qui code, conseil en transformation, Compliance by Design, Qualiopi, RGPD, KVKK, conformité réglementaire, développeur full-stack, IA générative, EdTech, orientation professionnelle, France-Turquie, CPF OPCO, France Compétences, automatisation no-code, conseil PME, conseil BTP, transformation digitale, Alsace Grand Est" />
 <meta name="author" content="Mehmet TUZCU" />
 <link rel="canonical" href="https://mehmettuzcu.fr/" />
-<link rel="icon" href="assets/favicon.png" />
+<link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/" />
+<link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/" />
+<link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/" />
+<link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/" />
+<link rel="icon" href="/assets/favicon.png" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -17,6 +21,8 @@
 <meta property="og:description" content="Architecte opérationnel France-Turquie : direction de PME, conformité (Qualiopi, RGPD/KVKK) et développement full-stack IA. Compliance by Design." />
 <meta property="og:url" content="https://mehmettuzcu.fr/" />
 <meta property="og:locale" content="fr_FR" />
+<meta property="og:locale:alternate" content="tr_TR" />
+<meta property="og:locale:alternate" content="en_US" />
 <meta property="og:site_name" content="Mehmet TUZCU" />
 
 <!-- Twitter -->
@@ -24,7 +30,7 @@
 <meta name="twitter:title" content="Mehmet TUZCU — Architecte opérationnel & dirigeant qui code" />
 <meta name="twitter:description" content="Direction de PME, conformité (Qualiopi, RGPD/KVKK) et développement full-stack IA. Compliance by Design. Pont France-Turquie." />
 
-<link rel="stylesheet" href="assets/style.css" />
+<link rel="stylesheet" href="/assets/style.css" />
 
 <!-- Données structurées : Person -->
 <script type="application/ld+json">
@@ -78,6 +84,10 @@
     flex-shrink: 0;
   }
   .brand-text { display: inline-flex; align-items: baseline; gap: 8px; }
+  .lang-switch { display: inline-flex; align-items: center; gap: 2px; }
+  .lang-switch a { font-size: .8rem; font-weight: 700; color: var(--gray); padding: 4px 8px; border-radius: 7px; text-decoration: none; letter-spacing: .4px; }
+  .lang-switch a:hover { color: var(--accent); background: var(--accent-soft); }
+  .lang-switch a.on { color: #fff; background: var(--accent); }
 
   /* Hero : portrait à côté du texte */
   .hero .container { position: relative; }
@@ -537,7 +547,7 @@
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="#hero">
-      <img class="brand-logo" src="LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU" width="40" height="40" />
+      <img class="brand-logo" src="/LOGOMehmet-Tuzcu.png" alt="Logo Mehmet TUZCU" width="40" height="40" />
       <span class="brand-text">Mehmet TUZCU <span class="brand-role">architecte opérationnel</span></span>
     </a>
     <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
@@ -548,6 +558,11 @@
       <li><a href="#methode">Méthode</a></li>
       <li><a href="#assistant" data-open-assistant>Assistant IA</a></li>
       <li><a href="#contact" data-open-assistant>Contact</a></li>
+      <li class="lang-switch" aria-label="Langue / Dil / Language">
+        <a href="/" hreflang="fr" class="on" aria-current="page">FR</a>
+        <a href="/tr/" hreflang="tr">TR</a>
+        <a href="/en/" hreflang="en">EN</a>
+      </li>
     </ul>
   </div>
 </header>
@@ -592,7 +607,7 @@
           </div>
         </div>
         <div class="hero-portrait">
-          <img src="assets/profil-rond.png" alt="Mehmet TUZCU" width="320" height="320" loading="eager" />
+          <img src="/assets/profil-rond.png" alt="Mehmet TUZCU" width="320" height="320" loading="eager" />
         </div>
       </div>
 
@@ -1004,7 +1019,7 @@
             <label class="consent-label" for="consent">
               <input type="checkbox" id="consent" name="consent" required />
               <span>J'accepte que mes informations soient utilisées pour traiter ma demande (voir la
-                <a href="politique-confidentialite.html">politique de confidentialité</a>).</span>
+                <a href="/politique-confidentialite.html">politique de confidentialité</a>).</span>
             </label>
           </div>
           <div class="form-actions">
@@ -1029,8 +1044,8 @@
       <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a> ·
       <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a> ·
       <a href="https://www.linkedin.com/in/mehmet-tuzcu-110b4897/" target="_blank" rel="noopener">LinkedIn</a> ·
-      <a href="mentions-legales.html">Mentions légales</a> ·
-      <a href="politique-confidentialite.html">Politique de confidentialité</a> ·
+      <a href="/mentions-legales.html">Mentions légales</a> ·
+      <a href="/politique-confidentialite.html">Politique de confidentialité</a> ·
       <a href="#hero">Haut de page ↑</a>
     </nav>
   </div>
@@ -1046,7 +1061,7 @@
     </button>
   </div>
   <div class="drawer-body">
-    <iframe src="assistant.html" title="Assistant conversationnel — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
+    <iframe src="/assistant.html?lang=fr" title="Assistant conversationnel — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
   </div>
   <div id="drawerLeave" class="drawer-leave" hidden>
     <div class="dl-card">

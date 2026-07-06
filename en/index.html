@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Mehmet TUZCU — Operational architect &amp; a founder who codes</title>
+<meta name="description" content="France-Turkey operational architect: SME leadership, compliance (Qualiopi, GDPR/KVKK) and full-stack AI development. Compliance by Design." />
+<meta name="keywords" content="operational architect, founder who codes, transformation consulting, Compliance by Design, Qualiopi, GDPR, KVKK, regulatory compliance, full-stack developer, generative AI, EdTech, career guidance, France-Turkey, CPF OPCO, France Compétences, no-code automation, SME consulting, construction consulting, digital transformation, Alsace Grand Est" />
+<meta name="author" content="Mehmet TUZCU" />
+<link rel="canonical" href="https://mehmettuzcu.fr/en/" />
+<link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/" />
+<link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/" />
+<link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/" />
+<link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/" />
+<link rel="icon" href="/assets/favicon.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Mehmet TUZCU — Operational architect & a founder who codes" />
+<meta property="og:description" content="France-Turkey operational architect: SME leadership, compliance (Qualiopi, GDPR/KVKK) and full-stack AI development. Compliance by Design." />
+<meta property="og:url" content="https://mehmettuzcu.fr/en/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="fr_FR" />
+<meta property="og:locale:alternate" content="tr_TR" />
+<meta property="og:site_name" content="Mehmet TUZCU" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mehmet TUZCU — Operational architect & a founder who codes" />
+<meta name="twitter:description" content="SME leadership, compliance (Qualiopi, GDPR/KVKK) and full-stack AI development. Compliance by Design. A France-Turkey bridge." />
+
+<link rel="stylesheet" href="/assets/style.css" />
+
+<!-- Structured data: Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mehmet TUZCU",
+  "jobTitle": "Operational architect / Founder of Reflektif",
+  "url": "https://mehmettuzcu.fr/",
+  "email": "mailto:conseil@mehmettuzcu.fr",
+  "description": "France-Turkey operational architect: SME leadership, regulatory compliance (Qualiopi, CPF/OPCO, GDPR/KVKK) and full-stack AI development, under a Compliance by Design principle.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "Grand Est",
+    "addressCountry": "FR"
+  },
+  "sameAs": [
+    "https://reflektif.net",
+    "https://mehmettuzcu.fr"
+  ],
+  "knowsLanguage": ["fr", "tr"],
+  "knowsAbout": [
+    "Operational architecture",
+    "Compliance by Design",
+    "Qualiopi",
+    "GDPR",
+    "KVKK",
+    "CPF/OPCO",
+    "France Compétences",
+    "Full-stack development",
+    "TypeScript",
+    "React",
+    "Generative AI",
+    "EdTech",
+    "Career guidance",
+    "Digital transformation",
+    "SME consulting",
+    "France-Turkey bridge"
+  ]
+}
+</script>
+
+<!-- Styles complémentaires : logo, photo, formulaire de contact (palette claire) -->
+<style>
+  /* Logo dans l'en-tête */
+  .brand { align-items: center; }
+  .brand-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
+  }
+  .brand-text { display: inline-flex; align-items: baseline; gap: 8px; }
+  .lang-switch { display: inline-flex; align-items: center; gap: 2px; }
+  .lang-switch a { font-size: .8rem; font-weight: 700; color: var(--gray); padding: 4px 8px; border-radius: 7px; text-decoration: none; letter-spacing: .4px; }
+  .lang-switch a:hover { color: var(--accent); background: var(--accent-soft); }
+  .lang-switch a.on { color: #fff; background: var(--accent); }
+
+  /* Hero : portrait à côté du texte */
+  .hero .container { position: relative; }
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1.5fr .9fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .hero-portrait {
+    justify-self: center;
+    width: 100%;
+    max-width: 320px;
+  }
+  .hero-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(31, 86, 115, .12), 0 16px 38px rgba(22, 63, 84, .20);
+  }
+
+  /* À propos : agencement intro + photo (rappel, la photo principale est dans le hero) */
+
+  /* Contact — bloc unifié : en-tête accent + formulaire clair, un seul objet visuel */
+  .contact-unified {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    background: #fff;
+  }
+  .contact-head {
+    background: var(--accent);
+    color: #fff;
+    padding: 40px 40px 32px;
+  }
+  .contact-head .eyebrow { color: #bcd2de; }
+  .contact-head h2 { color: #fff; margin: 4px 0 14px; }
+  .contact-head p { color: #e3edf2; font-size: 1.02rem; max-width: 660px; }
+  .contact-head .contact-list { list-style: none; margin: 20px 0 22px; padding: 0; }
+  .contact-head .contact-list li { margin-bottom: 8px; font-size: .98rem; }
+  .contact-head .contact-list a { color: #fff; font-weight: 600; }
+  .contact-head .contact-list .k { color: #bcd2de; display: inline-block; min-width: 210px; font-weight: 400; }
+  .contact-form-area {
+    background: #fff;
+    padding: 32px 40px 36px;
+  }
+  .contact-form-area h3 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 1.18rem;
+  }
+  .contact-form-area .form-intro {
+    margin: 0 0 22px;
+    color: var(--gray);
+    font-size: .98rem;
+  }
+  .contact-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .contact-form .field { margin-bottom: 16px; }
+  .contact-form label {
+    display: block;
+    font-size: .84rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: .96rem;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: #9aa6b0; }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31, 86, 115, .14);
+  }
+  .contact-form textarea { resize: vertical; min-height: 130px; }
+  .contact-form .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  .contact-form .form-note {
+    margin: 14px 0 0;
+    font-size: .84rem;
+    color: var(--gray);
+  }
+  .contact-form .field-consent { margin-bottom: 18px; }
+  .contact-form .consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .88rem;
+    font-weight: 400;
+    color: var(--gray);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .contact-form .consent-label input {
+    width: auto;
+    margin: 3px 0 0;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+  }
+  .form-confirm {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 4px;
+  }
+  .form-confirm p {
+    margin: 0;
+    color: var(--ink);
+    font-size: .98rem;
+  }
+
+  /* HERO — strip de capacités */
+  .cap-strip {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cap-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef3f6;
+    border: 1px solid #d8dee3;
+    color: #1c2126;
+    border-radius: 999px;
+    padding: 7px 14px 7px 12px;
+    font-size: .9rem;
+    line-height: 1.25;
+  }
+  .cap-ico {
+    color: #1f5673;
+    flex-shrink: 0;
+  }
+
+  /* HERO — bandeau de preuve */
+  .hero-proof {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid #d8dee3;
+    font-size: .9rem;
+    color: #3d4753;
+    line-height: 1.6;
+  }
+  .hero-proof .hp-num {
+    color: #1f5673;
+    font-weight: 700;
+  }
+
+  .hero-cta .btn {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* HERO — explication de l'assistant + micro-bénéfice sous les CTA */
+  .hero-assistant-note {
+    margin: 18px 0 0;
+    color: var(--gray);
+    font-size: .95rem;
+    line-height: 1.55;
+    max-width: 52ch;
+  }
+  .hero-cta-benefit {
+    margin: 12px 0 0;
+    color: var(--gray);
+    font-size: .85rem;
+    line-height: 1.5;
+  }
+
+  /* HERO — bloc « assistant-first » : carte mise en avant (en-tête + barre + pistes) */
+  .hero-ask {
+    margin: 26px 0 0; max-width: 600px;
+    background: linear-gradient(180deg, #eff4f8 0%, #e6eef3 100%);
+    border: 1px solid #d2e0e9; border-radius: 20px;
+    padding: 18px 18px 20px;
+    box-shadow: 0 1px 2px rgba(22,63,84,.05), 0 14px 34px rgba(22,63,84,.10);
+  }
+  .hero-ask-head { display: flex; align-items: center; gap: 10px; margin: 0 0 13px; }
+  .hero-ask-ico {
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 10px rgba(31,86,115,.32);
+  }
+  .hero-ask-ico svg { width: 17px; height: 17px; }
+  .hero-ask-label { font-weight: 700; color: var(--ink); font-size: .98rem; letter-spacing: .1px; }
+  .hero-ask-status {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+    font-size: .8rem; font-weight: 600; color: #2f8f5b;
+  }
+  .hero-ask-status .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #2ea36b;
+    box-shadow: 0 0 0 0 rgba(46,163,107,.5); animation: mtDot 2.2s infinite;
+  }
+  @keyframes mtDot { 0%{box-shadow:0 0 0 0 rgba(46,163,107,.5)} 70%{box-shadow:0 0 0 7px rgba(46,163,107,0)} 100%{box-shadow:0 0 0 0 rgba(46,163,107,0)} }
+  .hero-ask-lead { margin: 0 0 14px; color: var(--gray); font-size: 1rem; line-height: 1.55; }
+  .hero-ask-lead strong { color: var(--ink); }
+  .ask-bar {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    background: #fff; border: 1.5px solid var(--accent); border-radius: 13px;
+    padding: 15px 16px; cursor: pointer; text-align: left; font-family: inherit;
+    box-shadow: 0 2px 10px rgba(22,63,84,.10);
+    transition: box-shadow .15s ease, transform .05s ease;
+    animation: mtGlow 2.8s ease-in-out infinite;
+  }
+  @keyframes mtGlow { 0%,100%{box-shadow:0 2px 10px rgba(22,63,84,.10)} 50%{box-shadow:0 5px 20px rgba(31,86,115,.30)} }
+  .ask-bar:hover { animation: none; box-shadow: 0 8px 22px rgba(22,63,84,.20); }
+  .ask-bar:active { transform: translateY(1px); }
+  .ask-bar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ask-bar .ask-ico { width: 21px; height: 21px; color: var(--accent); flex-shrink: 0; }
+  .ask-bar .ask-ph { flex: 1; color: #6b7680; font-size: 1rem; }
+  .ask-bar .ask-go { color: var(--accent); font-weight: 700; font-size: 1.2rem; transition: transform .15s ease; }
+  .ask-bar:hover .ask-go { transform: translateX(4px); }
+  .hero-journeys { display: flex; flex-wrap: wrap; gap: 9px; margin: 14px 0 0; }
+  .journey {
+    background: var(--accent-soft); border: 1px solid #cddbe4; color: var(--accent-dark);
+    font-family: inherit; font-size: .88rem; font-weight: 600; line-height: 1.2;
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    transition: background .15s, color .15s, transform .1s, border-color .15s;
+  }
+  .journey:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-1px); }
+  .journey:active { transform: translateY(0); }
+  .hero-secondary { margin: 20px 0 0; }
+  .hero-secondary a { color: var(--gray); font-size: .92rem; text-decoration: none; }
+  .hero-secondary a:hover { color: var(--accent); text-decoration: underline; }
+
+  /* Expertises — capacités concrètes par pilier */
+  .pillar-caps { list-style:none; margin:14px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .pillar-caps li { background:#fff; border:1px solid #d8dee3; color:#2a3942; border-radius:999px; padding:5px 11px; font-size:.82rem; line-height:1.25; }
+
+  /* HERO — aperçu des 3 domaines (remplace les chiffres) */
+  .hero-cats { margin-top: 28px; padding-top: 20px; border-top: 1px solid #d8dee3; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .hero-cats .cat { display:block; font-weight:700; color:#1f5673; font-size:1.02rem; }
+  .hero-cats .cat-d { display:block; margin-top:5px; color:#3d4753; font-size:.9rem; line-height:1.45; }
+  @media (max-width: 760px){ .hero-cats { grid-template-columns: 1fr; gap:14px; } }
+
+  /* CTA INTERMÉDIAIRE */
+  .mid-cta { padding: 48px 0; }
+  .mid-cta-inner {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .mid-cta-text {
+    margin: 0;
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* DRAWER ASSISTANT */
+  #assistant-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 63, 84, .42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .32s ease, visibility .32s ease;
+    z-index: 1400;
+  }
+  #assistant-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  #assistant-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(440px, 100%);
+    background: #fff;
+    box-shadow: -16px 0 48px rgba(22, 63, 84, .22);
+    transform: translateX(100%);
+    transition: transform .32s ease;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+  }
+  #assistant-drawer.open { transform: translateX(0); }
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #d8dee3;
+    flex-shrink: 0;
+  }
+  .drawer-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1c2126;
+  }
+  .drawer-close {
+    appearance: none;
+    border: 1px solid #d8dee3;
+    background: #f7f9fa;
+    color: #1c2126;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover { background: #eef3f6; }
+  .drawer-close:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 2px;
+  }
+  .drawer-body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .drawer-body iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .drawer-leave[hidden] { display: none; }
+  .drawer-leave {
+    position: absolute; inset: 0; z-index: 5;
+    background: rgba(244,246,247,.95);
+    display: flex; align-items: center; justify-content: center; padding: 22px;
+    animation: dlfade .18s ease both;
+  }
+  @keyframes dlfade { from { opacity: 0 } to { opacity: 1 } }
+  .drawer-leave .dl-card {
+    background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 16px;
+    padding: 20px; width: 100%; max-width: 340px; box-shadow: 0 12px 36px rgba(22,63,84,.18); text-align: center;
+  }
+  .drawer-leave .dl-title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; }
+  .drawer-leave .dl-sub { margin: 0 0 16px; font-size: .88rem; color: var(--gray,#6b7680); }
+  .drawer-leave button { display: block; width: 100%; font: inherit; cursor: pointer; }
+  .drawer-leave .dl-primary {
+    background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 11px;
+    padding: 12px; font-weight: 700; font-size: .95rem; margin: 0 0 10px; line-height: 1.25;
+  }
+  .drawer-leave .dl-primary small { display: block; font-weight: 400; font-size: .78rem; opacity: .88; margin-top: 2px; }
+  .drawer-leave .dl-primary:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-btn {
+    background: #fff; color: var(--accent,#1f5673); border: 1px solid var(--accent,#1f5673);
+    border-radius: 11px; padding: 10px; font-weight: 600; font-size: .9rem; margin: 0 0 8px;
+  }
+  .drawer-leave .dl-btn:hover { background: #eef3f6; }
+  .drawer-leave .dl-link { background: none; border: 0; color: var(--gray,#6b7680); font-size: .84rem; padding: 4px; text-decoration: underline; }
+  .drawer-leave .dl-link:hover { color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email { position: relative; margin: 2px 0 12px; padding-top: 12px; border-top: 1px solid var(--line,#e6ebee); text-align: left; }
+  .drawer-leave .dl-email-lbl { display: block; font-size: .82rem; font-weight: 600; color: var(--gray,#6b7680); margin-bottom: 7px; }
+  .drawer-leave .dl-email-row { display: flex; gap: 8px; }
+  .drawer-leave .dl-email input { flex: 1 1 auto; width: auto; min-width: 0; font: inherit; font-size: .9rem; color: var(--ink,#1c2126); background: #fff; border: 1px solid var(--line,#d8dee3); border-radius: 8px; padding: 9px 12px; }
+  .drawer-leave .dl-email input:focus { outline: none; border-color: var(--accent,#1f5673); box-shadow: 0 0 0 3px rgba(31,86,115,.14); }
+  .drawer-leave .dl-send { flex: 0 0 auto; width: auto; background: var(--accent,#1f5673); color: #fff; border: 0; border-radius: 8px; padding: 9px 16px; font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+  .drawer-leave .dl-send:hover { filter: brightness(1.07); }
+  .drawer-leave .dl-send:disabled { opacity: .6; cursor: default; filter: none; }
+  .drawer-leave .dl-email-msg { margin: 8px 0 0; font-size: .82rem; color: var(--accent,#1f5673); }
+  .drawer-leave .dl-email-msg.err { color: #b4232a; }
+
+  /* BOUTON FLOTTANT */
+  #assistant-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    background: #1f5673;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(22, 63, 84, .34);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1600;
+    transition: background .2s ease, transform .2s ease, opacity .2s ease;
+  }
+  #assistant-fab:hover { transform: translateY(-2px); }
+  /* Quand le tiroir est ouvert, on masque le bouton flottant : la croix d'en-tête suffit (évite le doublon + le chevauchement avec le pied de page). */
+  #assistant-drawer.open ~ #assistant-fab { transform: scale(.4); opacity: 0; pointer-events: none; }
+  #assistant-fab:focus-visible {
+    outline: 2px solid #1f5673;
+    outline-offset: 3px;
+  }
+  #assistant-fab .ico-close { display: none; }
+  #assistant-fab.open .ico-open { display: none; }
+  #assistant-fab.open .ico-close { display: block; }
+  /* Anneau pulsé pour attirer l'œil vers l'assistant (masqué quand le tiroir est ouvert) */
+  #assistant-fab::after {
+    content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 0 rgba(31,86,115,.45); animation: mtFab 2.6s infinite;
+  }
+  @keyframes mtFab { 0%{box-shadow:0 0 0 0 rgba(31,86,115,.42)} 70%{box-shadow:0 0 0 13px rgba(31,86,115,0)} 100%{box-shadow:0 0 0 0 rgba(31,86,115,0)} }
+  #assistant-drawer.open ~ #assistant-fab::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ask-status .dot, .ask-bar, #assistant-fab::after { animation: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    #assistant-drawer { width: 100%; }
+    #assistant-fab { bottom: 18px; right: 18px; }
+  }
+
+  @media (max-width: 900px) {
+    .hero-layout { grid-template-columns: 1fr; }
+    /* Photo visible sur mobile : remontée au-dessus du titre, plus compacte */
+    .hero-portrait { order: -1; max-width: 150px; margin: 0 auto 6px; }
+    .hero-ask { max-width: 100%; }
+  }
+  @media (max-width: 680px) {
+    .contact-form .form-row { grid-template-columns: 1fr; }
+    .contact-head { padding: 30px 22px 26px; }
+    .contact-head .contact-list .k { min-width: 0; display: block; margin-bottom: 2px; }
+    .contact-form-area { padding: 26px 22px 30px; }
+    .brand-logo { height: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="#hero">
+      <img class="brand-logo" src="/LOGOMehmet-Tuzcu.png" alt="Mehmet TUZCU logo" width="40" height="40" />
+      <span class="brand-text">Mehmet TUZCU <span class="brand-role">operational architect</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertises">Expertise</a></li>
+      <li><a href="#projets">Work</a></li>
+      <li><a href="#methode">Method</a></li>
+      <li><a href="#assistant" data-open-assistant>AI Assistant</a></li>
+      <li><a href="#contact" data-open-assistant>Contact</a></li>
+      <li class="lang-switch" aria-label="Langue / Dil / Language">
+        <a href="/" hreflang="fr">FR</a>
+        <a href="/tr/" hreflang="tr">TR</a>
+        <a href="/en/" hreflang="en" class="on" aria-current="page">EN</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <span class="hero-tag">Operational architect · a founder who codes</span>
+          <h1 id="hero-title">Build, structure, secure —<br /><span class="accent">then code what automates it.</span></h1>
+          <p class="lede">
+            At the crossroads of three cultures — operational, regulatory, technological — I design
+            systems that are compliant from their very architecture, and then I automate them. On both sides of the
+            France-Turkey bridge.
+          </p>
+
+          <div class="hero-ask">
+            <div class="hero-ask-head">
+              <span class="hero-ask-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></span>
+              <span class="hero-ask-label">Mehmet's AI assistant</span>
+              <span class="hero-ask-status"><span class="dot" aria-hidden="true"></span>online</span>
+            </div>
+            <p class="hero-ask-lead">
+              The easiest way to get to know me: <strong>ask my assistant your questions.</strong>
+              It knows my whole background, connects the dots, and goes as deep as you want.
+            </p>
+            <button type="button" class="ask-bar" onclick="openAssistant()" aria-label="Open the assistant and ask a question">
+              <svg class="ask-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+              <span class="ask-ph">Ask your question about Mehmet…</span>
+              <span class="ask-go" aria-hidden="true">→</span>
+            </button>
+            <div class="hero-journeys" aria-label="Ways to get started">
+              <button type="button" class="journey" data-q="Introduce Mehmet to me in 2 minutes">Get to know him in 2 min</button>
+              <button type="button" class="journey" data-q="The through-line: from construction to code">The through-line: from construction to code</button>
+              <button type="button" class="journey" data-q="The science behind Reflektif">The science behind Reflektif</button>
+              <button type="button" class="journey" data-q="Is he right for my project or my institution?">Is he right for my project?</button>
+            </div>
+            <p class="hero-secondary"><a href="#contact" data-open-assistant>Or let's talk directly about your project →</a></p>
+          </div>
+        </div>
+        <div class="hero-portrait">
+          <img src="/assets/profil-rond.png" alt="Mehmet TUZCU" width="320" height="320" loading="eager" />
+        </div>
+      </div>
+
+            <div class="hero-cats" aria-label="Three areas of expertise">
+        <div><span class="cat">Operational</span><span class="cat-d">Build, structure, finance and run a company</span></div>
+        <div><span class="cat">Regulatory</span><span class="cat-d">Qualiopi, RGE, GDPR/KVKK — inspections and audits passed</span></div>
+        <div><span class="cat">Technological</span><span class="cat-d">Custom full-stack &amp; AI, or the right off-the-shelf tool</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <h2 id="about-title">From operations to code: a bicultural builder</h2>
+      <div class="about-grid">
+        <p>
+          Bicultural France-Turkey, bilingual. This dual culture is
+          an asset: a bridge between two economic, regulatory and institutional ecosystems.
+        </p>
+        <p>
+          A path forged in the field. From administrative assistant to Managing Director of a construction SME
+          (2017-2023): up to 30 people managed and full financial management, from quote to accounting close.
+        </p>
+        <p>
+          Then transformation consulting, full-stack development and founding an EdTech startup.
+          Self-taught, I designed and coded the first version of Reflektif solo, and today I develop it
+          alongside my co-founder Mikail. Hence a rare ability: to bring together business need, compliance
+          and technology in a single movement.
+        </p>
+        <p>
+          I position myself as a co-builder, not a service provider: I don't work to bill, but to transform.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- EXPERTISES -->
+  <section id="expertises" class="section-alt" aria-labelledby="exp-title">
+    <div class="container">
+      <p class="eyebrow">Expertise</p>
+      <h2 id="exp-title">Three cultures, one guiding principle: Compliance by Design</h2>
+      <p class="section-intro">
+        My profile bridges three domains that are rarely found in a single person. It is this cross-disciplinary reach
+        that makes it possible to speak simultaneously with business leadership, compliance, engineering and
+        strategic decision-making.
+      </p>
+
+      <div class="pillars">
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+          </div>
+          <h3>Operational</h3>
+          <p>
+            <strong>Company leadership &amp; management.</strong> Running SMEs (up to 30 people), finance,
+            accounting, HR, strategy, economic modeling and restructuring. Mastery forged in
+            operations, not in theory.
+          </p>
+          <ul class="pillar-caps">
+            <li>Create &amp; structure a company (FR · TR)</li>
+            <li>Steer growth &amp; finance</li>
+            <li>Oversee accounting</li>
+          </ul>
+        </article>
+
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3>Regulatory</h3>
+          <p>
+            <strong>Institutional compliance.</strong> Qualiopi, RGE (Qualibat), QualiRépar, CPF/OPCO, GDPR (France) and KVKK
+            (Turkey), DPIA, employment law, engineering of public funding and professional certification
+            (RNCP/RS, France Compétences). I build frameworks that are clean, credible and auditable before
+            administrations and auditors — inspections and audits passed successfully.
+          </p>
+          <ul class="pillar-caps">
+            <li>Get through a URSSAF / tax inspection</li>
+            <li>Secure compliance (Qualiopi · GDPR)</li>
+            <li>Assemble RGE / Qualibat applications</li>
+          </ul>
+        </article>
+
+        <article class="pillar">
+          <div class="pic" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>Technological</h3>
+          <p>
+            <strong>Software development &amp; AI.</strong> TypeScript/React full-stack, tRPC, PostgreSQL/Supabase,
+            generative AI (Vertex AI/Gemini), RAG &amp; embeddings, no-code/low-code automation, CI/CD, application
+            security. Designer and full-stack developer of my digital work — I built the first versions alone, and I now develop Reflektif alongside my co-founder Mikail —, from design
+            to production. I don't reinvent everything: I also integrate the best tools on the market
+            (Google Workspace, Pennylane…) when they meet the need — the right technology in the right place.
+          </p>
+          <ul class="pillar-caps">
+            <li>Code the platform that automates</li>
+            <li>Automate business processes</li>
+            <li>Integrate market tools (Google Workspace, Pennylane…)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="principle">
+        <h3>The guiding principle — Compliance by Design</h3>
+        <p>
+          I design systems that are compliant from their very architecture, not patched after the fact. Compliance is
+          not a constraint bolted on at the end: it is a property of the system, instrumented in the code. Every
+          automation I deploy must be defensible, auditable and useful — transposable to any regulated context.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJETS -->
+  <section id="projets" aria-labelledby="proj-title">
+    <div class="container">
+      <p class="eyebrow">Work</p>
+      <h2 id="proj-title">Complete systems, designed and delivered</h2>
+      <p class="section-intro">
+        Not slides. Each piece of work illustrates the meeting of the three cultures.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <span class="tag">Flagship project</span>
+          <h3>Reflektif</h3>
+          <p class="sub">AI-powered EdTech career guidance platform, France + Turkey.</p>
+          <p>
+            An AI-augmented career guidance SaaS platform, natively bilingual French/Turkish,
+            originally designed and coded solo and now developed alongside my co-founder Mikail Lekesiz, in active production since February 2026 and hosted in Europe (Frankfurt).
+            I own its product design, technical architecture and pedagogical direction. The engine combines
+            psychometrics (3 tests, 110 questions: RIASEC, Big Five, Values) and generative AI; the proprietary
+            SmartMatch algorithm matches the user's profile against a catalogue of 928 occupations.
+            A complete journey in production: tests, AI debriefs, document analysis, diagnostic report,
+            occupation exploration, counselor portal with human validation and real-time messaging — with a
+            B2B white-label cohort-management module.
+          </p>
+          <p class="meta">
+            Verified benchmarks: ≈167 000 lines of TypeScript/TSX, 71 PostgreSQL tables all protected by
+            Row-Level Security, GDPR/KVKK compliance instrumented in the code.
+          </p>
+          <a class="card-link" href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net →</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Compliance by Design</span>
+          <h3>Bilan-Easy</h3>
+          <p class="sub">AI SaaS software for skills assessments.</p>
+          <p>
+            Designed and developed for a Qualiopi-certified center, deployed to production, bilingual FR/TR. A conversational
+            AI coach structures the journey across the three regulatory phases of the skills assessment and
+            automates post-assessment follow-up at 3 and 6 months, in accordance with the Labor Code. Features: automated
+            RIASEC analysis, PDF summaries, consultant dashboard, package management, Qualiopi
+            satisfaction survey and full GDPR management. Designed from the outset to meet Qualiopi requirements.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Consulting &amp; transformation</span>
+          <h3>Construction, training &amp; compliance</h3>
+          <p class="sub">Audit, restructuring and compliance work for companies.</p>
+          <p>
+            Independent consulting assignments in the Alsatian construction sector: financial and organizational audit,
+            turnaround plans, deployment of management tools, compliance work and team training. At Netz
+            Informatique (IT services company + Qualiopi training center), a transformation assignment as interim management:
+            steering quality and Qualiopi compliance, digital transformation (automation, learner
+            portal), and AI applied to training.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Portfolio</span>
+          <h3>Web work</h3>
+          <p class="sub">Sites and platforms delivered.</p>
+          <p>
+            A portfolio of websites and web platforms (OzArt, Megalife Istanbul, Local Essence, mehmettuzcu.fr). For an
+            Istanbul real-estate developer, a premium sales platform in 8 languages built from a simple
+            PDF catalogue, with an international targeting strategy and a conversion funnel — drawing directly on the
+            dual France-Turkey culture. Local Essence is a multi-tenant SaaS platform for local directories
+            (12 active geographic areas).
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODE -->
+  <section id="methode" class="section-alt" aria-labelledby="meth-title">
+    <div class="container">
+      <p class="eyebrow">Method</p>
+      <h2 id="meth-title">From business need to a compliant, automated tool</h2>
+      <p class="section-intro">
+        I don't paste a solution onto a problem. I follow a step-by-step method, structured and reproducible,
+        that turns a field need into a compliant, automated system.
+      </p>
+
+      <div class="steps">
+        <article class="step">
+          <div class="n">1</div>
+          <h3>Clarify the problem</h3>
+          <p>Understand the operational reality before anything else — field diagnosis, listening to the business teams.</p>
+        </article>
+        <article class="step">
+          <div class="n">2</div>
+          <h3>Frame the legal side</h3>
+          <p>Identify the applicable regulatory requirements from the start, to build compliance into the architecture.</p>
+        </article>
+        <article class="step">
+          <div class="n">3</div>
+          <h3>Model the organization</h3>
+          <p>Translate the need into a strategic architecture: roles, flows, data, control points.</p>
+        </article>
+        <article class="step">
+          <div class="n">4</div>
+          <h3>Build the tooling</h3>
+          <p>Design and develop the tool — full-stack or no-code/low-code depending on context, with a fast and defensible deployment.</p>
+        </article>
+        <article class="step">
+          <div class="n">5</div>
+          <h3>Secure compliance</h3>
+          <p>Instrument traceability, auditability and data protection within the system itself.</p>
+        </article>
+        <article class="step">
+          <div class="n">6</div>
+          <h3>Automate</h3>
+          <p>Industrialize recurring processes, with automations that are defensible, auditable and useful.</p>
+        </article>
+      </div>
+
+      <p class="method-note">
+        I decide with data: I model scenarios (optimistic, realistic, pessimistic) before acting
+        decisively. And I favor objectivity and honest feedback over flattery.
+      </p>
+    </div>
+  </section>
+
+  <!-- PREUVES -->
+  <section id="preuves" aria-labelledby="proof-title">
+    <div class="container">
+      <p class="eyebrow">Evidence &amp; credibility</p>
+      <h2 id="proof-title">Verified numbers, not promises</h2>
+      <p class="section-intro">
+        All the metrics below are verified in the database. They reflect technical depth and product
+        usage — to be distinguished from revenue.
+      </p>
+
+      <div class="proof-groups">
+        <div class="proof">
+          <h3>Technical depth (Reflektif)</h3>
+          <ul>
+            <li><strong>≈ 167 000 lines</strong> of TypeScript/TSX in production, including the first version designed and coded solo (development continued alongside my co-founder Mikail).</li>
+            <li><strong>71 PostgreSQL tables</strong> all protected by Row-Level Security (100% of tables).</li>
+            <li>More than <strong>2 250 commits</strong> and <strong>231 documentation files</strong>.</li>
+            <li>Modern stack: React 19/Vite, Node 22/Express 5/tRPC v11, Supabase PostgreSQL hosted in Europe, Vertex AI EU (Gemini) with RAG and native observability.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Product science</h3>
+          <ul>
+            <li><strong>3 scientifically grounded psychometric assessments</strong> (RIASEC, Big Five, Values), totaling <strong>110 questions</strong>.</li>
+            <li>A catalogue of <strong>928 occupations</strong>, O*NET-coded and bilingual FR/TR.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Engineering quality</h3>
+          <ul>
+            <li>Full CI/CD (lint, tests, build, audit, deployment), code review, secret scanning, monitoring.</li>
+            <li>Nightly end-to-end test suite (desktop + mobile) grown from <strong>63 to 136 tests</strong>.</li>
+            <li>GDPR/KVKK compliance proven in production: DPIA carried out, consents logged, right to erasure actually implemented, audit logging.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Usage traction <span style="font-weight:400;text-transform:none;letter-spacing:0;">(≠ revenue)</span></h3>
+          <ul>
+            <li>More than <strong>1 200 users</strong> (Turkish university pilots and early French users).</li>
+            <li>More than <strong>1 800 test sittings</strong> and <strong>443 complete batteries</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="proof">
+          <h3>Certifications</h3>
+          <ul>
+            <li><strong>TOSA DigiComp 751/1000</strong> (valid 2024-2027) — a verifiable measure of digital skills.</li>
+            <li><strong>Qualiopi</strong> certification of Netz's training center, maintained across several renewal cycles.</li>
+            <li><strong>QualiRépar</strong> label.</li>
+            <li>Submission of a <strong>professional certification</strong> application to France Compétences.</li>
+          </ul>
+        </div>
+
+        <p class="proof-disclaimer">
+          The metrics above reflect product usage and technical depth. They are distinct from revenue.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POUR QUI -->
+  <section id="pour-qui" aria-labelledby="aud-title">
+    <div class="container">
+      <p class="eyebrow">Who I work with</p>
+      <h2 id="aud-title">Who I work for</h2>
+      <p class="section-intro">
+        I speak to people who genuinely want to transform, not just tick boxes.
+        Here is what each of them can expect.
+      </p>
+
+      <div class="audience">
+        <article class="aud">
+          <h3>SME leaders</h3>
+          <p>Organizational and financial audit, restructuring, compliance work, deployment of management tools and team training. A field-level reading paired with concrete execution.</p>
+        </article>
+        <article class="aud">
+          <h3>Training organizations &amp; certified centers</h3>
+          <p>Steering and securing Qualiopi, funding engineering (CPF/OPCO), professional certification engineering (RNCP/RS), and business tools compliant with the Labor Code. Compliance as an asset, not a burden.</p>
+        </article>
+        <article class="aud">
+          <h3>EdTech &amp; AI project leaders</h3>
+          <p>Product design, full-stack technical architecture, generative AI and observability, GDPR/KVKK and AI Act compliance instrumented from the architecture up. A partner who codes what he designs himself.</p>
+        </article>
+        <article class="aud">
+          <h3>French-Turkish players</h3>
+          <p>An operational bridge between the two countries: language, regulation (GDPR and KVKK), academic and institutional networks. The ability to operate natively on both sides of the border.</p>
+        </article>
+        <article class="aud">
+          <h3>Institutions (B2G)</h3>
+          <p>Design of guidance architectures, assembly of consortia and feasibility applications, dialogue with the French and Turkish institutional ecosystems.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA INTERMÉDIAIRE -->
+  <section class="mid-cta" aria-label="Call to action">
+    <div class="container">
+      <div class="mid-cta-inner">
+        <p class="mid-cta-text">Does your situation look like one of these cases?</p>
+        <button type="button" class="btn btn-primary" onclick="openAssistant()">Discuss it with my assistant</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section-alt" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-unified">
+        <div class="contact-head">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title">Let's talk about your project</h2>
+        <p>
+          Are you leading a project at the crossroads of business, regulation and technology? Are you looking for
+          someone who understands the field, masters the legal framework and codes the solution himself?
+        </p>
+        <p>
+          I select my assignments on one simple criterion: a genuine will to transform. Write to me, and
+          let's introduce ourselves to each other.
+        </p>
+        <ul class="contact-list">
+          <li><span class="k">Transformation consulting</span> <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a></li>
+          <li><span class="k">AI career guidance platform</span> <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a></li>
+        </ul>
+        <button type="button" class="btn btn-secondary" onclick="openAssistant()">Chat with my assistant →</button>
+        </div>
+
+        <div class="contact-form-area">
+        <h3>Tell me about your project</h3>
+        <p class="form-intro">
+          Fill in this form and send it: I receive your request — along with your conversation
+          if you attached it — and I get back to you.
+        </p>
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <div class="form-row">
+            <div class="field">
+              <label for="nom">Full name</label>
+              <input type="text" id="nom" name="nom" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="org">Company / Organization</label>
+              <input type="text" id="org" name="org" placeholder="Company or institution" autocomplete="organization" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@organization.com" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="tel">Phone</label>
+              <input type="tel" id="tel" name="tel" placeholder="Optional" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Your project</label>
+            <textarea id="message" name="message" placeholder="Describe your context, your challenges and your goals…" required></textarea>
+          </div>
+          <div class="field field-consent" id="attachField" hidden>
+            <label class="consent-label" for="attachChat">
+              <input type="checkbox" id="attachChat" name="attachChat" />
+              <span>Attach my conversation with the assistant to my request — so Mehmet already knows what you'd like to talk about.</span>
+            </label>
+          </div>
+          <div class="field field-consent">
+            <label class="consent-label" for="consent">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span>I agree that my information may be used to process my request (see the
+                <a href="/politique-confidentialite.html">privacy policy</a>).</span>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send message →</button>
+          </div>
+          <p class="form-note">Your request is sent directly to me; your conversation is attached if you ticked the box. No data is passed on to any third party.</p>
+        </form>
+        <div class="form-confirm" id="formConfirm" hidden>
+          <p>Thank you, your message has been sent. I'll get back to you shortly.</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© <span id="year">2026</span> Mehmet TUZCU — Operational architect</span>
+    <nav aria-label="Footer links">
+      <a href="mailto:conseil@mehmettuzcu.fr">conseil@mehmettuzcu.fr</a> ·
+      <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a> ·
+      <a href="https://www.linkedin.com/in/mehmet-tuzcu-110b4897/" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a href="/mentions-legales.html">Legal notice</a> ·
+      <a href="/politique-confidentialite.html">Privacy policy</a> ·
+      <a href="#hero">Back to top ↑</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- DRAWER ASSISTANT -->
+<div id="assistant-backdrop" hidden></div>
+<aside id="assistant-drawer" role="dialog" aria-modal="true" aria-label="Conversational assistant" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Assistant — Mehmet TUZCU</h2>
+    <button type="button" class="drawer-close" aria-label="Close" onclick="closeAssistant()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <iframe src="/assistant.html?lang=en" title="Conversational assistant — Mehmet TUZCU" referrerpolicy="no-referrer"></iframe>
+  </div>
+  <div id="drawerLeave" class="drawer-leave" hidden>
+    <div class="dl-card">
+      <p class="dl-title">Before you go…</p>
+      <p class="dl-sub">Keep a record of this exchange — and Mehmet can reply to you himself.</p>
+      <button type="button" class="dl-primary" id="dlContact">📩 Get contacted by Mehmet<small>I'll pass this conversation on to him</small></button>
+      <div class="dl-email">
+        <label class="dl-email-lbl" for="dlEmail">✉️&nbsp;&nbsp;Get this conversation by email</label>
+        <div class="dl-email-row">
+          <input type="email" id="dlEmail" placeholder="you@email.com" autocomplete="email" inputmode="email" />
+          <button type="button" class="dl-send" id="dlEmailSend">Send</button>
+        </div>
+        <input type="text" id="dlHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <p class="dl-email-msg" id="dlEmailMsg" hidden></p>
+      </div>
+      <button type="button" class="dl-link" id="dlClose">Close without sending anything</button>
+    </div>
+  </div>
+</aside>
+
+<!-- BOUTON FLOTTANT -->
+<button type="button" id="assistant-fab" aria-label="Open the assistant" aria-expanded="false" onclick="toggleAssistant()">
+  <svg class="ico-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.6-.8L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+  <svg class="ico-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
+<script>
+  const WORKER_BASE = "https://assistant-mehmet.conseil-40b.workers.dev"; // back-office : /lead + /transcript
+
+  // Année dynamique
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Assistant — drawer latéral (l'iframe reste montée : la conversation n'est jamais perdue)
+  var __asDrawer = document.getElementById('assistant-drawer');
+  var __asBackdrop = document.getElementById('assistant-backdrop');
+  var __asFab = document.getElementById('assistant-fab');
+
+  function openAssistant() {
+    if (!__asDrawer) return;
+    if (__asBackdrop) { __asBackdrop.hidden = false; void __asBackdrop.offsetWidth; __asBackdrop.classList.add('open'); }
+    __asDrawer.classList.add('open');
+    __asDrawer.setAttribute('aria-hidden', 'false');
+    if (__asFab) { __asFab.classList.add('open'); __asFab.setAttribute('aria-expanded', 'true'); __asFab.setAttribute('aria-label', "Close the assistant"); }
+    var closeBtn = __asDrawer.querySelector('.drawer-close');
+    if (closeBtn) closeBtn.focus();
+  }
+  function __hasConv() {
+    try { var raw = localStorage.getItem('mt_assistant_chat_v1'); var log = raw ? JSON.parse(raw) : []; return Array.isArray(log) && log.length >= 2; } catch (_e) { return false; }
+  }
+  function doCloseDrawer() {
+    if (!__asDrawer) return;
+    var lv = document.getElementById('drawerLeave'); if (lv) lv.hidden = true;
+    __asDrawer.classList.remove('open');
+    __asDrawer.setAttribute('aria-hidden', 'true');
+    if (__asBackdrop) {
+      __asBackdrop.classList.remove('open');
+      window.setTimeout(function () { if (!__asBackdrop.classList.contains('open')) __asBackdrop.hidden = true; }, 340);
+    }
+    if (__asFab) { __asFab.classList.remove('open'); __asFab.setAttribute('aria-expanded', 'false'); __asFab.setAttribute('aria-label', "Open the assistant"); }
+  }
+  // À la fermeture, si une conversation existe, proposer (une fois) : recontact / télécharger / fermer.
+  function closeAssistant() {
+    if (!__asDrawer) return;
+    if (__hasConv()) {
+      var lv = document.getElementById('drawerLeave');
+      if (lv && lv.hidden) { lv.hidden = false; return; }  // propose recontact/telechargement A CHAQUE fermeture
+    }
+    doCloseDrawer();
+  }
+  function toggleAssistant() {
+    if (__asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+    else openAssistant();
+  }
+  if (__asBackdrop) __asBackdrop.addEventListener('click', closeAssistant);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && __asDrawer && __asDrawer.classList.contains('open')) closeAssistant();
+  });
+
+  // Pistes du hero : ouvrir l'assistant ET lui envoyer directement la question.
+  var __asIframe = __asDrawer ? __asDrawer.querySelector('iframe') : null;
+  function askAssistant(q) {
+    openAssistant();
+    if (__asIframe && __asIframe.contentWindow) {
+      window.setTimeout(function () {
+        try { __asIframe.contentWindow.postMessage({ type: 'mt-ask', q: q }, location.origin); } catch (_e) {}
+      }, 180);
+    }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.journey[data-q]'), function (b) {
+    b.addEventListener('click', function () { askAssistant(b.getAttribute('data-q')); });
+  });
+
+  // Connexion assistant -> formulaire : « Être recontacté par Mehmet ».
+  // Ferme le panneau, va au formulaire, coche « joindre ma conversation » (la conversation
+  // est déjà liée côté back-office via le session_id à l'envoi).
+  function openContactForm() {
+    doCloseDrawer();
+    try {
+      var hasConv = false;
+      try { hasConv = !!localStorage.getItem('mt_assistant_chat_v1'); } catch (_e) {}
+      var field = document.getElementById('attachField');
+      var cb = document.getElementById('attachChat');
+      if (hasConv && field) field.hidden = false;
+      if (hasConv && cb) cb.checked = true;
+    } catch (_e) {}
+    window.setTimeout(function () {
+      var c = document.getElementById('contact');
+      if (c) {
+        try { c.scrollIntoView({ behavior: 'instant', block: 'start' }); }  // instant : le smooth se fait interrompre par la fermeture
+        catch (_e) {
+          var h = document.documentElement, pv = h.style.scrollBehavior; h.style.scrollBehavior = 'auto';
+          window.scrollTo(0, c.getBoundingClientRect().top + window.pageYOffset - 12); h.style.scrollBehavior = pv;
+        }
+      }
+      var nom = document.getElementById('nom');
+      if (nom) window.setTimeout(function () { try { nom.focus({ preventScroll: true }); } catch (_e2) {} }, 400);
+    }, 420);
+  }
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    if (e.data && e.data.type === 'mt-contact') openContactForm();
+  });
+
+  // Panneau de sortie (recontact / recevoir la conversation par e-mail / fermer).
+  (function () {
+    var c = document.getElementById('dlContact'), x = document.getElementById('dlClose');
+    if (c) c.addEventListener('click', function () { openContactForm(); });
+    if (x) x.addEventListener('click', function () { doCloseDrawer(); });
+
+    // « Recevez cette conversation par e-mail » : une copie part au visiteur (+ lead côté back-office).
+    var send = document.getElementById('dlEmailSend');
+    var input = document.getElementById('dlEmail');
+    var note = document.getElementById('dlEmailMsg');
+    var hp = document.getElementById('dlHp');
+    function transcript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) { return (m.role === 'user' ? 'Visitor: ' : 'Assistant: ') + m.text; }).join('\r\n\r\n'); // ** conservés : le Worker les rend en gras (HTML) et les retire du texte plein
+      } catch (_e) { return ''; }
+    }
+    function msg(t, err) { if (!note) return; note.textContent = t; note.hidden = false; note.className = 'dl-email-msg' + (err ? ' err' : ''); }
+    if (send && input) send.addEventListener('click', function () {
+      var email = (input.value || '').trim();
+      if (!email || email.indexOf('@') < 1 || email.length < 5) { msg('Please enter a valid email address.', true); input.focus(); return; }
+      var tx = transcript();
+      if (!tx) { msg('There is no conversation to send yet.', true); return; }
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var lbl = send.textContent; send.disabled = true; send.textContent = 'Sending…';
+      fetch(WORKER_BASE + '/transcript', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, transcript: tx, session_id: sid, hp: (hp && hp.value) || '' })
+      })
+        .then(function (r) {
+          if (r && r.ok) { input.disabled = true; send.textContent = 'Sent ✓'; msg('It\'s on its way — check your inbox (and your spam folder).', false); }
+          else { throw new Error('bad'); }
+        })
+        .catch(function () { send.disabled = false; send.textContent = lbl; msg('Something went wrong while sending. Please try again in a moment.', true); });
+    });
+  })();
+
+  // Liens de nav pointant vers l'ancienne section : ouvrir le drawer
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-assistant]'), function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var navLinks = document.getElementById('nav-links');
+      var navToggle = document.querySelector('.nav-toggle');
+      if (navLinks) navLinks.classList.remove('open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+      openAssistant();
+    });
+  });
+
+  // Menu mobile
+  (function () {
+    var toggle = document.querySelector('.nav-toggle');
+    var links = document.getElementById('nav-links');
+    if (!toggle || !links) return;
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // Formulaire de contact -> endpoint (Formspree/Worker) avec repli mailto
+  (function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var confirmBox = document.getElementById('formConfirm');
+
+    // Transcription de la conversation avec l'assistant (même origine -> localStorage partagé).
+    function getChatTranscript() {
+      try {
+        var raw = localStorage.getItem('mt_assistant_chat_v1');
+        var log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log) || !log.length) return '';
+        return log.map(function (m) {
+          return (m.role === 'user' ? 'Visitor: ' : 'Assistant: ') + m.text;
+        }).join('\r\n\r\n');
+      } catch (_e) { return ''; }
+    }
+
+    // L'option « joindre ma conversation » n'apparaît que si une conversation existe.
+    (function revealAttach() {
+      var field = document.getElementById('attachField');
+      if (field && getChatTranscript()) field.hidden = false;
+    })();
+
+    function sendMailto(nom, org, email, tel, msg, transcript) {
+      var subject = 'Contact request — ' + nom + (org ? ' (' + org + ')' : '');
+      var body =
+        'Name: ' + nom + '\r\n' +
+        'Company: ' + org + '\r\n' +
+        'Email: ' + email + '\r\n' +
+        'Phone: ' + tel + '\r\n\r\n' +
+        msg +
+        (transcript ? '\r\n\r\n— — — Conversation with the assistant — — —\r\n' + transcript : '');
+      window.location.href =
+        'mailto:conseil@mehmettuzcu.fr?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+
+    function showConfirmation() {
+      form.hidden = true;
+      if (confirmBox) confirmBox.hidden = false;
+    }
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+
+      var nom = (form.nom.value || '').trim();
+      var org = (form.org.value || '').trim();
+      var email = (form.email.value || '').trim();
+      var tel = (form.tel.value || '').trim();
+      var msg = (form.message.value || '').trim();
+      var attach = form.attachChat && form.attachChat.checked;
+      var transcript = attach ? getChatTranscript() : '';
+
+      // Envoi direct au back-office : stockage D1 + notification e-mail côté serveur. Plus de dépendance au client mail.
+      var full = msg + (transcript ? '\n\n— — — Conversation with the assistant — — —\n' + transcript : '');
+      var sid = ''; try { sid = localStorage.getItem('mt_session_id') || ''; } catch (_e) {}
+      var hp = (form.hp && form.hp.value) || '';
+      var btn = form.querySelector('button[type="submit"]');
+      var lbl = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      fetch(WORKER_BASE + '/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom: nom, org: org, email: email, tel: tel, message: full, session_id: sid, hp: hp })
+      })
+        .then(function (r) { if (r && r.ok) { showConfirmation(); } else { throw new Error('bad'); } })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = lbl; }
+          alert('Something went wrong while sending. Please try again, or write to conseil@mehmettuzcu.fr.');
+        });
+    });
+  })();
+</script>
+
+</body>
+</html>

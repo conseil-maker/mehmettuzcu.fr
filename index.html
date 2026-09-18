@@ -132,6 +132,16 @@
   .contact-head .contact-list li { margin-bottom: 8px; font-size: .98rem; }
   .contact-head .contact-list a { color: #fff; font-weight: 600; }
   .contact-head .contact-list .k { color: #bcd2de; display: inline-block; min-width: 210px; font-weight: 400; }
+  .vcard-box { display: flex; align-items: center; gap: 18px; max-width: 540px; margin: 0 0 22px; padding: 16px; border: 1px solid rgba(255,255,255,.18); border-radius: 14px; background: rgba(255,255,255,.06); }
+  .vcard-qr { flex: 0 0 auto; background: #fff; border-radius: 10px; padding: 8px; line-height: 0; }
+  .vcard-qr img { display: block; width: 124px; height: 124px; }
+  .contact-head .vcard-title { color: #fff; font-weight: 700; font-size: 1.02rem; margin: 0 0 4px; }
+  .contact-head .vcard-sub { color: #bcd2de; font-size: .9rem; margin: 0 0 12px; }
+  .vcard-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; }
+  @media (max-width: 560px) {
+    .vcard-box { flex-direction: column; align-items: flex-start; }
+    .vcard-qr img { width: 168px; height: 168px; }
+  }
   .contact-form-area {
     background: #fff;
     padding: 32px 40px 36px;
@@ -974,6 +984,14 @@
           <li><span class="k">Conseil en transformation</span> <a href="https://mehmettuzcu.fr" target="_blank" rel="noopener">mehmettuzcu.fr</a></li>
           <li><span class="k">Plateforme d'orientation IA</span> <a href="https://reflektif.net" target="_blank" rel="noopener">reflektif.net</a></li>
         </ul>
+        <div class="vcard-box">
+          <div class="vcard-qr"><img src="/assets/vcard-qr-fr.svg" width="124" height="124" alt="QR code : ajouter Mehmet TUZCU à vos contacts" loading="lazy" /></div>
+          <div class="vcard-txt">
+            <p class="vcard-title">Ajoutez-moi à vos contacts</p>
+            <p class="vcard-sub">Scannez le code avec un téléphone, ou enregistrez-moi directement :</p>
+            <a class="btn btn-secondary vcard-btn" href="/mehmet-tuzcu.vcf"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>Enregistrer mon contact</a>
+          </div>
+        </div>
         <button type="button" class="btn btn-secondary" onclick="openAssistant()">Discuter avec mon assistant →</button>
         </div>
 

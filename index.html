@@ -3,6 +3,42 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+/* Langue d'accueil : France -> FR, Turquie -> /tr/, autres pays -> /en/.
+   Seulement à l'arrivée depuis l'extérieur ; jamais pour la navigation interne, les robots,
+   ni si le visiteur a choisi une langue (sélecteur FR/TR/EN). Test : ?geo=TR */
+(function () {
+  var L = location, d = document.documentElement;
+  if (L.pathname !== '/' && L.pathname !== '/index.html') return;
+  if (navigator.webdriver || /bot|crawl|spider|slurp|preview|facebookexternalhit|lighthouse|headless/i.test(navigator.userAgent || '')) return;
+  var sp = new URLSearchParams(L.search), forced = (sp.get('geo') || '').toUpperCase();
+  if (!/^[A-Z]{2}$/.test(forced)) forced = '';
+  sp.delete('geo');
+  if (!forced && (document.referrer || '').indexOf(L.origin) === 0) return;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function go(lang) {
+    if (lang !== 'tr' && lang !== 'en') return false;
+    var q = sp.toString(); L.replace('/' + lang + '/' + (q ? '?' + q : '') + L.hash); return true;
+  }
+  function byCountry(c) { return c === 'FR' ? 'fr' : c === 'TR' ? 'tr' : 'en'; }
+  if (!forced) {
+    var pref = get('mt-lang'); if (pref) { go(pref); return; }
+    var g = (get('mt-geo') || '').split('|'); if (g[0] && Date.now() - +g[1] < 2592e6) { go(byCountry(g[0])); return; }
+  }
+  d.style.visibility = 'hidden';
+  var done = false;
+  function finish(c) {
+    if (done) return; done = true;
+    if (c && !forced) { try { localStorage.setItem('mt-geo', c + '|' + Date.now()); } catch (e) {} }
+    var nl = (navigator.language || '').toLowerCase();
+    if (!go(c ? byCountry(c) : nl.indexOf('tr') === 0 ? 'tr' : nl.indexOf('fr') === 0 ? 'fr' : 'en')) d.style.visibility = '';
+  }
+  setTimeout(function () { finish(''); }, 1200);
+  if (forced) return finish(forced);
+  fetch('https://assistant-mehmet.conseil-40b.workers.dev/geo', { cache: 'no-store' })
+    .then(function (r) { return r.json(); }).then(function (j) { finish((j && j.c) || ''); }, function () { finish(''); });
+})();
+</script>
 
 <title>Mehmet TUZCU — Architecte opérationnel &amp; dirigeant qui code</title>
 <meta name="description" content="Architecte opérationnel France-Turquie : direction de PME, conformité (Qualiopi, RGPD/KVKK) et développement full-stack IA. Compliance by Design." />
@@ -1347,5 +1383,10 @@
   })();
 </script>
 
+<script>
+document.querySelectorAll('.lang-switch a[hreflang]').forEach(function (a) {
+  a.addEventListener('click', function () { try { localStorage.setItem('mt-lang', a.getAttribute('hreflang')); } catch (e) {} });
+});
+</script>
 </body>
 </html>

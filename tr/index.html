@@ -1345,5 +1345,10 @@
   })();
 </script>
 
+<script>
+document.querySelectorAll('.lang-switch a[hreflang]').forEach(function (a) {
+  a.addEventListener('click', function () { try { localStorage.setItem('mt-lang', a.getAttribute('hreflang')); } catch (e) {} });
+});
+</script>
 </body>
 </html>

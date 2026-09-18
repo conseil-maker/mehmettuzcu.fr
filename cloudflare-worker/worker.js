@@ -916,6 +916,11 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const ch = corsHeaders(origin);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: ch });
+    if (url.pathname === "/geo") {
+      // Code pays déduit par Cloudflare, pour la langue d'accueil du site. Rien n'est stocké.
+      const c = (request.cf && request.cf.country) || "";
+      return new Response(JSON.stringify({ c }), { headers: { ...ch, "Access-Control-Allow-Methods": "GET, OPTIONS", "Content-Type": "application/json; charset=utf-8", "Cache-Control": "private, no-store" } });
+    }
     if (url.pathname === "/lead" || url.pathname === "/lead/") {
       if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
       return handleLead(request, env, ch, ctx);

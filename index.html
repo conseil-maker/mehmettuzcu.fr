@@ -10,7 +10,7 @@
 (function () {
   var L = location, d = document.documentElement;
   if (L.pathname !== '/' && L.pathname !== '/index.html') return;
-  if (navigator.webdriver || /bot|crawl|spider|slurp|preview|facebookexternalhit|lighthouse|headless/i.test(navigator.userAgent || '')) return;
+  if (navigator.webdriver || /bot|crawl|spider|slurp|google|inspection|pagespeed|preview|facebookexternalhit|lighthouse|headless/i.test(navigator.userAgent || '')) return;
   var sp = new URLSearchParams(L.search), forced = (sp.get('geo') || '').toUpperCase();
   if (!/^[A-Z]{2}$/.test(forced)) forced = '';
   sp.delete('geo');

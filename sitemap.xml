@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mehmettuzcu.fr/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/"/>
+  </url>
+  <url>
+    <loc>https://mehmettuzcu.fr/tr/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/"/>
+  </url>
+  <url>
+    <loc>https://mehmettuzcu.fr/en/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://mehmettuzcu.fr/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mehmettuzcu.fr/tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mehmettuzcu.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mehmettuzcu.fr/"/>
+  </url>
+  <url>
+    <loc>https://mehmettuzcu.fr/mentions-legales.html</loc>
+  </url>
+  <url>
+    <loc>https://mehmettuzcu.fr/politique-confidentialite.html</loc>
+  </url>
+</urlset>

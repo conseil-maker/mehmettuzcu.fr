@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /cloudflare-worker/
+Disallow: /tools/
+
+Sitemap: https://mehmettuzcu.fr/sitemap.xml

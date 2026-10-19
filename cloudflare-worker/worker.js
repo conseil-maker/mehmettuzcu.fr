@@ -374,7 +374,8 @@ async function handleTranscript(request, env, ch, ctx) {
   if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore
   const email = (b.email || "").toString().trim();
   const sid = safeSid(b.session_id);
-  if (!validEmail(email) || !sid || !env.DB) return json({ ok: false }, 400, ch);
+  // "anon" = session partagée des appels de chat sans session_id : on ne l'exporte jamais par e-mail.
+  if (!validEmail(email) || !sid || sid === "anon" || !env.DB) return json({ ok: false }, 400, ch);
   // 1) La conversation doit exister côté serveur (elle est journalisée à chaque réponse du chat).
   const conv = await env.DB.prepare("SELECT question, answer FROM conversations WHERE session_id = ? AND deleted_at IS NULL ORDER BY created_at ASC LIMIT 60")
     .bind(sid).all().catch(() => null);

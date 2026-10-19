@@ -381,19 +381,29 @@ async function handleTranscript(request, env, ch, ctx) {
     .bind(sid).all().catch(() => null);
   const rows = (conv && conv.results) || [];
   if (!rows.length) return json({ ok: false }, 400, ch);
-  // 2) Plafonds : par conversation, puis global sur 24 h (les envois réussis sont comptés dans prospects).
-  const perSid = await env.DB.prepare("SELECT COUNT(*) AS n FROM prospects WHERE source = 'transcript' AND session_id = ?").bind(sid).first().catch(() => null);
-  const perDay = await env.DB.prepare("SELECT COUNT(*) AS n FROM prospects WHERE source = 'transcript' AND created_at > ?").bind(Date.now() - 24 * 60 * 60 * 1000).first().catch(() => null);
-  if (!perSid || !perDay) return json({ ok: false }, 503, ch); // en cas de doute on n'envoie rien
-  if (perSid.n >= TRANSCRIPT_MAX_PER_SESSION || perDay.n >= TRANSCRIPT_MAX_PER_DAY) return json({ ok: false, error: "limit" }, 429, ch);
-  // 3) Texte reconstruit côté serveur, au même format que celui lu par le gabarit d'e-mail.
+  // 2) Texte reconstruit côté serveur, au même format que celui lu par le gabarit d'e-mail.
   const transcript = rows
     .map(r => "Visiteur : " + String(r.question || "").trim() + "\r\n\r\nAssistant : " + String(r.answer || "").trim())
     .join("\r\n\r\n").slice(0, 12000).trim();
   const subject = ("Conversation demandée par e-mail — " + email).slice(0, 160);
   const now = Date.now();
-  await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
-    .bind(sid, email, subject, transcript, "transcript", "new", now, now).run().catch(() => {});
+  // 3) Les deux plafonds ET l'enregistrement en UN SEUL ordre SQL. Les compteurs sont évalués
+  // dans la même transaction que l'écriture : deux demandes simultanées ne peuvent donc plus
+  // passer le contrôle ensemble (l'ancien code comptait, puis écrivait, et laissait entre les
+  // deux une fenêtre où n demandes concurrentes voyaient toutes le même compteur).
+  // `changes === 1` signifie « la ligne a bien été créée » et c'est la SEULE condition qui
+  // autorise l'envoi : plus d'e-mail expédié sans trace si l'écriture échoue.
+  const ins = await env.DB.prepare(
+    "INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) " +
+    "SELECT ?, ?, ?, ?, 'transcript', 'new', ?, ? WHERE " +
+    "(SELECT COUNT(*) FROM prospects WHERE source = 'transcript' AND session_id = ?) < ? AND " +
+    "(SELECT COUNT(*) FROM prospects WHERE source = 'transcript' AND created_at > ?) < ?"
+  ).bind(sid, email, subject, transcript, now, now, sid, TRANSCRIPT_MAX_PER_SESSION, now - 24 * 60 * 60 * 1000, TRANSCRIPT_MAX_PER_DAY)
+    .run().catch(() => null);
+  if (!ins || !ins.meta || ins.meta.changes !== 1) {
+    // Plafond atteint, ou écriture impossible : dans les deux cas, aucun e-mail ne part.
+    return ins ? json({ ok: false, error: "limit" }, 429, ch) : json({ ok: false }, 503, ch);
+  }
   sendTranscriptToVisitor(env, ctx, email, transcript);
   notifyProspect(env, ctx, { email, subject, message: "Le visiteur a demandé une copie de sa conversation.\n\n" + transcript });
   return json({ ok: true }, 200, ch);

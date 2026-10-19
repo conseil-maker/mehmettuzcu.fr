@@ -929,6 +929,8 @@ export default {
       if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
       return handleTranscript(request, env, ch, ctx);
     }
+    // Le chat n'est servi que sur la racine ("/") : tout autre chemin répond 404 sans appeler Claude.
+    if (url.pathname !== "/") return json({ error: "not_found" }, 404, ch);
     if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405, ch);
     if (!env.ANTHROPIC_API_KEY) return json({ error: "missing_key" }, 500, ch);
 

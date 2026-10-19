@@ -362,19 +362,37 @@ function sendTranscriptToVisitor(env, ctx, email, transcript) {
 
 // En quittant l'assistant, le visiteur demande à recevoir sa conversation par e-mail.
 // On lui en envoie une copie ET on enregistre un lead (il a laissé son adresse) + notification.
+// Sécurité : le texte envoyé est reconstruit CÔTÉ SERVEUR à partir de la conversation journalisée
+// (jamais le texte fourni par le client), avec un plafond par conversation et un plafond par jour.
+const TRANSCRIPT_MAX_PER_SESSION = 2; // 2 = une faute de frappe dans l'adresse reste rattrapable
+const TRANSCRIPT_MAX_PER_DAY = 30;
+function validEmail(e) {
+  return typeof e === "string" && e.length >= 6 && e.length <= 200 && /^[^\s@,;<>"'()\[\]\\]+@[^\s@,;<>"'()\[\]\\]+\.[A-Za-z]{2,}$/.test(e);
+}
 async function handleTranscript(request, env, ch, ctx) {
   let b; try { b = await request.json(); } catch (e) { return json({ error: "bad_json" }, 400, ch); }
   if (b && b.hp) return json({ ok: true }, 200, ch); // honeypot rempli => bot, on ignore
-  const email = (b.email || "").toString().slice(0, 200).trim();
-  const transcript = (b.transcript || "").toString().slice(0, 12000).trim();
-  const sid = safeSid(b.session_id) || null;
-  if (!email || email.indexOf("@") < 1 || !transcript) return json({ ok: false }, 400, ch);
+  const email = (b.email || "").toString().trim();
+  const sid = safeSid(b.session_id);
+  if (!validEmail(email) || !sid || !env.DB) return json({ ok: false }, 400, ch);
+  // 1) La conversation doit exister côté serveur (elle est journalisée à chaque réponse du chat).
+  const conv = await env.DB.prepare("SELECT question, answer FROM conversations WHERE session_id = ? AND deleted_at IS NULL ORDER BY created_at ASC LIMIT 60")
+    .bind(sid).all().catch(() => null);
+  const rows = (conv && conv.results) || [];
+  if (!rows.length) return json({ ok: false }, 400, ch);
+  // 2) Plafonds : par conversation, puis global sur 24 h (les envois réussis sont comptés dans prospects).
+  const perSid = await env.DB.prepare("SELECT COUNT(*) AS n FROM prospects WHERE source = 'transcript' AND session_id = ?").bind(sid).first().catch(() => null);
+  const perDay = await env.DB.prepare("SELECT COUNT(*) AS n FROM prospects WHERE source = 'transcript' AND created_at > ?").bind(Date.now() - 24 * 60 * 60 * 1000).first().catch(() => null);
+  if (!perSid || !perDay) return json({ ok: false }, 503, ch); // en cas de doute on n'envoie rien
+  if (perSid.n >= TRANSCRIPT_MAX_PER_SESSION || perDay.n >= TRANSCRIPT_MAX_PER_DAY) return json({ ok: false, error: "limit" }, 429, ch);
+  // 3) Texte reconstruit côté serveur, au même format que celui lu par le gabarit d'e-mail.
+  const transcript = rows
+    .map(r => "Visiteur : " + String(r.question || "").trim() + "\r\n\r\nAssistant : " + String(r.answer || "").trim())
+    .join("\r\n\r\n").slice(0, 12000).trim();
   const subject = ("Conversation demandée par e-mail — " + email).slice(0, 160);
-  if (env.DB) {
-    const now = Date.now();
-    await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
-      .bind(sid, email, subject, transcript, "transcript", "new", now, now).run().catch(() => {});
-  }
+  const now = Date.now();
+  await env.DB.prepare("INSERT INTO prospects (session_id, email, subject, message, source, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)")
+    .bind(sid, email, subject, transcript, "transcript", "new", now, now).run().catch(() => {});
   sendTranscriptToVisitor(env, ctx, email, transcript);
   notifyProspect(env, ctx, { email, subject, message: "Le visiteur a demandé une copie de sa conversation.\n\n" + transcript });
   return json({ ok: true }, 200, ch);
